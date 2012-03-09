@@ -1,0 +1,10 @@
+_Store
+*.pyc
+*.pyo
+*.orig
+*.swp
+*.pid
+*.sqlite3
+*.sup
+*.bak
+*.tmproj
