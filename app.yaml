@@ -4,6 +4,25 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+libraries:
+- name: jinja2
+  version: latest
+
 handlers:
-- url: /.*
-  script: helloworld.app
+
+- url: /static/(.*?)/(.*)
+  static_files: static/\1/\2
+  upload: static/.*
+
+- url: /admin.*
+  script: admin.app
+
+- url: /question/.*
+  script: question.app
+  
+- url: /
+  script: home.app  
+
+# - url: /.*
+#   script: helloworld.app
+  

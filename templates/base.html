@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>{% block title %}{% endblock %} - Shaca's Personal Site'</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+</head>
+<body>
+
+{% macro side_block(title) -%}
+<div class="side-block">
+    <h3>{{ title }}</h3>
+    <div class="contents">
+        {{ caller() }}
+    </div>
+</div>
+{%- endmacro %}
+<div class="header" id="header">
+    xxxx
+</div>
+{% block content %}
+{% endblock %}
+<div id="footer" class="footer">
+    
+</div>

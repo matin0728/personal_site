@@ -1,0 +1,30 @@
+body {
+  font: 14px/23px Verdana, Helvetica, sans-serif;
+}
+
+.main-wrap{
+  width: 960px;
+  margin: 0 auto;
+}
+
+.main{
+  float: left;
+  width: 100%;
+}
+
+.main-inner{
+  margin-right: 220px;
+  border-right: solid 1px #ccc;
+  min-height: 300px;
+}
+
+.sidebar{
+  float: left;
+  width: 200px;
+  overflow: visible;
+  margin-left: -200px;
+}
+
+.clearfix{
+  clear: both;
+}
