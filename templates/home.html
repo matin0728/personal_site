@@ -6,7 +6,19 @@
     <div class="main">
         <div class="main-inner">
             <h1>Home page</h1>
-            Hello, {{your_name}}
+            <p>
+                <a href="{{ uri_for('question.add') }}">Add new question</a>
+            </p>
+            <div class="feed-list">
+                {% for q in question_list: %}
+                <div class="feed">
+                    <a href="{{ uri_for('question', question_id = q.key.id()) }}"><h2>{{q.title}}</h2></a>
+                    <div class="description">
+                        {{q.description}}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
     <div class="sidebar">

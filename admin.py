@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import webapp2
 from google.appengine.api import users
 

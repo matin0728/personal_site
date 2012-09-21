@@ -8,3 +8,4 @@ _Store
 *.sup
 *.bak
 *.tmproj
+static/lib

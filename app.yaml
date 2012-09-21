@@ -16,12 +16,14 @@ handlers:
 
 - url: /admin.*
   script: admin.app
+  login: admin
 
-- url: /question/.*
-  script: question.app
+# - url: /question/.*
+#   script: question.app
   
-- url: /
-  script: home.app  
+- url: /.*
+  script: bootstrap.app  
+  login: required
 
 # - url: /.*
 #   script: helloworld.app

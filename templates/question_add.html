@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Add Question{% endblock %}
+{% block content %}
+
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-inner">
+            <h1>{{ form_label }}</h1>
+            <form action="{{ action_uri }}" method="POST">
+                <p>
+                   Question Title:<br />
+                    <input name="title" value="{{current_question.title}}" />
+                </p>
+                <p>
+                   Description:<br />
+                    <textarea rows="15" style="width:400px" name="description">{{current_question.description}}</textarea>
+                </p>
+                <p>
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <div class="sidebar">
+
+    </div>
+    <div class="clearfix"></div>
+</div>
+{% endblock %}
