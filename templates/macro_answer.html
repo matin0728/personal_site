@@ -7,7 +7,7 @@
         {{ answer.content }}
     </div>
     <div class="meta">
-        {{ answer.created_date }} <a href="{{ uri_for('answer.edit', answer_id = answer.key.id()) }}">修改</a> 
+        [{{ answer.key.id() }}], {{ answer.created_date }} <a href="{{ uri_for('answer.edit', answer_id = answer.key.id()) }}">修改</a> 
         <a href="{{ uri_for('answer.delete', answer_id = answer.key.id()) }}" onclick="javascript:return confirm('确定要删除答案吗？')">删除</a>
     </div>
 </div>

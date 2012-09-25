@@ -3,12 +3,15 @@ from google.appengine.api import users
 from shared import *
 from model.question import Question
 from service import answer as AnswerService
+from module.shared.feed import ZNodeFeedList
 
 class HomeHandler(BaseHandler):
   def get(self):
     question_list = Question.query().fetch()
+    feed_list = ZNodeFeedList(self)
     context = {
-      'question_list': question_list
+      'question_list': question_list,
+      'feed_list':feed_list.render()
     }
     self.render('home.html', context)
 

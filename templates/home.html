@@ -9,7 +9,8 @@
             <p>
                 <a href="{{ uri_for('question.add') }}">Add new question</a>
             </p>
-            <div class="feed-list">
+            {{feed_list}}
+            <!-- <div class="feed-list">
                 {% for q in question_list: %}
                 <div class="feed">
                     <a href="{{ uri_for('question', question_id = q.key.id()) }}"><h2>{{q.title}}</h2></a>
@@ -18,7 +19,7 @@
                     </div>
                 </div>
                 {% endfor %}
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="sidebar">

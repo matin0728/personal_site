@@ -20,7 +20,7 @@
             </div>
             <div class="answer_list">
                 <!-- for answer in answers -->
-                {% import 'answer.html' as answer_tpl %}
+                {% import 'macro_answer.html' as answer_tpl %}
                 {% for a in answers %}
                 {{ answer_tpl.answer(a, uri_for) }}
                 {% endfor %}
