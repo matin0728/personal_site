@@ -1,20 +1,21 @@
-{% macro feed(actors, info, qeustion, answers, uri_for) -%}
+{% macro feed(actors, info, qeustion, answers, uri_for, get) -%}
 <div class="feed">
     <div class='info'>
         {{ info }}
     </div>
     <a href="{{ uri_for('question', question_id = qeustion.key.id()) }}"><h2>{{qeustion.title}}</h2></a>
-    {% for answer in answers %}
+    {% for a in answers %}
+    {% set answer = get(a) %}
     <div class="answer">
         <div class="author">
             <h3>{{ answer.author.name }}</h3>
         </div>
         <div class="content">
-            {{ answer.content }}
+            {{ answer.summary }}
         </div>
         <div class="meta">
-            [{{ answer.key.id() }}], {{ answer.created_date }} <a href="{{ uri_for('answer.edit', answer_id = answer.key.id()) }}">修改</a> 
-            <a href="{{ uri_for('answer.delete', answer_id = answer.key.id()) }}" onclick="javascript:return confirm('确定要删除答案吗？')">删除</a>
+            [{{ answer.key.id() }}], {{ answer.created_date }} <a href="{{ uri_for('answer.edit', question_id = answer.question.id(), answer_id = answer.key.id()) }}">修改</a> 
+            <a href="{{ uri_for('answer.delete', question_id = answer.question.id(), answer_id = answer.key.id()) }}" onclick="javascript:return confirm('确定要删除答案吗？')">删除</a>
         </div>
     </div>
     {% endfor %}

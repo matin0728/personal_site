@@ -3,8 +3,10 @@
 import webapp2
 from google.appengine.api import users
 from shared import *
-from model.answer import *
-from service import question as QuestionService
+from model.answer import Answer
+from model.question import Question
+from service.question import QuestionService
+from service.entity import EntityService
 
 # from service import answer as AnswerService
 
@@ -22,46 +24,41 @@ from service import question as QuestionService
 #     self.render('answer.html', context)
     
 class AnswerEditHandler(BaseHandler):
-  def get(self, answer_id):
-    answer = Answer.get_by_id(int(answer_id))
-    answer.content = answer.content.replace("<br />", "\n")
+  def get(self, question_id, answer_id):
+    current_question = Question.get_by_id(int(question_id))
+    if not current_question:
+      self.response.out.write('Not found question.')
+      return
+      
+    answer = Answer.get_by_id(int(answer_id), parent = current_question.key)
+    #TODO: raise 404 error.
+    if not answer:
+      self.response.out.write('Not found answer.')
+      return
+
+    answer_full = answer.get_extra()
     context = {
       'form_label': u'编辑问题',
-      'action_uri': self.uri_for('answer.edit', answer_id = answer.key.id()),
+      'action_uri': self.uri_for('answer.edit', question_id = answer.question.id(), answer_id = answer.key.id()),
       'current_answer': answer,
-      'current_question': Question.get_by_id(answer.question.id())
+      'current_question': current_question
     }
     self.render('answer_edit.html', context)
   
-  def post(self, answer_id):
-    answer = Answer.get_by_id(int(answer_id))
-    
-    if not answer:
-      #TODO: redirect to 404.
-      pass
-      
-    #TODO: filter desc content using hlper method.
-    content = self.request.get('content').replace("\n", "<br />")
-    if content:
-      answer.content = content
-      answer.put()
-      question = Question.get_by_id(answer.question.id())
-      self.redirect(self.uri_for('question', question_id = question.key.id()))
+  def post(self, question_id, answer_id):
+    source = self.request.get('source')
+    QuestionService().update_answer(question_id, answer_id, source)
+    self.redirect(self.uri_for('question', question_id = question_id))
       
 class AnswerDeleteHandler(BaseHandler):
-  def get(self, answer_id):
+  def get(self, question_id, answer_id):
     #TODO: Should be a post action.
-    answer = Answer.get_by_id(int(answer_id))
-    if not answer:
-      #TODO: redirect 404.
-      return
-
-    answer.key.delete()
-    question = Question.get_by_id(answer.question.id())
-    
-    QuestionService.update_answer_num(question.key)
-    
-    self.redirect(self.uri_for('question', question_id = question.key.id()))
+    question = QuestionService().remove_answer_from_question(question_id, answer_id)
+    if question:
+      self.redirect(self.uri_for('question', question_id = question.key.id()))
+    else:
+      self.response.out.write('Answer to be deleted not found!')
+      pass
 
   def post(self, question_id):
     pass      

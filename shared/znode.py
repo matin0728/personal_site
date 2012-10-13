@@ -2,6 +2,7 @@ import webapp2
 import jinja2
 import os
 from google.appengine.api import users
+from service.entity import EntityService
 
 jinja_environment = jinja2.Environment(
   loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates')))
@@ -63,6 +64,7 @@ class ZNode(object):
     self.fetch_data()
     template = jinja_environment.get_template(self.template)
     self.set_view_data_item('uri_for', self.current_handler.uri_for)
+    self.set_view_data_item('get', EntityService().get)
     return template.render(self.view_data)
     
     

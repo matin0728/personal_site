@@ -1,2 +1,2 @@
 {% import 'macro_feed.html' as feed_tpl %}
-{{ feed_tpl.feed(actors, info, question, answers, uri_for) }}
+{{ feed_tpl.feed(actors, info, get(question_id), answer_ids, uri_for, get) }}

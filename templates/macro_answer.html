@@ -4,11 +4,11 @@
         <h3>{{ answer.author.name }}</h3>
     </div>
     <div class="content">
-        {{ answer.content }}
+        {{ answer.answer_full.content }}
     </div>
     <div class="meta">
-        [{{ answer.key.id() }}], {{ answer.created_date }} <a href="{{ uri_for('answer.edit', answer_id = answer.key.id()) }}">修改</a> 
-        <a href="{{ uri_for('answer.delete', answer_id = answer.key.id()) }}" onclick="javascript:return confirm('确定要删除答案吗？')">删除</a>
+        [{{ answer.key.id() }}], {{ answer.created_date }} <a href="{{ uri_for('answer.edit', question_id = answer.question.id(), answer_id = answer.key.id()) }}">修改</a> 
+        <a href="{{ uri_for('answer.delete', question_id = answer.question.id(), answer_id = answer.key.id()) }}" onclick="javascript:return confirm('确定要删除答案吗？')">删除</a>
     </div>
 </div>
 {%- endmacro %}

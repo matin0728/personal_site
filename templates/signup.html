@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-inner">
+            <h1>Signup</h1>
+            {% if error_count %}
+            <div class="alert alert-error">
+              <ul>
+              {% for m in messages %}
+              <li>{{m}}</li>
+              {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            <form class="form-horizontal" method="POST">
+              <div class="control-group">
+                <label class="control-label" for="input_nickname">Nickname</label>
+                <div class="controls">
+                  <input name="nickname" type="text" id="input_nickname" value="{{account.nicknanme}}" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="input_bio">Bio</label>
+                <div class="controls">
+                  <input name="bio" type="text" id="input_bio" value="{{account.bio}}" placeholder="Student, Engineer..." />
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="controls">
+                  <!-- <label class="checkbox">
+                    <input type="checkbox"> Remember me
+                  </label> -->
+                  <button type="submit" class="btn">Sign in</button>
+                </div>
+              </div>
+            </form>
+
+        </div>
+    </div>
+    <div class="sidebar">
+        {% call side_block('First block!') %}
+        This is a first side block.
+        {% endcall %}
+    </div>
+    <div class="clearfix"></div>
+</div>
+{% endblock %}
+
+    

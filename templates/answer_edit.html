@@ -9,7 +9,7 @@
             <form action="{{ action_uri }}" method="POST">
                 <p>
                    Answer content:<br />
-                    <textarea rows="15" style="width:400px" name="content">{{current_answer.content}}</textarea>
+                    <textarea rows="15" style="width:400px" name="source">{{current_answer.answer_full.source}}</textarea>
                 </p>
                 <p>
                     <input type="submit" value="Save" class="btn btn-primary" /> <a href="{{ uri_for('question', question_id = current_question.key.id()) }}">Cancel</a>

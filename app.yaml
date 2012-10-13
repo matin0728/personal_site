@@ -1,4 +1,4 @@
-application: helloworld
+application: shacahelloworld
 version: 1
 runtime: python27
 api_version: 1
@@ -27,4 +27,9 @@ handlers:
 
 # - url: /.*
 #   script: helloworld.app
+
+builtins:
+# - datastore_admin: on
+- appstats: on
+- remote_api: on
   

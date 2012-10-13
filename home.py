@@ -2,7 +2,9 @@ import webapp2
 from google.appengine.api import users
 from shared import *
 from model.question import Question
-from service import answer as AnswerService
+from model.account import Account
+from service.answer import AnswerService
+from service.entity import EntityService
 from module.shared.feed import ZNodeFeedList
 
 class HomeHandler(BaseHandler):
@@ -15,11 +17,66 @@ class HomeHandler(BaseHandler):
     }
     self.render('home.html', context)
 
+
+class SignupHandler(BaseHandler):
+  def get(self):
+    account = Account()
+    account.nickname = ''
+    account.user = users.get_current_user()
+    context = {
+      'error_count':0,
+      'messages':[],
+      'account': account
+    }
+      
+    #NOTE: Is there any uri builder utils in Python?
+    #self.response.out.write(account.user)
+    self.render('signup.html', context)
+  
+  def post(self):
+    current_user = users.get_current_user()
+    exists = Account.query(Account.user == current_user).get()
+    if exists:
+      self.redirect(self.uri_for('home'))  
+    
+    error_messages = {
+      'nickname_error': 'Nickname can not be empty.',
+      'nickname_duplicated': "This name has already been used."
+    }
+    
+    account = Account()
+    account.nickname = self.request.get('nickname')
+    account.bio = self.request.get('bio')
+    account.avator = self.request.get('avator')
+    account.user = current_user
+    
+    #TODO: Shall we move the validate method to model class?
+    messages = []
+    if not account.nickname:
+      messages.append(error_messages['nickname_error'])
+    
+    duplicated = Account.query(Account.nickname == account.nickname).get()
+    if duplicated:
+      messages.append(error_messages['nickname_duplicated'])
+    
+    error_count = len(messages)
+    if error_count:
+      context = {
+        'messages':messages,
+        'account': account,
+        'error_count':error_count
+      }
+      self.render('signup.html', context)
+      return
+      
+    account.put()
+    self.redirect(self.uri_for('home'))
+
 class ModalUpdateHandler(BaseHandler):
   def get(self):
     questions = Question.query().fetch()
     for q in questions:
-      answers = AnswerService.get_answers_by_question(q.key)
+      answers = AnswerService().get_answers_by_question(q.key)
       q.answers_num = len(answers)
       q.put()
       for a in answers:
@@ -27,6 +84,8 @@ class ModalUpdateHandler(BaseHandler):
         a.put()
       
     self.response.out.write("Update complete!")
+    
+
 
 
 # app = webapp2.WSGIApplication([

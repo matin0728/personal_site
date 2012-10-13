@@ -1,1 +1,189 @@
-i
+D 120927 13:10:13 timing:30] <method HomeHandler.get_current_user at 0x10352c8c0> finished in 0.66ms
+[D 120927 13:10:13 dbutils:214] SELECT notice.id, notice.title, notice.detail, notice.member_id, notice.created, notice.last_updated, notice.is_active 
+    FROM notice 
+    WHERE notice.is_active = :is_active_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT notice.id, notice.title, notice.detail, notice.member_id, notice.created, notice.last_updated, notice.is_active 
+    FROM notice 
+    WHERE notice.is_active = :is_active_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000916
+[D 120927 13:10:13 dbutils:214] SELECT member_default_domain.domain_id 
+    FROM member_default_domain 
+    WHERE member_default_domain.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT member_default_domain.domain_id 
+    FROM member_default_domain 
+    WHERE member_default_domain.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000628
+[D 120927 13:10:13 dbutils:214] SELECT domain.id, domain.url_token, domain.name, domain.avatar_path, domain.description, domain.dailyevent, domain.score, domain.created, domain.last_updated 
+    FROM domain 
+    WHERE domain.id = :id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT domain.id, domain.url_token, domain.name, domain.avatar_path, domain.description, domain.dailyevent, domain.score, domain.created, domain.last_updated 
+    FROM domain 
+    WHERE domain.id = :id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000885
+[D 120927 13:10:13 dbutils:214] SELECT option.id, option.member_id, option.option_name, option.option_value 
+    FROM option 
+    WHERE option.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT option.id, option.member_id, option.option_name, option.option_value 
+    FROM option 
+    WHERE option.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000587
+[D 120927 13:10:13 dbutils:214] 
+                select count(*) 
+                from message
+                where receiver_id = :receiver_id and is_read = 0 and r_delete = 0
+            
+[D 120927 13:10:13 dbutils:214] SELECT privilege.id, privilege.url_regex, privilege.created, privilege.name, privilege.alias, privilege."group" 
+    FROM privilege 
+    WHERE privilege.name = :name_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT privilege.id, privilege.url_regex, privilege.created, privilege.name, privilege.alias, privilege."group" 
+    FROM privilege 
+    WHERE privilege.name = :name_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000589
+[D 120927 13:10:13 dbutils:214] SELECT privilege_group.priv_id, privilege_group.group_id, privilege_group.created 
+    FROM privilege_group 
+    WHERE privilege_group.priv_id = :priv_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT privilege_group.priv_id, privilege_group.group_id, privilege_group.created 
+    FROM privilege_group 
+    WHERE privilege_group.priv_id = :priv_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000578
+[D 120927 13:10:13 dbutils:214] SELECT privilege.id, privilege.url_regex, privilege.created, privilege.name, privilege.alias, privilege."group" 
+    FROM privilege 
+    WHERE privilege.name = :name_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT privilege.id, privilege.url_regex, privilege.created, privilege.name, privilege.alias, privilege."group" 
+    FROM privilege 
+    WHERE privilege.name = :name_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000581
+[D 120927 13:10:13 dbutils:214] SELECT privilege_group.priv_id, privilege_group.group_id, privilege_group.created 
+    FROM privilege_group 
+    WHERE privilege_group.priv_id = :priv_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT privilege_group.priv_id, privilege_group.group_id, privilege_group.created 
+    FROM privilege_group 
+    WHERE privilege_group.priv_id = :priv_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000556
+[D 120927 13:10:13 dbutils:214] SELECT member_group.member_id, member_group.group_id, member_group.created 
+    FROM member_group 
+    WHERE member_group.group_id IN (:group_id_1)
+[W 120927 13:10:13 dbutils:228] Query: SELECT member_group.member_id, member_group.group_id, member_group.created 
+    FROM member_group 
+    WHERE member_group.group_id IN (:group_id_1)
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000819
+[D 120927 13:10:13 dbutils:214] SELECT topic_pin.member_id, topic_pin.pin_topics 
+    FROM topic_pin 
+    WHERE topic_pin.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT topic_pin.member_id, topic_pin.pin_topics 
+    FROM topic_pin 
+    WHERE topic_pin.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000464
+[D 120927 13:10:13 dbutils:214] SELECT member_group.member_id, member_group.group_id, member_group.created 
+    FROM member_group 
+    WHERE member_group.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT member_group.member_id, member_group.group_id, member_group.created 
+    FROM member_group 
+    WHERE member_group.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000611
+[D 120927 13:10:13 dbutils:214] SELECT option.id, option.member_id, option.option_name, option.option_value 
+    FROM option 
+    WHERE option.option_name = :option_name_1 AND option.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT option.id, option.member_id, option.option_name, option.option_value 
+    FROM option 
+    WHERE option.option_name = :option_name_1 AND option.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000570
+[D 120927 13:10:13 dbutils:214] 
+                     SELECT count(followed_member_id)
+                     FROM member_followed_member
+                     WHERE member_id=:member_id
+                     
+[D 120927 13:10:13 __init__:85] entering context level:1...
+[D 120927 13:10:13 zhihunode:74] begin recursive render...
+[D 120927 13:10:13 zhihunode:75] begin recursive render <class 'core.ui.uimodules.newsfeed.HomeFeedListV2'>...
+[D 120927 13:10:13 timing:30] <method PrefetchContext.postpush at 0x102d2e0c8> finished in 0.00ms
+[D 120927 13:10:13 __init__:46] without prefetch:get_member:3
+[D 120927 13:10:13 __init__:46] without prefetch:get_member:5
+[D 120927 13:10:13 __init__:46] without prefetch:get_member:4
+[D 120927 13:10:13 __init__:46] without prefetch:get_member:8
+[D 120927 13:10:13 timing:30] <method PrefetchContext.postpush at 0x102d2e0c8> finished in 0.00ms
+[D 120927 13:10:13 __init__:57] prefetching 86 keys
+[D 120927 13:10:13 timing:30] <method PrefetchContext.prefetch at 0x102d29c08> finished in 1.01ms
+[D 120927 13:10:13 __init__:46] without prefetch:get_member:2
+[D 120927 13:10:13 __init__:46] without prefetch:is_question_follower:2:333
+[D 120927 13:10:13 __init__:46] without prefetch:is_question_follower:2:289
+[D 120927 13:10:13 timing:30] <method PrefetchContext.postpush at 0x102d2e0c8> finished in 0.00ms
+[D 120927 13:10:13 __init__:57] prefetching 15 keys
+[D 120927 13:10:13 timing:30] <method PrefetchContext.prefetch at 0x102d29c08> finished in 0.39ms
+[D 120927 13:10:13 timing:30] <method PrefetchContext.postpush at 0x102d2e0c8> finished in 0.00ms
+[D 120927 13:10:13 __init__:57] prefetching 0 keys
+[D 120927 13:10:13 timing:30] <method PrefetchContext.prefetch at 0x102d29c08> finished in 0.12ms
+[D 120927 13:10:13 timing:30] <method PrefetchContext.postpush at 0x102d2e0c8> finished in 0.00ms
+[D 120927 13:10:13 timing:30] <method PrefetchContext.postpush at 0x102d2e0c8> finished in 0.00ms
+[D 120927 13:10:13 timing:30] <method PrefetchContext.postpush at 0x102d2e0c8> finished in 0.00ms
+[D 120927 13:10:13 __init__:91] left context level:1
+[D 120927 13:10:13 dbutils:214] SELECT domain.id, domain.url_token, domain.name, domain.avatar_path, domain.description, domain.dailyevent, domain.score, domain.created, domain.last_updated 
+    FROM domain ORDER BY domain.score ASC
+[W 120927 13:10:13 dbutils:228] Query: SELECT domain.id, domain.url_token, domain.name, domain.avatar_path, domain.description, domain.dailyevent, domain.score, domain.created, domain.last_updated 
+    FROM domain ORDER BY domain.score ASC
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000817
+[D 120927 13:10:13 dbutils:214] SELECT count(*) AS count_1 
+    FROM draft 
+    WHERE draft.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT count(*) AS count_1 
+    FROM draft 
+    WHERE draft.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000901
+[D 120927 13:10:13 dbutils:214] SELECT count(t1.count_1) AS tbl_row_count 
+    FROM (SELECT count(ask_people_answer.question_id) AS count_1 
+    FROM ask_people_answer 
+    WHERE ask_people_answer.be_ask_member_id = :be_ask_member_id_1 AND ask_people_answer.is_delete = :is_delete_1 AND ask_people_answer.is_pass = :is_pass_1 GROUP BY ask_people_answer.question_id) AS t1
+[W 120927 13:10:13 dbutils:228] Query: SELECT count(t1.count_1) AS tbl_row_count 
+    FROM (SELECT count(ask_people_answer.question_id) AS count_1 
+    FROM ask_people_answer 
+    WHERE ask_people_answer.be_ask_member_id = :be_ask_member_id_1 AND ask_people_answer.is_delete = :is_delete_1 AND ask_people_answer.is_pass = :is_pass_1 GROUP BY ask_people_answer.question_id) AS t1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.001128
+[D 120927 13:10:13 dbutils:214] SELECT ask_about_people.question_id 
+    FROM ask_about_people 
+    WHERE ask_about_people.be_ask_member_id = :be_ask_member_id_1 AND ask_about_people.is_delete = :is_delete_1 AND ask_about_people.is_pass = :is_pass_1 ORDER BY ask_about_people.last_updated DESC
+[W 120927 13:10:13 dbutils:228] Query: SELECT ask_about_people.question_id 
+    FROM ask_about_people 
+    WHERE ask_about_people.be_ask_member_id = :be_ask_member_id_1 AND ask_about_people.is_delete = :is_delete_1 AND ask_about_people.is_pass = :is_pass_1 ORDER BY ask_about_people.last_updated DESC
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000981
+[D 120927 13:10:13 dbutils:214] SELECT favlist_unread.favlist_id, favlist_unread.member_id, favlist_unread.count, favlist_unread.last_updated, favlist_unread.created 
+    FROM favlist_unread 
+    WHERE favlist_unread.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT favlist_unread.favlist_id, favlist_unread.member_id, favlist_unread.count, favlist_unread.last_updated, favlist_unread.created 
+    FROM favlist_unread 
+    WHERE favlist_unread.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000672
+[D 120927 13:10:13 dbutils:214] SELECT member_group.member_id, member_group.group_id, member_group.created 
+    FROM member_group 
+    WHERE member_group.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT member_group.member_id, member_group.group_id, member_group.created 
+    FROM member_group 
+    WHERE member_group.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000605
+[D 120927 13:10:13 timing:30] <method SidebarHomeNavV2.render at 0x102dcb140> finished in 17.68ms
+[D 120927 13:10:13 timing:30] <method SidebarHomeV2.render at 0x102dc6c80> finished in 23.26ms
+[D 120927 13:10:13 dbutils:214] SELECT member_sina_info.id, member_sina_info.zh_member_id, member_sina_info.zh_status, member_sina_info.token_key, member_sina_info.token_secret, member_sina_info.name, member_sina_info.province, member_sina_info.city, member_sina_info.location, member_sina_info.description, member_sina_info.profile_image_url, member_sina_info.domain, member_sina_info.gender, member_sina_info.url, member_sina_info.verified, member_sina_info.created, member_sina_info.last_updated, member_sina_info.created_at, member_sina_info.followers_count, member_sina_info.friends_count, member_sina_info.statuses_count, member_sina_info.favourites_count 
+    FROM member_sina_info 
+    WHERE member_sina_info.id IS NULL
+[W 120927 13:10:13 dbutils:228] Query: SELECT member_sina_info.id, member_sina_info.zh_member_id, member_sina_info.zh_status, member_sina_info.token_key, member_sina_info.token_secret, member_sina_info.name, member_sina_info.province, member_sina_info.city, member_sina_info.location, member_sina_info.description, member_sina_info.profile_image_url, member_sina_info.domain, member_sina_info.gender, member_sina_info.url, member_sina_info.verified, member_sina_info.created, member_sina_info.last_updated, member_sina_info.created_at, member_sina_info.followers_count, member_sina_info.friends_count, member_sina_info.statuses_count, member_sina_info.favourites_count 
+    FROM member_sina_info 
+    WHERE member_sina_info.id IS NULL
+[W 120927 13:10:13 dbutils:229] Total Time: 0.002040
+[D 120927 13:10:13 dbutils:214] SELECT member_qq_info.id, member_qq_info.openid, member_qq_info.zh_member_id, member_qq_info.zh_status, member_qq_info.token_key, member_qq_info.token_secret, member_qq_info.name, member_qq_info.domain, member_qq_info.province, member_qq_info.city, member_qq_info.email, member_qq_info.location, member_qq_info.description, member_qq_info.profile_image_url, member_qq_info.followers_count, member_qq_info.friends_count, member_qq_info.weibo_count, member_qq_info.sex, member_qq_info.isrealname, member_qq_info.isvip, member_qq_info.isent, member_qq_info.birth_year, member_qq_info.birth_month, member_qq_info.birth_day, member_qq_info.created, member_qq_info.last_updated 
+    FROM member_qq_info 
+    WHERE member_qq_info.zh_member_id = :zh_member_id_1 AND true
+[W 120927 13:10:13 dbutils:228] Query: SELECT member_qq_info.id, member_qq_info.openid, member_qq_info.zh_member_id, member_qq_info.zh_status, member_qq_info.token_key, member_qq_info.token_secret, member_qq_info.name, member_qq_info.domain, member_qq_info.province, member_qq_info.city, member_qq_info.email, member_qq_info.location, member_qq_info.description, member_qq_info.profile_image_url, member_qq_info.followers_count, member_qq_info.friends_count, member_qq_info.weibo_count, member_qq_info.sex, member_qq_info.isrealname, member_qq_info.isvip, member_qq_info.isent, member_qq_info.birth_year, member_qq_info.birth_month, member_qq_info.birth_day, member_qq_info.created, member_qq_info.last_updated 
+    FROM member_qq_info 
+    WHERE member_qq_info.zh_member_id = :zh_member_id_1 AND true
+[W 120927 13:10:13 dbutils:229] Total Time: 0.002379
+[D 120927 13:10:13 home:91] calling home realname...
+[D 120927 13:10:13 dbutils:214] UPDATE member_realname SET state=:state, last_updated=:last_updated WHERE member_realname.member_id = :member_id_1 AND member_realname.state = :state_1
+[D 120927 13:10:13 home:95] end home realname...
+[D 120927 13:10:13 dbutils:214] SELECT member_group.member_id, member_group.group_id, member_group.created 
+    FROM member_group 
+    WHERE member_group.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:228] Query: SELECT member_group.member_id, member_group.group_id, member_group.created 
+    FROM member_group 
+    WHERE member_group.member_id = :member_id_1
+[W 120927 13:10:13 dbutils:229] Total Time: 0.000567
+[D 120927 13:10:13 timing:30] <method HomeHandler.auto_render_string at 0x106fc2668> finished in 166.38ms
+[I 120927 13:10:13 web:1393] 200 GET / (127.0.0.1) 185.98ms
