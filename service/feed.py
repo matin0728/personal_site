@@ -22,9 +22,9 @@ class FeedService(Singleton, BaseService):
           'feed_id':1,
           'last_updated':1348553241882,
           'action_type':'vote',
-          'actor_ids':[],
-          'question_id':q.key,
-          'answer_ids':answer_ids
+          'actors':[],
+          'question':q.key,
+          'answers':answer_ids
       }
       feeds.append(f)
       

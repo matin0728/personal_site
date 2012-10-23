@@ -7,6 +7,7 @@ from model.answer import *
 from shared.znode import ZNode
 from service.feed import FeedService
 from service.entity import EntityService
+from service.question import QuestionService
 
 class ZNodeFeedItem(ZNode):
   template = 'feed_item.html'
@@ -21,6 +22,13 @@ class ZNodeFeedItem(ZNode):
       
     action_type = {'vote': " vote up the answer", 'focus': " focus the question"}
     #NOTE: Add extra data just for text only.
+    
+    question = self.get_view_data_item('question')
+    answers = self.get_view_data_item('answers')
+    
+    self.set_view_data_item('question', EntityService().get(question))
+    self.set_view_data_item('answers', [EntityService().get(a) for a in answers])
+    self.set_view_data_item('relation', QuestionService().get_question_relationship(self.current_handler.get_current_account().key, question))
     self.set_view_data_item('actors', [])
     self.set_view_data_item('info', action_type[self.view_data['action_type']])
 
@@ -46,8 +54,8 @@ class ZNodeFeedList(ZNode):
     
     #NOTE: For demostration and simplycify, we provide key for feed property.
     for f in feed_data:
-      question_ids.append(f['question_id'])
-      for a in f['answer_ids']:
+      question_ids.append(f['question'])
+      for a in f['answers']:
         answer_ids.append(a)
     
     #pre fetch data:

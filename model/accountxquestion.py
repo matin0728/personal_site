@@ -13,6 +13,7 @@ class AccountXQuestion(ndb.Model):
   focused = ndb.BooleanProperty(default = False)
   # equals not intresting.
   muted = ndb.BooleanProperty(default = False)
+  thanksed_answers = ndb.KeyProperty(kind = Answer, repeated = True, indexed = False)
   up_voted_answers = ndb.KeyProperty(kind = Answer, repeated = True, indexed = False)
   down_voted_answers = ndb.KeyProperty(kind = Answer, repeated = True, indexed = False)
   no_help_answers = ndb.KeyProperty(kind = Answer, repeated = True, indexed = False)

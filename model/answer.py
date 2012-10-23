@@ -5,7 +5,6 @@ from google.appengine.ext import ndb
 from google.appengine.api import users
 from question import Question
 from account import Account
-from answer_full import AnswerFull
 
 class Answer(ndb.Model):
   summary = ndb.TextProperty(default = '')
@@ -19,15 +18,13 @@ class Answer(ndb.Model):
   created_date = ndb.DateTimeProperty(auto_now_add = True)
   #NOTE: Do we really need this index? question is the 'parent' for current answer.
   question = ndb.KeyProperty(kind = Question)
-  answer_full_key = ndb.KeyProperty(kind = AnswerFull)
-  #NOTE: answer_full is a placeholder, will be fillin at entity query.
-  answer_full = None
-  
-  def get_extra(self):
-    if not self.answer_full:
-      self.answer_full = self.answer_full_key.get()
-      
-    return self.answer_full
+  content = ndb.TextProperty(default = '')
+  source = ndb.TextProperty(default = '')
+  up_voted_users = ndb.KeyProperty(kind = Account, repeated = True, indexed = False)
+  down_voted_users = ndb.KeyProperty(kind = Account, repeated = True, indexed = False)
+  no_help_users = ndb.KeyProperty(kind = Account, repeated = True, indexed = False)
+  vote_up_num = ndb.ComputedProperty(lambda self: len(self.up_voted_users))
+  vote_down_num = ndb.ComputedProperty(lambda self: len(self.down_voted_users))
   
   def is_author(self, author):
     #can we compare like this?

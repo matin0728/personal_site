@@ -36,6 +36,10 @@ class ZNode(object):
     self.config = config
     self.meta = meta
     self.current_handler = current_handler
+    
+  def get_view_data_item(self, key):
+    if key in self.view_data.keys():
+      return self.view_data[key]
 
   def set_view_data_item(self, key, data_item):
     self.view_data[key] = data_item

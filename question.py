@@ -20,7 +20,7 @@ class QuestionHandler(BaseHandler):
       self.response.out.write('Note found!')
       return
       
-    answers = AnswerService().get_answer_by_question(question.key, full_version = True)
+    answers = AnswerService().get_answer_by_question(question.key)
     
     can_create_answer = True
     me = self.get_current_account()
@@ -107,7 +107,22 @@ class QuestionAddHandler(BaseHandler):
     else:
       self.redirect(self.uri_for('question.add'))
         
-
+class QuestionFocusHandler(BaseHandler):
+  def get(self, question_id):
+    pass
+  
+  def get(self, question_id):
+    account = self.get_current_account().key
+    QuestionService().focus_question(account, question_id)
+    
+class QuestionUnFocusHandler(BaseHandler):
+  def get(self, question_id):
+    pass
+  
+  def get(self, question_id):
+    account = self.get_current_account().key
+    QuestionService().unfocus_question(account, question_id)
+    
 
 # app = webapp2.WSGIApplication([
 #     # webapp2.Route(r'/', handler=HomeHandler, name='home'),

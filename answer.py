@@ -6,6 +6,7 @@ from shared import *
 from model.answer import Answer
 from model.question import Question
 from service.question import QuestionService
+from service.answer import AnswerService
 from service.entity import EntityService
 
 # from service import answer as AnswerService
@@ -36,7 +37,6 @@ class AnswerEditHandler(BaseHandler):
       self.response.out.write('Not found answer.')
       return
 
-    answer_full = answer.get_extra()
     context = {
       'form_label': u'编辑问题',
       'action_uri': self.uri_for('answer.edit', question_id = answer.question.id(), answer_id = answer.key.id()),
@@ -60,10 +60,51 @@ class AnswerDeleteHandler(BaseHandler):
       self.response.out.write('Answer to be deleted not found!')
       pass
 
-  def post(self, question_id):
+  def post(self, question_id, answer_id):
     pass      
       
+class AnswerThanksHandler(BaseHandler):
+  def post(self, question_id, answer_id):
+    AnswerService().thanks_for_answer(self.get_current_account(), question_id, answer_id)
+    # TODO: Create response pagelet.
+
+  def get(self, question_id, answer_id):
+    self.post(question_id, answer_id)      
+  
+class AnswerNoHelpHandler(BaseHandler):
+  def post(self, question_id, answer_id):
+    AnswerService().set_no_help(self.get_current_account(), question_id, answer_id)
+    # TODO: Create response pagelet.
+
+  def get(self, question_id, answer_id):
+    self.post(question_id, answer_id)
+        
+        
+class AnswerCancelNoHelpHandler(BaseHandler):
+  def post(self, question_id, answer_id):
+    AnswerService().cancel_no_help(self.get_current_account(), question_id, answer_id)
+    # TODO: Create response pagelet.
+
+  def get(self, question_id, answer_id):
+    self.post(question_id, answer_id)  
+    
+class AnswerVoteUpHandler(BaseHandler):
+  def post(self, question_id, answer_id):
+    AnswerService().voteup_answer(self.get_current_account(), question_id, answer_id)
+    # TODO: Create response pagelet.
+
+  def get(self, question_id, answer_id):
+    self.post(question_id, answer_id)    
       
-      
-      
-      
+class AnswerVoteDownHandler(BaseHandler):
+  def post(self, question_id, answer_id):
+    AnswerService().votedown_answer(self.get_current_account(), question_id, answer_id)
+    # TODO: Create response pagelet.
+
+  def get(self, question_id, answer_id):
+    self.post(question_id, answer_id)
+
+
+
+
+

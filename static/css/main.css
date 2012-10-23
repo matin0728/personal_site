@@ -4942,3 +4942,164 @@ body {
 .feed + .feed {
   border-top: solid 1px #eeeeee;
 }
+.item {
+  padding: 10px 0;
+}
+.feed .title {
+  font-size: 15px;
+  display: block;
+  overflow: hidden;
+  line-height: 20px;
+}
+.feed  > .avatar-link {
+  width: 38px;
+  height: 38px;
+  overflow: hidden;
+  margin: 3px 10px 0 0;
+  float: left;
+  text-indent: -9000px;
+}
+.feed .item-meta {
+  margin: 2px 0 0 0;
+}
+.feed .source,
+.feed .item-meta {
+  color: #999999;
+}
+.feed .source button,
+.feed .item-meta button {
+  font-size: 13px;
+}
+.feed .item-meta {
+  margin-top: 2px;
+}
+.answer {
+  margin: 2px 0 0 48px;
+}
+.answer .vote-count {
+  display: none;
+}
+.answer .summary {
+  display: none;
+}
+.answer .author {
+  overflow: hidden;
+  font-size: 14px;
+  color: #333333;
+  line-height: 20px;
+}
+.answer.collapsed .vote-bar {
+  display: none;
+}
+.answer.collapsed .vote-count {
+  display: block;
+}
+.answer.collapsed .detail {
+  display: none;
+}
+.answer.collapsed .summary {
+  display: block;
+}
+.item + .item {
+  border-top: solid 1px #eeeeee;
+}
+.item.item-small {
+  padding: 7px 0;
+}
+.vote {
+  float: left;
+  overflow: hidden;
+  width: 20px;
+  margin: 0 0 0 -28px;
+}
+.vote-count,
+.vote-up,
+.vote-down {
+  margin: 2px 0 0 0;
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 0 none;
+}
+.vote-count:hover,
+.vote-up:hover,
+.vote-down:hover {
+  text-decoration: none;
+  background: #5588bb;
+  color: white;
+}
+.vote-up,
+.vote-down {
+  padding: 0;
+  overflow: hidden;
+  float: left;
+  text-indent: -9999px;
+  background: #E1F0F7;
+}
+.vote-up i,
+.vote-down i {
+  float: left;
+  width: 0;
+  height: 0;
+}
+.vote-up:hover i {
+  border-color: transparent transparent white;
+}
+.vote-up i {
+  margin: -7px 0 0 3px;
+  border: 7px solid transparent;
+  border-color: transparent transparent #58b;
+}
+.vote-up-active > .vote-up {
+  background: #5588bb;
+}
+.vote-up-active > .vote-up i {
+  border-color: transparent transparent white;
+}
+.vote-down-active > .vote-down {
+  background: #5588bb;
+}
+.vote-down-active > .vote-down i {
+  border-color: white transparent transparent;
+}
+.vote-down {
+  margin: 4px 0 0 0;
+}
+.vote-down:hover i {
+  border-color: white transparent transparent;
+}
+.vote-down i {
+  margin: 7px 0 0 3px;
+  border: 7px solid transparent;
+  border-color: #58b transparent transparent;
+}
+.vote-count {
+  line-height: 20px;
+  color: #578cca;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  background: #e1f0f7;
+  display: none;
+  -webkit-text-size-adjust: none;
+}
+.vote-info {
+  font-size: 14px -1;
+  color: #999;
+}
+.vote-info .member-link {
+  font-size: 14px -1;
+  color: #999;
+}
+.vote-info .member-link:hover {
+  color: #999;
+}
+.rich-text {
+  overflow: hidden;
+}
+.rich-text p {
+  margin: 0;
+}
