@@ -28,7 +28,7 @@ app = webapp2.WSGIApplication([
 
     webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/comment/<comment_id:\d+>/delete', handler=AnswerCommentDeleteHandler, name="answer.comment.delete"),    
     webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/comment_list', handler=AnswerCommentListHandler, name="answer.comment.list"),
-    webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/add_commend', handler=AnswerAddCommentHandler, name="answer.comment.add"),
+    webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/add_comment', handler=AnswerAddCommentHandler, name="answer.comment.add"),
     
     webapp2.Route(r'/question/add', handler=QuestionAddHandler, name="question.add"),
     webapp2.Route(r'/signup', handler=SignupHandler, name='signup'),

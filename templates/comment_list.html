@@ -1,0 +1,34 @@
+{% import 'macro_comment.html' as comment_tpl %}
+
+{% extends 'base.html' %}
+{% block title %}Edit Answer{% endblock %}
+{% block content %}
+
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-inner">
+            <h2>评论列表</h2>
+            <div class="comment-list">
+              <div class="loading"></div>
+              <div class="inner">
+                {% for comment in comments -%}
+                {{ comment_tpl.comment(account, comment, uri_for('answer.comment.delete', question_id = question_id, answer_id = answer_id, comment_id = comment.key.id()), uri_for) }}
+                {%- endfor %}
+              </div>
+              <div class="edit-form">
+                <form action="{{ uri_for('answer.comment.add', question_id = question_id, answer_id = answer_id) }}" method="POST">
+                  <textarea name="content" style="width: 61.8%;height: 100px"></textarea>
+                  <p>
+                    <input type="submit" value="保存" />
+                  </p>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">
+
+    </div>
+    <div class="clearfix"></div>
+</div>
+{% endblock %}

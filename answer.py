@@ -3,11 +3,13 @@
 import webapp2
 from google.appengine.api import users
 from shared import *
-from model.answer import Answer
-from model.question import Question
-from service.question import QuestionService
-from service.answer import AnswerService
-from service.entity import EntityService
+from model import *
+from service import *
+# from model.answer import Answer
+# from model.question import Question
+# from service.question import QuestionService
+# from service.answer import AnswerService
+# from service.entity import EntityService
 
 # from service import answer as AnswerService
 
@@ -106,30 +108,41 @@ class AnswerVoteDownHandler(BaseHandler):
 
 class AnswerCommentDeleteHandler(BaseHandler):
   def post(self, question_id, answer_id, comment_id):
-    pass
+    CommentService().delete_answer_comment(question_id, answer_id, comment_id)
+    self.redirect(self.uri_for('question', question_id = question_id))
   
   def get(self, question_id, answer_id, comment_id):
     self.post(question_id, answer_id, comment_id)
     
 class AnswerAddCommentHandler(BaseHandler):
-  def get(self, question_id, answer_id):
+  def post(self, question_id, answer_id):
     content = self.request.get('content')
     if not content:
       #TODO: Handle error report.
+      self.redirect(self.uri_for('question', question_id = question_id))
       return
       
-      
-    pass
+    account = self.get_current_account()
+    CommentService().add_answer_comment(account, question_id, answer_id, content) 
+    self.redirect(self.uri_for('question', question_id = question_id))
+    
 
 class AnswerCommentListHandler(BaseHandler):
   def get(self, question_id, answer_id):
-    pass
+    comments = CommentService().get_answer_comments(question_id, answer_id)
+    context = {
+      'comments': comments,
+      'question_id': question_id,
+      'answer_id': answer_id,
+      'account': self.get_current_account()
+    }
+    self.render('comment_list.html', context)
     
-class AnswerCommentDeleteHandler(BaseHandler):
-  def post(self, question_id, answer_id, comment_id):
-    pass
-
-  def get(self, question_id, answer_id, comment_id):
-    self.post(question_id, answer_id, comment_id)
+# class AnswerCommentDeleteHandler(BaseHandler):
+#   def post(self, question_id, answer_id, comment_id):
+#     pass
+# 
+#   def get(self, question_id, answer_id, comment_id):
+#     self.post(question_id, answer_id, comment_id)
 
 

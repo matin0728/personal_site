@@ -4927,6 +4927,47 @@ body {
 .clearfix {
   clear: both;
 }
+.avatar-link {
+  width: 38px;
+  height: 38px;
+  overflow: hidden;
+  margin: 3px 10px 0 0;
+  float: left;
+  text-indent: -9000px;
+}
+.comment-list .inner {
+  margin: 10px 0 35px;
+  background: white;
+  max-width: 540px;
+  position: relative;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+}
+.comment {
+  padding: 8px 0;
+  margin: 0 15px;
+}
+.comment:hover .operation {
+  visibility: visible;
+}
+.comment p {
+  margin: 0;
+}
+.comment .main-content {
+  overflow: hidden;
+}
+.comment .operation {
+  float: right;
+  visibility: hidden;
+}
+.comment .operation button {
+  border: 0 none;
+  background: transparent;
+  color: #999999;
+}
+.comment + .comment {
+  border-top: solid 1px #999999;
+}
 .feed {
   padding: 10px 0;
   position: relative;
@@ -4950,14 +4991,6 @@ body {
   display: block;
   overflow: hidden;
   line-height: 20px;
-}
-.feed  > .avatar-link {
-  width: 38px;
-  height: 38px;
-  overflow: hidden;
-  margin: 3px 10px 0 0;
-  float: left;
-  text-indent: -9000px;
 }
 .feed .item-meta {
   margin: 2px 0 0 0;

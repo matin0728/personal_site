@@ -1,7 +1,7 @@
 import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import users
-import model.*
+from model import *
 from singleton import Singleton
 from base_service import BaseService
 
@@ -25,7 +25,7 @@ class CommentService(Singleton, BaseService):
   def delete_entity_comment(self, entity, comment_id):
     comment = Comment.get_by_id(parent = entity.key, id = int(comment_id))
     if comment:
-      commend.key.delete()
+      comment.key.delete()
       self.update_comment_num(entity)
     
   def add_entity_comment(self, account, entity, content):
@@ -36,7 +36,7 @@ class CommentService(Singleton, BaseService):
       content = content
     )
     comment.put()
-    self.update_comment_num(account)
+    self.update_comment_num(entity)
     
   def update_comment_num(self, entity):
     count = Comment.query(ancestor = entity.key).count()

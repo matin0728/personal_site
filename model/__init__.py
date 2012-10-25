@@ -1,8 +1,8 @@
 # coding=utf-8
 
 
-import question
-import answer
-import account
-import accountxquestion
-import comment
+from question import Question
+from answer import Answer
+from account import Account
+from accountxquestion import AccountXQuestion
+from comment import Comment

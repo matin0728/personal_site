@@ -1,4 +1,55 @@
+.avatar-link{
+    .square(38px);
+    overflow: hidden;
+    margin: 3px 10px 0 0;
+    float: left;
+    text-indent: -9000px;
+}
 
+.comment-list{
+  .inner{
+    margin: 10px 0 35px;
+    background: white;
+    max-width: 540px;
+    position: relative;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+  }
+  .loading{
+    
+  }
+  .edit-form{
+    
+  }
+}
+
+.comment{
+  padding: 8px 0;
+  margin: 0 15px;
+  &:hover{
+    .operation{
+      visibility: visible;
+    }
+  }
+  p{
+    margin: 0;
+  }
+  .main-content{
+    overflow: hidden;
+  }
+  .operation{
+    float: right;
+    visibility: hidden;
+    a{
+      color: @grayLight;
+    }
+
+  }
+}
+
+.comment + .comment{
+  border-top: solid 1px @grayLight;
+}
 
 .feed{
   padding: 10px 0;
@@ -28,13 +79,6 @@
       display:block;
       overflow:hidden;
       line-height: @baseLineHeight;
-  }
-  & > .avatar-link{
-      .square(38px);
-      overflow: hidden;
-      margin: 3px 10px 0 0;
-      float: left;
-      text-indent: -9000px;
   }
   .item-meta{
     margin: 2px 0 0 0;
@@ -115,7 +159,7 @@
   padding: 0;
   overflow: hidden;
   float: left;
-	text-indent:-9999px;
+	text-indent: -9999px;
 	background: #E1F0F7;
 	//background:#e1f0f7 url("/static/img/icons_v12.png") scroll no-repeat 0 0; //TODO, cloor
 	i{

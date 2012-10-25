@@ -1,0 +1,23 @@
+{% macro comment(account, comment, delete_url, uri_for) -%}
+<div class="comment">
+  <a href="#" class="avatar-link" style="background:url('http://p3.zhimg.com/e7/6b/e76b7bd15_m.jpg') 50% 0 no-repeat">马骁</a>
+  <div class="main-content">
+    <p class="title">
+      <span class="operation">
+        <a class="replay" href="javascript:;">回复</a
+          >{% if account.key == comment.real_author -%}
+        <span class="dot">·</span><a class="delete" href="{{ delete_url }}">删除</a>
+        {%- endif %}
+      </span>
+
+      
+      <a class="member-link">{{ comment.author.nickname }}</a>
+      <span class="dot">·</span>
+      <span class="datetime">{{ comment.created_date }}</span>
+    </p>
+    <p class="content">
+      {{ comment.content }}
+    </p>
+  </div>
+</div>
+{%- endmacro %}
