@@ -22,7 +22,7 @@
 <div class="item-meta answer-meta">
     <a href="#" class="link-gray">[{{ answer.key.id() }}], {{ answer.created_date }}</a>
     <span class="dot">·</span>
-    <a href="#" name="comment" class="link-gray">X 条评论</a>
+    <a href="{{ uri_for('answer.comment.list', question_id = answer.question.id(), answer_id = answer.key.id())}}" name="comment" class="link-gray">{{ answer.comment_num }} 条评论</a>
     <a href="{{ uri_for('answer.vote_up', question_id = answer.question.id(), answer_id = answer.key.id()) }}">赞同</a>
     <a href="{{ uri_for('answer.vote_down', question_id = answer.question.id(), answer_id = answer.key.id()) }}">反对</a>
     {% if is_nohelp %}

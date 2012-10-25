@@ -104,7 +104,32 @@ class AnswerVoteDownHandler(BaseHandler):
   def get(self, question_id, answer_id):
     self.post(question_id, answer_id)
 
+class AnswerCommentDeleteHandler(BaseHandler):
+  def post(self, question_id, answer_id, comment_id):
+    pass
+  
+  def get(self, question_id, answer_id, comment_id):
+    self.post(question_id, answer_id, comment_id)
+    
+class AnswerAddCommentHandler(BaseHandler):
+  def get(self, question_id, answer_id):
+    content = self.request.get('content')
+    if not content:
+      #TODO: Handle error report.
+      return
+      
+      
+    pass
 
+class AnswerCommentListHandler(BaseHandler):
+  def get(self, question_id, answer_id):
+    pass
+    
+class AnswerCommentDeleteHandler(BaseHandler):
+  def post(self, question_id, answer_id, comment_id):
+    pass
 
+  def get(self, question_id, answer_id, comment_id):
+    self.post(question_id, answer_id, comment_id)
 
 

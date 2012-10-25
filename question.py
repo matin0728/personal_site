@@ -11,17 +11,9 @@ from service.question import QuestionService
 from service.entity import EntityService
 
 class QuestionHandler(BaseHandler):
-  def get(self, question_id):
-    #don't need call entity service for single get operation
+  def get(self, question_id):      
+    answers = AnswerService().get_answer_by_question(question_id)
     question = Question.get_by_id(int(question_id))
-
-    if not question:
-      #TODO: Raise 404.
-      self.response.out.write('Note found!')
-      return
-      
-    answers = AnswerService().get_answer_by_question(question.key)
-    
     can_create_answer = True
     me = self.get_current_account()
     for a in answers:
@@ -31,6 +23,7 @@ class QuestionHandler(BaseHandler):
     context = {
       'current_question': question,
       'answers': answers,
+      'relation': QuestionService().get_question_relationship(self.get_current_account().key, question.key),
       'can_create_answer': can_create_answer
     }
     

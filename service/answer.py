@@ -68,8 +68,10 @@ class AnswerService(Singleton, BaseService):
     relation.no_help_answers = [ a for a in relation.no_help_answers if a != answer.key ]
     relation.put() 
 
-  def get_answer_by_question(self, question_key):
-    answers = Answer.query(ancestor = question_key).fetch()
+  def get_answer_by_question(self, question_id):
+    #don't need call entity service for single get operation
+    question = Question.get_by_id(int(question_id))
+    answers = Answer.query(ancestor = question.key).fetch()
     return answers
     
     

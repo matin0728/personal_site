@@ -22,7 +22,7 @@
                 <!-- for answer in answers -->
                 {% import 'macro_answer.html' as answer_tpl %}
                 {% for a in answers %}
-                {{ answer_tpl.answer(a, uri_for) }}
+                {{ answer_tpl.answer(a, relation, uri_for) }}
                 {% endfor %}
                 <!-- endfor -->
             </div>
@@ -30,7 +30,7 @@
             <form method="post" action="{{ uri_for('question.add_answer', question_id = current_question.key.id()) }}" class="answer-post-form">
                 <legend>Create new answer</legend>
                 <label>Content</label>
-                <textarea name="content" rows="15" style="width:61.8%" placeholder="Type your answer here…"></textarea>
+                <textarea name="source" rows="15" style="width:61.8%" placeholder="Type your answer here…"></textarea>
                 <span class="help-block">You can provide one answer for each question.</span>
                 <!-- <label class="checkbox">
                   <input type="checkbox"> Make anonymouse

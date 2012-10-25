@@ -25,6 +25,7 @@ class Answer(ndb.Model):
   no_help_users = ndb.KeyProperty(kind = Account, repeated = True, indexed = False)
   vote_up_num = ndb.ComputedProperty(lambda self: len(self.up_voted_users))
   vote_down_num = ndb.ComputedProperty(lambda self: len(self.down_voted_users))
+  comment_num = ndb.IntegerProperty(default = 0, indexed = False)
   
   def is_author(self, author):
     #can we compare like this?

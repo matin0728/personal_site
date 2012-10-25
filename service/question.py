@@ -55,7 +55,7 @@ class QuestionService(Singleton, BaseService):
       
   def add_answer(self, question_id, source, author):
     question = Question.get_by_id(int(question_id))
-    if not question or not content:
+    if not question or not source:
       self.set_error_code(500)
       return
     
@@ -64,7 +64,7 @@ class QuestionService(Singleton, BaseService):
     
     new_answer = Answer(
       parent = question.key, 
-      summary = content[0:100], 
+      summary = source[0:100], 
       question = question.key, 
       author = author.key,
       real_author = author.key,
@@ -93,8 +93,8 @@ class QuestionService(Singleton, BaseService):
       return
 
     answer.key.delete()
-
     self.update_answer_num(question.key)
+    return question
     
   def delete_question(self, question_id):
     question = Question.get_by_id(int(question_id))
