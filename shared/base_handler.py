@@ -4,8 +4,10 @@ import os
 from google.appengine.api import users
 from model.account import Account
 from service.entity import EntityService
+from pagelet_processor import *
 
 class BaseHandler(webapp2.RequestHandler):
+  pagelet_processor_ = None
   current_account = None
   def get_current_account(self):
     return self.current_account
@@ -26,6 +28,23 @@ class BaseHandler(webapp2.RequestHandler):
     jinja_environment = jinja2.Environment(
       loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates')))
     return jinja_environment
+    
+  def process_live_query(self):
+    pagelets = self.get_pagelets()
+    self.render_pagelets(pagelets)
+    
+  def get_pagelets(self):
+    if not self.pagelet_processor_:
+      queries = self.request.get('live_components')
+      #self.response.out.write(queries)
+      #return
+      self.pagelet_processor_ = LiveQueryProcessor(queries)
+      
+    return self.pagelet_processor_.get_pagelets(self)
+    
+  def render_pagelets(self, pagelets):
+    strs = [ p.get_json_string() for p in pagelets]
+    self.response.out.write(''.join(strs))
         
   def set_error(self, error):
     #TODO: Complete this method

@@ -74,17 +74,20 @@ class SignupHandler(BaseHandler):
 
 class ModalUpdateHandler(BaseHandler):
   def get(self):
-    questions = Question.query().fetch()
-    for q in questions:
-      answers = AnswerService().get_answers_by_question(q.key)
-      q.answers_num = len(answers)
-      q.put()
-      for a in answers:
-        a.author = users.get_current_user()
-        a.put()
-      
-    self.response.out.write("Update complete!")
+    self.render('test_pagelets.html')
+    # questions = Question.query().fetch()
+    #     for q in questions:
+    #       answers = AnswerService().get_answers_by_question(q.key)
+    #       q.answers_num = len(answers)
+    #       q.put()
+    #       for a in answers:
+    #         a.author = users.get_current_user()
+    #         a.put()
+    #       
+    #     self.response.out.write("Update complete!")
     
+  def post(self):
+    self.process_live_query()
 
 
 

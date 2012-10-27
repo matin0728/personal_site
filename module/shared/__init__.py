@@ -1,1 +1,2 @@
-import feed
+from feed import *
+from demo import *
