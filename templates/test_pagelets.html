@@ -4,6 +4,7 @@
 <div class="main-wrap">
     <div class="main">
         <div class="main-inner">
+            <div class="page-element" data-module="home"></div>
             <h1>Pagelets test</h1>
             <form action="" method="POST">
                 <p>
@@ -14,6 +15,9 @@
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </p>
             </form>
+            <div id="log">
+                
+            </div>
         </div>
     </div>
     <div class="sidebar">
@@ -21,4 +25,34 @@
     </div>
     <div class="clearfix"></div>
 </div>
+<script>
+//Only debug mode need this script block.
+
+// goog.require('goog.debug.DivConsole');
+// goog.require('goog.debug.Logger');
+// goog.require('goog.debug.LogManager');
+goog.require('ZH.main');
+//TODO, IMPORTANT: if in debug mod:
+goog.require('ZH.page.HomePage');
+</script>
+<script>
+// Set up a logger.
+// goog.debug.LogManager.getRoot().setLevel(goog.debug.Logger.Level.ALL);
+// var logger = goog.debug.Logger.getLogger('goog.module.ModuleManager');
+// var logconsole = new goog.debug.DivConsole(goog.dom.getElement('log'));
+// logconsole.setCapturing(true);
+// var a = goog.dom.getElementByClass('page-element');
+ ZH.main();
+
+</script>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+

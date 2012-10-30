@@ -68,8 +68,7 @@ class LiveQueryProcessor(object):
              
   def __init__(self, live_queries):
     self.queries_ = json.loads(live_queries)
-    #self.queries_ = json.loads('[{"type_string":"demo","instance_id":"123","component_meta":""}]')
-    
+        
   def get_pagelets(self, handler):      
     if not self.pagelets:
       self.pagelets = []

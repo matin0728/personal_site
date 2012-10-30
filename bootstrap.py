@@ -34,3 +34,5 @@ app = webapp2.WSGIApplication([
     webapp2.Route(r'/signup', handler=SignupHandler, name='signup'),
     webapp2.Route(r"/update_modal", handler=ModalUpdateHandler),
 ], debug = SITE_CONFIG['is_debug'], config=SITE_CONFIG)
+
+
