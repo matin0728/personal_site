@@ -30,21 +30,23 @@ class BaseHandler(webapp2.RequestHandler):
     return jinja_environment
     
   def process_live_query(self):
-    pagelets = self.get_pagelets()
-    self.render_pagelets(pagelets)
+    response = self.get_ajax_response()
+    # For test only:
+    # response.set_message("Hello world!")
+    self.output_ajax_response(response)
     
-  def get_pagelets(self):
+  def get_ajax_response(self):
     if not self.pagelet_processor_:
       queries = self.request.get('live_components')
       #self.response.out.write(queries)
       #return
       self.pagelet_processor_ = LiveQueryProcessor(queries)
       
-    return self.pagelet_processor_.get_pagelets(self)
+    return self.pagelet_processor_.get_response(self)
     
-  def render_pagelets(self, pagelets):
-    strs = [ p.get_json_string() for p in pagelets]
-    self.response.out.write(''.join(strs))
+  def output_ajax_response(self, response):
+    #strs = [ p.get_json_string() for p in pagelets]
+    self.response.out.write(response.get_json())
         
   def set_error(self, error):
     #TODO: Complete this method

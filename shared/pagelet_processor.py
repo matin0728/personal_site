@@ -8,6 +8,46 @@ from module.shared import *
 # from model.account import Account
 # from service.entity import EntityService
 
+class AjaxResponse(object):
+  # this.isError = (result["r"] == 1);
+  # this.message = result["msg"];
+  # this.redirectUrl = result["redirect"];
+  # this.refreshFlag = result["refresh"];
+  error_flag = 0
+  message = ''
+  redirect_url = ''
+  refresh_flag = 0
+  pagelets = []
+  
+  def set_refresh(self, is_refresh):
+    if is_refresh:
+      self.refresh_flag = 1
+    else:
+      self.refresh_flag = 0
+  
+  def set_redirect(self, redirect_url):
+    self.redirect_url = redirect_url
+  
+  def set_error_flag(self, is_error):
+    if is_error:
+      self.error_flag ＝ 1
+    else:
+      self.error_flag ＝ 0
+  
+  def set_message(self, message):
+    self.message = message
+  
+  def get_json(self):
+    pagelet_json_objects = [ p.get_json_object() for p in self.pagelets]
+    result = {
+      'r': self.error_flag,
+      'msg': self.message,
+      'redirect': self.redirect_url,
+      'refresh': self.refresh_flag,
+      'pagelets': pagelet_json_objects
+    }
+    return json.dumps(result)
+
 class Pagelet(object):
   type_string = ''
   instance_identity = ''
@@ -24,8 +64,8 @@ class Pagelet(object):
     self.instance_identity = instance_identity
     self.muckup = muckup
   
-  def get_json_string(self):
-    return json.dumps([
+  def get_json_object(self):
+    return [
       self.type_string,
       self.instance_identity,
       self.muckup,
@@ -35,11 +75,11 @@ class Pagelet(object):
       self.render_position,
       self.event_type,
       self.event_args
-    ])
+    ]
 
 class LiveQueryProcessor(object):
   queries_ = []
-  pagelets = None
+  result_ = None
   
   @classmethod 
   def deserialize_meta(cls, meta_data):
@@ -69,17 +109,21 @@ class LiveQueryProcessor(object):
   def __init__(self, live_queries):
     self.queries_ = json.loads(live_queries)
         
-  def get_pagelets(self, handler):      
-    if not self.pagelets:
-      self.pagelets = []
+  def get_response(self, handler):      
+    if not self.result_:
+      pagelets = []
       for q in self.queries_:
         pl = Pagelet(
           q['type_string'], 
           instance_identity = q['instance_id'], 
           muckup = LiveQueryProcessor.create_node_muckup(q['type_string'], q["component_meta"], handler))
-        self.pagelets.append(pl)
+        pagelets.append(pl)
         
-    return self.pagelets  
+      result = AjaxResponse()
+      result.pagelets = pagelets
+      self.result_ = result
+        
+    return self.result_  
       
       
       
