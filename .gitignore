@@ -9,3 +9,4 @@ _Store
 *.bak
 *.tmproj
 static/lib
+static/js/closure-library-new
