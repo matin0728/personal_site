@@ -10,3 +10,4 @@ _Store
 *.tmproj
 static/lib
 static/js/closure-library-new
+.DS_Store

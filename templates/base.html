@@ -3,9 +3,13 @@
 <head>
     <title>{% block title %}{% endblock %} - Shaca's Personal Site'</title>
     <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+    {% if config['is_debug'] %}
     <script src="/static/js/closure-library-new/closure/goog/base.js"></script>
     <script src="/static/js/v3/c/deps.js"></script>
+    {% else %}
+    <script src="/static/js/c/{{ config['static_file_version'] }}/app.js"></script>
+    {% endif %}
 </head>
 <body>
 
@@ -27,3 +31,28 @@
 <div id="footer" class="footer">
     
 </div>
+{% if config['is_debug'] %}
+<script>
+//Only debug mode need this script block.
+
+// goog.require('goog.debug.DivConsole');
+// goog.require('goog.debug.Logger');
+// goog.require('goog.debug.LogManager');
+goog.require('goog.module.ModuleManager');
+goog.require('ZH.main');
+goog.require('ZH.page.HomePage');
+</script>
+{% endif %}
+<script>
+// Set up a logger.
+// goog.debug.LogManager.getRoot().setLevel(goog.debug.Logger.Level.ALL);
+// var logger = goog.debug.Logger.getLogger('goog.module.ModuleManager');
+// var logconsole = new goog.debug.DivConsole(goog.dom.getElement('log'));
+// logconsole.setCapturing(true);
+// var a = goog.dom.getElementByClass('page-element');
+ ZH.main();
+</script>
+
+
+
+

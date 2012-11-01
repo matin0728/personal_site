@@ -30,10 +30,11 @@ class AjaxResponse(object):
   
   def set_error_flag(self, is_error):
     if is_error:
-      self.error_flag ＝ 1
+      self.error_flag = 1
     else:
-      self.error_flag ＝ 0
-  
+      self.error_flag = 0
+      
+      
   def set_message(self, message):
     self.message = message
   
@@ -47,6 +48,22 @@ class AjaxResponse(object):
       'pagelets': pagelet_json_objects
     }
     return json.dumps(result)
+  
+  def get_pagelet_by_type(self, type_string):
+    for p in self.pagelets:
+      if p.type_string == type_string:
+        return p
+        
+  def get_pagelets_by_type(self, type_string):
+    found = []
+    for p in self.pagelets:
+      if p.type_string == type_string:
+        found.append(p)
+    
+    return found
+    
+  def add_pagelet(self, pagelet):
+    self.pagelets.append(pagelet)
 
 class Pagelet(object):
   type_string = ''
@@ -63,6 +80,32 @@ class Pagelet(object):
     self.type_string = type_string
     self.instance_identity = instance_identity
     self.muckup = muckup
+    
+  def set_instance_identity(self, instance_identity):
+    self.instance_identity = instance_identity
+    return self
+    
+  def set_construct_arg_string(self, construct_arg_string):
+    self.construct_args = construct_arg_string
+    return self
+    
+  def set_ref_element(self, ref_element):
+    self.ref_element = ref_element
+    return self
+  
+  def set_render_type(self, render_type):
+    self.render_type = render_type
+    return self
+    
+  def set_render_position(self, render_position):
+    self.render_position = render_position
+    return self
+    
+  def add_event(self, event_type_string, event_arg_string):
+    #NOTE: Currently we don't support multi events.
+    self.event_type = event_type_string
+    self.event_args = event_arg_string
+    return self
   
   def get_json_object(self):
     return [

@@ -5,6 +5,7 @@ from google.appengine.api import users
 from model.account import Account
 from service.entity import EntityService
 from pagelet_processor import *
+from app_config import *
 
 class BaseHandler(webapp2.RequestHandler):
   pagelet_processor_ = None
@@ -33,6 +34,19 @@ class BaseHandler(webapp2.RequestHandler):
     response = self.get_ajax_response()
     # For test only:
     # response.set_message("Hello world!")
+    # response.set_redirect('baidu.com')
+    # response.set_refresh(False)
+    # p = Pagelet('test_type', instance_identity = 'abc', muckup = 'kkkk')
+    #  p.set_instance_identity('new_identity')
+    #  p.set_render_type('some_type')
+    #  p.set_render_position('positon')
+    #  p.set_construct_arg_string('aaa')
+    #  p.set_ref_element('some ele')
+    #  p.add_event('some event', 'some args')
+    #  response.add_pagelet(p)
+    #  pp = response.get_pagelet_by_type('test_type')
+    #  pp.set_instance_identity('qqqqq')
+    
     self.output_ajax_response(response)
     
   def get_ajax_response(self):
@@ -61,8 +75,10 @@ class BaseHandler(webapp2.RequestHandler):
     extra_context = {
       'request': self.request,
       'uri_for': self.uri_for,
-      'get': EntityService().get #Shorthand for get entity.
+      'config': SITE_CONFIG
     }
+    #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
+    # don't get entity on template.
 
     for key, value in extra_context.items():
       if key not in context:
