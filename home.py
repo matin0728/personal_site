@@ -88,8 +88,19 @@ class ModalUpdateHandler(BaseHandler):
     
   def post(self):
     self.process_live_query()
+    
+  def pagelet(self):
+    self.response.out.write("You call pagelet method!")
 
-
+#NOTE: response for ObjectLoader interface.
+class NodeHandler(BaseHandler):
+  def get(self):
+    node_type = self.request.get('node_name')
+    # TODO:
+    # response = self.get_ajax_response()
+    # pagelet = Pagelet()
+    # response.add_pagelet() LiveQueryProcessor().
+    pass
 
 # app = webapp2.WSGIApplication([
 #     webapp2.Route(r'/', handler=HomeHandler, name='home'),

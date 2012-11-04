@@ -5,6 +5,7 @@ from google.appengine.api import users
 from model.account import Account
 from service.entity import EntityService
 from pagelet_processor import *
+from znode import *
 from app_config import *
 
 class BaseHandler(webapp2.RequestHandler):
@@ -75,7 +76,8 @@ class BaseHandler(webapp2.RequestHandler):
     extra_context = {
       'request': self.request,
       'uri_for': self.uri_for,
-      'config': SITE_CONFIG
+      'config': SITE_CONFIG,
+      'parents_map': ParentsMap().get_json()
     }
     #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
     # don't get entity on template.
@@ -87,4 +89,57 @@ class BaseHandler(webapp2.RequestHandler):
     env = self.get_template_environment()
     template = env.get_template(template)
     self.response.out.write(template.render(context))
+    
+  
+  #super(Route, self).xxxx()
+  def dispatch(self):
+    """Dispatches the request.
+
+    This will first check if there's a 'method_name' param, if present, 
+    call the method related.
+    """
+    request = self.request
+    method_name = request.get('method_name')
+    
+    if not method_name:
+      return super(BaseHandler, self).dispatch()
+
+    method = getattr(self, method_name, None)
+    if method:
+      args, kwargs = request.route_args, request.route_kwargs
+      if kwargs:
+          args = ()
+          
+      try:
+          return method(*args, **kwargs)
+      except Exception, e:
+          return self.handle_exception(e, self.app.debug)
+          
+    else:
+      valid = 'Methos not exists.'
+      self.abort(405, headers=[('Allow', valid)])
+      
+      
+    # method_name = request.route.handler_method
+    # if not method_name:
+    #     method_name = _normalize_handler_method(request.method)
+    # 
+    # method = getattr(self, method_name, None)
+    # if method is None:
+    #     # 405 Method Not Allowed.
+    #     # The response MUST include an Allow header containing a
+    #     # list of valid methods for the requested resource.
+    #     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.6
+    #     valid = ', '.join(_get_handler_methods(self))
+    #     self.abort(405, headers=[('Allow', valid)])
+    # 
+    # # The handler only receives *args if no named variables are set.
+    # args, kwargs = request.route_args, request.route_kwargs
+    # if kwargs:
+    #     args = ()
+    # 
+    # try:
+    #     return method(*args, **kwargs)
+    # except Exception, e:
+    #     return self.handle_exception(e, self.app.debug)
     

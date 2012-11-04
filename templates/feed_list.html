@@ -1,4 +1,4 @@
-<div class="feed-list">
+<div class="feed-list"{{node_attribute()}}>
     {% for f in feeds: %}
     {{ render_feed_item(f) }}
     {% endfor %}

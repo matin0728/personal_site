@@ -4,15 +4,3 @@
 fucking fun!!!
 {%- endmacro %}
 
-{% macro feed(actors, info, qeustion, relation, answers, uri_for) -%}
-<div class="item feed">
-    <a href="" class="avatar-link" style="background:url('http://p3.zhimg.com/e7/6b/e76b7bd15_m.jpg') 50% 0 no-repeat">马骁</a>
-    <div class="source">{{ info }}</div>
-    <h2 class="title">
-        <a class="question-link" href="{{ uri_for('question', question_id = qeustion.key.id()) }}">{{qeustion.title}}</a>
-    </h2>
-    {% for answer in answers %}
-    {{ answer_tpl.answer(answer, relation, uri_for) }}
-    {% endfor %}
-</div>
-{%- endmacro %}

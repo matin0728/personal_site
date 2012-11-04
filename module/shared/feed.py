@@ -8,31 +8,70 @@ from shared.znode import ZNode
 from service.feed import FeedService
 from service.entity import EntityService
 from service.question import QuestionService
+from answer import *
 
 class ZNodeFeedItem(ZNode):
+  # meta should contains following data.
+  # meta = {
+  #   'feed_id',
+  #   'question_id',
+  #   'answer_ids'
+  #   'answer_num'
+  # }
+  
+  # view_data should contains(at least) following field.
+  # view_data = {
+  #  'question' : None
+  #  'answers' : []
+  #  'relation' : None
+  #  'actors' : []
+  #  'action_type' : 'vote'
+  # }
+  # 
   template = 'feed_item.html'
   def fetch_data_internal(self):
-    #get data from feed ID
+    #get feed data from feed ID
+    #self.feed_data = FeedService().get_by_id(self.get_meta('feed_id'))
     pass
-    
+  
+  def render_answer(self, answer, relation):
+    meta = {
+      # NOTE: we needn't to set the question_id, case it is set on it's parent or ancestor.
+      # 'question_id':self.get_meta('question_id'),
+      'answer_id': answer.key.id()
+    }
+    a = ZNodeAnswer(self.current_handler, meta = meta)
+    a.set_view_data_item('answer', answer)
+    a.set_view_data_item('relation', relation)
+    self.add_child(a)
+    return a.render()
     
   def fetch_data(self):
-    if not self.view_data:
+    feed_data = self.get_view_data_item('feed_data')
+    if not feed_data:
       self.fetch_data_internal()
-      
+      feed_data = self.get_view_data_item('feed_data')
+
     action_type = {'vote': " vote up the answer", 'focus': " focus the question"}
-    #NOTE: Add extra data just for text only.
+    #NOTE: Add extra data just for test only.
+
+    feed_data['question'] = EntityService().get(feed_data['question'])
+    feed_data['answers'] = [EntityService().get(a) for a in feed_data['answers']]
+    feed_data['relation'] = QuestionService().get_question_relationship(self.current_handler.get_current_account().key, feed_data['question'].key)
+    feed_data['actors'] = []
+    feed_data['info'] = action_type[feed_data['action_type']]
+    feed_data['render_answer'] = self.render_answer
+
+    self.set_view_data(feed_data)
     
-    question = self.get_view_data_item('question')
-    answers = self.get_view_data_item('answers')
-    
-    self.set_view_data_item('question', EntityService().get(question))
-    self.set_view_data_item('answers', [EntityService().get(a) for a in answers])
-    self.set_view_data_item('relation', QuestionService().get_question_relationship(self.current_handler.get_current_account().key, question))
-    self.set_view_data_item('actors', [])
-    self.set_view_data_item('info', action_type[self.view_data['action_type']])
+    # self.set_view_data_item('question', EntityService().get(question))
+    # self.set_view_data_item('answers', [EntityService().get(a) for a in answers])
+    # self.set_view_data_item('relation', QuestionService().get_question_relationship(self.current_handler.get_current_account().key, question))
+    # self.set_view_data_item('actors', [])
+    # self.set_view_data_item('info', action_type[self.view_data['action_type']])
 
 class ZNodeFeedList(ZNode):
+  client_type = 'Feed'
   template = 'feed_list.html'
   def fetch_data(self):
     # print FeedService
@@ -64,12 +103,16 @@ class ZNodeFeedList(ZNode):
     EntityService().get_multi(answer_ids)
 
   def render_feed_item(self, feed_item_data):
-    
     #NOTE: Each feed should has a ID.
-    # here should be feed = ZNodeFeedItem(feed_id)
-    f = ZNodeFeedItem(self.current_handler)
-    f.set_view_data(feed_item_data)
-    #return 'feed item<br />' + str(feed_item_data)
+    meta = {
+      'feed_id': 'abc',
+      'question_id': feed_item_data['question'].id(),
+      'answer_ids':'', # for demo, ignored.
+      'answer_num': len(feed_item_data['answers']) #pass this for caculate live feed replacement.
+    }
+    f = ZNodeFeedItem(self.current_handler, meta = meta)
+    self.add_child(f)
+    f.set_view_data_item('feed_data', feed_item_data)
     return f.render()
     
 

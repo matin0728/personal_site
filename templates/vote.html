@@ -1,0 +1,15 @@
+{% set is_voteup = answer.key in relation.up_voted_answers %}
+{% set is_votedown = answer.key in relation.down_voted_answers %}
+<div class="vote">
+    <a name="vote" class="vote-count" href="javascript:;">{{ answer.vote_num }}</a>
+    {% if is_voteup %}
+    <div class="vote-bar vote-up-active">
+    {% elif is_votedown %}
+    <div class="vote-bar vote-down-active">
+    {% else %}
+    <div class="vote-bar">
+    {% endif %}
+        <button name="voteup" class="vote-up" data-tip="s$r$赞同"><i></i></button>
+        <button name="votedown" class="vote-down" data-tip="s$r$反对，不会显示你的姓名"><i></i></button>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="answer"{{node_attribute()}}>
+    {{render_vote(answer, relation)}}
+    <h3 class="author">
+        <a data-tip="p$t$qsda1" href="#" class="nickname">{{ answer.author.name }}</a> <span class="bio" title="#">BIO</span>
+    </h3>
+    <div class="summary">{{ answer.summary }}</div>
+    <div class="detail">
+        <div class="vote-info"></div>
+        <div class="content rich-text">
+          {{answer.content}}
+        </div>
+        {{render_meta(answer, relation)}}
+    </div>
+</div>

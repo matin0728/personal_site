@@ -8,7 +8,9 @@ from answer import *
 from home import *
 
 app = webapp2.WSGIApplication([
-    webapp2.Route(r'/', handler=HomeHandler, name='home'),    
+    webapp2.Route(r'/', handler=HomeHandler, name='home'),
+    webapp2.Route(r'/node', handler=NodeHandler, name='node'),
+    
     webapp2.Route(r'/question/<question_id:\d+>', handler=QuestionHandler, name="question"),
     webapp2.Route(r'/question/<question_id:\d+>/edit', handler=QuestionEditHandler, name="question.edit"),
     webapp2.Route(r'/question/<question_id:\d+>/delete', handler=QuestionDeleteHandler, name="question.delete"),
