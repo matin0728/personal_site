@@ -104,7 +104,8 @@ class BaseHandler(webapp2.RequestHandler):
       'request': self.request,
       'uri_for': self.uri_for,
       'config': SITE_CONFIG,
-      'parents_map': ParentsMap().get_json()
+      'parents_map': ParentsMap().get_json(),
+      'root_nodes': ParentsMap().get_root_nodes_json()
     }
     #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
     # don't get entity on template.

@@ -38,6 +38,7 @@ class Singleton(object):
         
 class ParentsMap(Singleton):
   parents_map = {}
+  root_nodes = []
   seed = None
   def get_next_id(self):
     if not self.seed:
@@ -53,9 +54,21 @@ class ParentsMap(Singleton):
       self.parents_map[parent_id] = [child_node_info]
     else:
       self.parents_map[parent_id].append(child_node_info)
+  
+  def get_parents_map(self):
+    return self.parents_map
       
   def get_json(self):
     return json.dumps(self.parents_map)
+    
+  def add_root_node(self, node_client_id):
+    self.root_nodes.append(node_client_id)
+  
+  def get_root_nodes(self):
+    return self.root_nodes
+    
+  def get_root_nodes_json(self):
+    return json.dumps(self.root_nodes)
 
 class ZNode(object):
   #Subclall will overide this from clienttype map(May be create by script).
@@ -67,6 +80,9 @@ class ZNode(object):
   config = {}
   view_data = {}
   current_handler = None
+  
+  def set_root_node(self):
+    ParentsMap().add_root_node([self.get_client_id(), self.get_type()])
   
   def __init__(self, current_handler, meta = {}, config = {}):
     self.client_id = ParentsMap().get_next_id()

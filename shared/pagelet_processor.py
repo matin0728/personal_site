@@ -3,6 +3,7 @@
 import os
 import json
 from module.shared import *
+from znode import ParentsMap
 
 # from google.appengine.api import users
 # from model.account import Account
@@ -58,7 +59,7 @@ class AjaxResponse(object):
     return self
   
   def get_json(self):
-    #ru: redirect_url, rf: refresh_flag, p: pagelets, d: extra_data
+    #ru: redirect_url, rf: refresh_flag, p: pagelets, d: extra_data, rn:root_nodes, mp: parents_map
     pagelet_json_objects = [ p.get_json_object() for p in self.pagelets]
     result = {
       'r': self.error_flag,
@@ -66,6 +67,8 @@ class AjaxResponse(object):
       'ru': self.redirect_url,
       'rf': self.refresh_flag,
       'd': self.extra_data,
+      'mp': ParentsMap().get_parents_map(),
+      'rn': ParentsMap().get_root_nodes(),
       'p': pagelet_json_objects
     }
     return json.dumps(result)
@@ -158,7 +161,7 @@ class LiveQueryProcessor(object):
       instance = node_(handler, meta = meta_data)
       if instance_identity:
         instance.set_client_id(instance_identity)
-        
+          
       return instance
     
              
