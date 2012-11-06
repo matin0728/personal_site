@@ -18,34 +18,55 @@ class AjaxResponse(object):
   redirect_url = ''
   refresh_flag = 0
   pagelets = []
+  extra_data = None
   
+  """Extra json data object send to client.
+    Custom json data.
+  """
+  def set_data(self, extra_data):
+    self.extra_data = extra_data
+    return self
+    
   def set_refresh(self, is_refresh):
     if is_refresh:
       self.refresh_flag = 1
     else:
       self.refresh_flag = 0
+    
+    return self
   
+  """Redirect url
+    if message is set, show msg first then redirect to this url.
+  """
   def set_redirect(self, redirect_url):
     self.redirect_url = redirect_url
+    return self
   
   def set_error_flag(self, is_error):
     if is_error:
       self.error_flag = 1
     else:
       self.error_flag = 0
+    
+    return self
       
-      
+  """String message send to client
+    Success or fail message.
+  """
   def set_message(self, message):
     self.message = message
+    return self
   
   def get_json(self):
+    #ru: redirect_url, rf: refresh_flag, p: pagelets, d: extra_data
     pagelet_json_objects = [ p.get_json_object() for p in self.pagelets]
     result = {
       'r': self.error_flag,
       'msg': self.message,
-      'redirect': self.redirect_url,
-      'refresh': self.refresh_flag,
-      'pagelets': pagelet_json_objects
+      'ru': self.redirect_url,
+      'rf': self.refresh_flag,
+      'd': self.extra_data,
+      'p': pagelet_json_objects
     }
     return json.dumps(result)
   
@@ -66,28 +87,15 @@ class AjaxResponse(object):
     self.pagelets.append(pagelet)
 
 class Pagelet(object):
-  type_string = ''
-  instance_identity = ''
-  muckup = ''
-  construct_args = ''  #Should be a key-value based json object, not used at this moment.
+  znode = None
   ref_element = ''
   render_type = 'updating' # default set to updating, case most case is in the live query.
   render_position = 'append'
   event_type = ''
   event_args = '' #Should be json object.
   
-  def __init__(self, type_string, instance_identity = '', muckup = ''):
-    self.type_string = type_string
-    self.instance_identity = instance_identity
-    self.muckup = muckup
-    
-  def set_instance_identity(self, instance_identity):
-    self.instance_identity = instance_identity
-    return self
-    
-  def set_construct_arg_string(self, construct_arg_string):
-    self.construct_args = construct_arg_string
-    return self
+  def __init__(self, znode_instance):
+    self.znode = znode_instance
     
   def set_ref_element(self, ref_element):
     self.ref_element = ref_element
@@ -108,17 +116,18 @@ class Pagelet(object):
     return self
   
   def get_json_object(self):
-    return [
-      self.type_string,
-      self.instance_identity,
-      self.muckup,
-      self.construct_args,
+    # self.type_string,
+    # self.instance_identity,
+    # self.markup,
+    # self.child_nodes,
+    node_meta_json = self.znode.get_pagelet_meta()
+    return node_meta_json.extend([
       self.ref_element,
       self.render_type,
       self.render_position,
       self.event_type,
       self.event_args
-    ]
+    ])
 
 class LiveQueryProcessor(object):
   queries_ = []
@@ -135,18 +144,22 @@ class LiveQueryProcessor(object):
     return meta
   
   @classmethod 
-  def create_node_muckup(cls, node_name, meta_data, handler, config_data = {}): 
+  def create_node(cls, node_name, instance_identity, meta_data, handler): 
     nodes = {
       'demo':DemoNode
     }
     
-    if not isinstance(meta_data, basestring):
+    # NOTE: could be a dic.
+    if isinstance(meta_data, basestring):
       meta_data = cls.deserialize_meta(meta_data)
   
     if node_name in nodes.keys():
       node_ = nodes[node_name]
-      instance = node_(handler, meta = meta_data, config = config_data)
-      return instance.render()
+      instance = node_(handler, meta = meta_data)
+      if instance_identity:
+        instance.set_client_id(instance_identity)
+        
+      return instance
     
              
   def __init__(self, live_queries):
@@ -156,10 +169,14 @@ class LiveQueryProcessor(object):
     if not self.result_:
       pagelets = []
       for q in self.queries_:
-        pl = Pagelet(
-          q['type_string'], 
-          instance_identity = q['instance_id'], 
-          muckup = LiveQueryProcessor.create_node_muckup(q['type_string'], q["component_meta"], handler))
+        # t: type_string, i: instance_identity, m: meta_data, r: render_position, rf: ref element
+        pl = Pagelet(LiveQueryProcessor.create_node(q['t'], q['i'], q["m"], handler))
+        if q['rf']:
+          pl.set_ref_element(q['rf'])
+        
+        if q['r']:
+          pl.set_render_position(q['r'])
+        
         pagelets.append(pl)
         
       result = AjaxResponse()

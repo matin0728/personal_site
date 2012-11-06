@@ -48,17 +48,19 @@ class ParentsMap(Singleton):
       
     return 'z' + str(self.seed)
   
-  def set_parent(self, parent_id, child_id):
+  def set_parent(self, parent_id, child_node_info):
     if not parent_id in self.parents_map.keys():
-      self.parents_map[parent_id] = [child_id]
+      self.parents_map[parent_id] = [child_node_info]
     else:
-      self.parents_map[parent_id].append(child_id)
+      self.parents_map[parent_id].append(child_node_info)
       
   def get_json(self):
     return json.dumps(self.parents_map)
 
 class ZNode(object):
+  #Subclall will overide this from clienttype map(May be create by script).
   client_type = ''
+  #Auto generate.
   client_id = ''
   meta = {}
   template = ''
@@ -68,16 +70,22 @@ class ZNode(object):
   
   def __init__(self, current_handler, meta = {}, config = {}):
     self.client_id = ParentsMap().get_next_id()
-    self.client_id = 'ab'
-    self.config = config
+    #Not used at this moment.
+    self.config = config 
     self.meta = meta
     self.current_handler = current_handler
+    self.child_nodes = []
   
   def get_client_id(self):
     return self.client_id
+    
+  #NOTE: used for update existing component  
+  def set_client_id(self, client_id):
+    self.client_id = client_id
   
   def add_child(self, child_node):
-    ParentsMap().set_parent(self.get_client_id(), child_node.get_client_id())
+    self.child_nodes.append(child_node)
+    ParentsMap().set_parent(self.get_client_id(), [child_node.get_type(), child_node.get_client_id()])
     
   def get_view_data_item(self, key):
     if key in self.view_data.keys():
@@ -101,16 +109,33 @@ class ZNode(object):
       return self.meta[key]
       
     return None
-    
+  
+  def get_type(self):
+    return self.client_type
     
   def get_config(self, key):
     return self.config[key]
   
   def node_attribute(self):
-    return ' id="{0}" data-nodetype="{1}"'.format(self.client_id, self.client_type)
+    return ' id="{0}" data-nodetype="{1}"'.format(self.get_client_id(), self.get_type())
+      
+  def get_pagelet_meta(self):
+    # self.type_string,
+    # self.instance_identity,
+    # self.markup,
+    # self.child_nodes,
+    return [
+      self.get_type(),
+      self.get_client_id(),
+      self.render(),
+      self.child_nodes
+    ]    
       
   def render(self):
     self.fetch_data()
+    # #Add parents map.
+    # ParentsMap().set_parent(self.get_client_id(), self.child_nodes)
+    
     template = jinja_environment.get_template(self.template)
     self.set_view_data_item('uri_for', self.current_handler.uri_for)
     self.set_view_data_item('client_id', self.get_client_id())

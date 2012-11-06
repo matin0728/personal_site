@@ -24,7 +24,33 @@ class BaseHandler(webapp2.RequestHandler):
     if account:  
       self.current_account =  account 
       
-    return webapp2.RequestHandler.dispatch(self)
+    # return webapp2.RequestHandler.dispatch(self)
+    """Dispatches the request.
+
+    This will first check if there's a 'method_name' param, if present, 
+    call the method related.
+    """
+    request = self.request
+    method_name = request.get('method_name')
+    
+    if not method_name:
+      return super(BaseHandler, self).dispatch()
+
+    method = getattr(self, method_name, None)
+    if method:
+      args, kwargs = request.route_args, request.route_kwargs
+      if kwargs:
+          args = ()
+          
+      try:
+          return method(*args, **kwargs)
+      except Exception, e:
+          return self.handle_exception(e, self.app.debug)
+          
+    else:
+      valid = 'Methos not exists.'
+      self.abort(405, headers=[('Allow', valid)])
+    
   # @webapp2.cached_property
   def get_template_environment(self):
     jinja_environment = jinja2.Environment(
@@ -37,7 +63,7 @@ class BaseHandler(webapp2.RequestHandler):
     # response.set_message("Hello world!")
     # response.set_redirect('baidu.com')
     # response.set_refresh(False)
-    # p = Pagelet('test_type', instance_identity = 'abc', muckup = 'kkkk')
+    # p = Pagelet('test_type', instance_identity = 'abc', markup = 'kkkk')
     #  p.set_instance_identity('new_identity')
     #  p.set_render_type('some_type')
     #  p.set_render_position('positon')
@@ -73,6 +99,7 @@ class BaseHandler(webapp2.RequestHandler):
     
   def render(self, template, context=None):
     context = context or {}
+    # TODO: Add user role info for authentication purpose.
     extra_context = {
       'request': self.request,
       'uri_for': self.uri_for,
@@ -91,35 +118,7 @@ class BaseHandler(webapp2.RequestHandler):
     self.response.out.write(template.render(context))
     
   
-  #super(Route, self).xxxx()
-  def dispatch(self):
-    """Dispatches the request.
 
-    This will first check if there's a 'method_name' param, if present, 
-    call the method related.
-    """
-    request = self.request
-    method_name = request.get('method_name')
-    
-    if not method_name:
-      return super(BaseHandler, self).dispatch()
-
-    method = getattr(self, method_name, None)
-    if method:
-      args, kwargs = request.route_args, request.route_kwargs
-      if kwargs:
-          args = ()
-          
-      try:
-          return method(*args, **kwargs)
-      except Exception, e:
-          return self.handle_exception(e, self.app.debug)
-          
-    else:
-      valid = 'Methos not exists.'
-      self.abort(405, headers=[('Allow', valid)])
-      
-      
     # method_name = request.route.handler_method
     # if not method_name:
     #     method_name = _normalize_handler_method(request.method)

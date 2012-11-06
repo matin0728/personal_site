@@ -45,6 +45,7 @@ class ZNodeFeedItem(ZNode):
     a.set_view_data_item('relation', relation)
     self.add_child(a)
     return a.render()
+  
     
   def fetch_data(self):
     feed_data = self.get_view_data_item('feed_data')
@@ -54,10 +55,10 @@ class ZNodeFeedItem(ZNode):
 
     action_type = {'vote': " vote up the answer", 'focus': " focus the question"}
     #NOTE: Add extra data just for test only.
-
+    
+    feed_data['relation'] = QuestionService().get_question_relationship(self.current_handler.get_current_account().key, feed_data['question'])
     feed_data['question'] = EntityService().get(feed_data['question'])
     feed_data['answers'] = [EntityService().get(a) for a in feed_data['answers']]
-    feed_data['relation'] = QuestionService().get_question_relationship(self.current_handler.get_current_account().key, feed_data['question'].key)
     feed_data['actors'] = []
     feed_data['info'] = action_type[feed_data['action_type']]
     feed_data['render_answer'] = self.render_answer
@@ -101,6 +102,10 @@ class ZNodeFeedList(ZNode):
     EntityService().get_multi(question_ids)
     #NOTE: Multi get is apply for entity with different parent?
     EntityService().get_multi(answer_ids)
+    
+    # self.current_handler.response.out.write(feed_data)
+    # for f in feed_data:
+    #   self.render_feed_item(f)
 
   def render_feed_item(self, feed_item_data):
     #NOTE: Each feed should has a ID.
