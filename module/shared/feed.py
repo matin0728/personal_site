@@ -29,6 +29,7 @@ class ZNodeFeedItem(ZNode):
   # }
   # 
   template = 'feed_item.html'
+  client_type = 'ZH.ui.FeedItem'
   def fetch_data_internal(self):
     #get feed data from feed ID
     #self.feed_data = FeedService().get_by_id(self.get_meta('feed_id'))
@@ -72,7 +73,7 @@ class ZNodeFeedItem(ZNode):
     # self.set_view_data_item('info', action_type[self.view_data['action_type']])
 
 class ZNodeFeedList(ZNode):
-  client_type = 'Feed'
+  client_type = 'ZH.ui.FeedList'
   template = 'feed_list.html'
   def fetch_data(self):
     # print FeedService

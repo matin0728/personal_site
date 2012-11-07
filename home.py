@@ -11,6 +11,7 @@ class HomeHandler(BaseHandler):
   def get(self):
     question_list = Question.query().fetch()
     feed_list = ZNodeFeedList(self)
+    feed_list.set_root_node()
     context = {
       'question_list': question_list,
       'feed_list':feed_list.render()

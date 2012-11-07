@@ -161,7 +161,7 @@ class LiveQueryProcessor(object):
       instance = node_(handler, meta = meta_data)
       if instance_identity:
         instance.set_client_id(instance_identity)
-          
+         
       return instance
     
              
@@ -173,7 +173,10 @@ class LiveQueryProcessor(object):
       pagelets = []
       for q in self.queries_:
         # t: type_string, i: instance_identity, m: meta_data, r: render_position, rf: ref element
-        pl = Pagelet(LiveQueryProcessor.create_node(q['t'], q['i'], q["m"], handler))
+        #NOTE: whether update or create new node, this instance should always be trit as root element.
+        instance = LiveQueryProcessor.create_node(q['t'], q['i'], q["m"], handler)
+        instance.set_root_node()
+        pl = Pagelet(instance)
         if q['rf']:
           pl.set_ref_element(q['rf'])
         

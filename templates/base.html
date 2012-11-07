@@ -41,6 +41,7 @@
 goog.require('goog.module.ModuleManager');
 goog.require('ZH.main');
 goog.require('ZH.page.HomePage');
+goog.require('ZH.ui.FeedList');
 </script>
 {% endif %}
 <script>
@@ -50,8 +51,11 @@ goog.require('ZH.page.HomePage');
 // var logconsole = new goog.debug.DivConsole(goog.dom.getElement('log'));
 // logconsole.setCapturing(true);
 // var a = goog.dom.getElementByClass('page-element');
- ZH.main();
- ZH.setMap({{parents_map}});ZH.addRoot({{root_nodes}});
+
+ZH.setMap({{parents_map}});
+ZH.addRoot({{root_nodes}});
+ZH.main();
+
 </script>
 
 
