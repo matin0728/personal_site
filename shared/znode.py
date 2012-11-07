@@ -5,6 +5,7 @@ from google.appengine.api import users
 from service.entity import EntityService
 import time, datetime
 import json
+from client_type_map import CLIENT_TYPE_MAP
 
 jinja_environment = jinja2.Environment(
   loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates')))
@@ -42,12 +43,13 @@ class ParentsMap(Singleton):
   seed = None
   def get_next_id(self):
     if not self.seed:
-      start = time.mktime(datetime.datetime(2000,1,1,0,0,0).timetuple())
-      self.seed = int(time.time()) - int(start)
+      # start = time.mktime(datetime.datetime(2008,1,1,0,0,0).timetuple())
+      # self.seed = int(time.time()) - int(start)
+      self.seed = 100
     else:
       self.seed = self.seed + 1
       
-    return 'z' + str(self.seed)
+    return str(hex(self.seed))[1:]
   
   def set_parent(self, parent_id, child_node_info):
     if not parent_id in self.parents_map.keys():
@@ -127,13 +129,16 @@ class ZNode(object):
     return None
   
   def get_type(self):
+    return CLIENT_TYPE_MAP[self.client_type]
+    
+  def get_raw_type(self):
     return self.client_type
     
   def get_config(self, key):
     return self.config[key]
   
   def node_attribute(self):
-    return ' id="{0}" data-nodetype="{1}"'.format(self.get_client_id(), self.get_type())
+    return ' id="{0}" '.format(self.get_client_id())
       
   def get_pagelet_meta(self):
     # self.type_string,
