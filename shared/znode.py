@@ -10,40 +10,32 @@ from client_type_map import CLIENT_TYPE_MAP
 jinja_environment = jinja2.Environment(
   loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates')))
 
-# class ZContext(object):
-#   questions = {}
-#   answers = {}
-#   def get_question(self, question_id):
-#     pass
-#     
-#   def get_answer(self, answer_id):
-#     pass
-#   
-#   #Each entity type needs a method like this.  
-#   def batch_fetch_question(self, question_id_set = []):
-#     keys = question.keys()
-#     keys_to_fetch = []
-#     for k in question_id_set:
-#       if not k in keys:
-#         keys_to_fetch.append(k)
-#     get_multi
         
 class ParentsMap(object):
+  str_list = 'qwertyuiopasdfghjklzxcvbnm1234567890'
   def __init__(self):
     super(ParentsMap, self).__init__()
     self.parents_map_ = {}
     self.root_nodes_ = []
     self.seed_ = None
     
-  def get_next_id(self):
+  def map_name_(self, str_index):
+    s = []
+    t = str_index
+    while t > 0:
+        p = (t % 36)
+        s.append(self.str_list[p])
+        t /= 36
+        
+    return ''.join(s)
+    
+  def get_next_id(self, str_type):
     if not self.seed_:
-      # start = time.mktime(datetime.datetime(2008,1,1,0,0,0).timetuple())
-      # self.seed = int(time.time()) - int(start)
-      self.seed_ = 100
+      self.seed_ = int(time.time()*10) - int(time.mktime(datetime.datetime(2012,1,1,0,0,0).timetuple())*10)
     else:
       self.seed_ = self.seed_ + 1
-      
-    return str(hex(self.seed_))[1:]
+        
+    return str_type + self.map_name_(self.seed_)
   
   def set_parent(self, parent_id, child_node_info):
     if not parent_id in self.parents_map_.keys():
@@ -82,7 +74,7 @@ class ZNode(object):
     self.child_nodes = []
     self.parents_map = self.current_handler.get_parents_map()
     #Auto generate.
-    self.client_id = self.parents_map.get_next_id()
+    self.client_id = self.parents_map.get_next_id(CLIENT_TYPE_MAP[self.client_type])
   
   def get_client_id(self):
     return self.client_id
