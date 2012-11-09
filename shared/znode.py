@@ -146,10 +146,10 @@ class ZNode(object):
     self.fetch_data()
     
     template = jinja_environment.get_template(self.template)
+    # Global data, is accessable for all template, 
+    # Future, we need user roles data to control admin func display.
     self.set_view_data_item('uri_for', self.current_handler.uri_for)
-    self.set_view_data_item('client_id', self.get_client_id())
     self.set_view_data_item('node_attribute', self.node_attribute)
-    self.set_view_data_item('get', EntityService().get)
     return template.render(self.view_data)
     
     

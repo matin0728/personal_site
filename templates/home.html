@@ -2,9 +2,9 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<div class="main-wrap page-element" data-module="home">
-    <div class="main">
-        <div class="main-inner">
+<div class="layout-wrap layout-main page-element" data-module="home">
+    <div class="layout-main-content">
+        <div class="layout-main-content-inner">
             <h1>Home page</h1>
             <p>
                 <a href="{{ uri_for('question.add') }}">Add new question</a>
@@ -12,7 +12,7 @@
             {{feed_list}}
         </div>
     </div>
-    <div class="sidebar">
+    <div class="layout-sidebar">
         {% call side_block('First block!') %}
         This is a first side block.
         {% endcall %}

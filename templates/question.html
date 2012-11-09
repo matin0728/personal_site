@@ -2,9 +2,9 @@
 {% block title %}Question List{% endblock %}
 {% block content %}
 
-<div class="main-wrap">
-    <div class="main">
-        <div class="main-inner">
+<div class="layout-wrap layout-main page-element" data-module="question">
+    <div class="layout-main-content">
+        <div class="layout-main-content-inner">
             <p><a href="{{ uri_for('home') }}">&lt;&lt; 全部问题</a></p>
             <h1>{{current_question.title}}</h1>
             <!-- <h3>Description</h3> -->
@@ -44,7 +44,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="sidebar">
+    <div class="layout-sidebar">
         {% call side_block('First block!') %}
         Question page sidebar.
         {% endcall %}

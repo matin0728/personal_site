@@ -2,11 +2,18 @@
 <html lang="zh-CN">
 <head>
     <title>{% block title %}{% endblock %} - Shaca's Personal Site'</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/v3/less/main.css" />
+    <!-- style overide or not in production components. -->
     <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
     {% if config['is_debug'] %}
     <script src="/static/js/closure-library-new/closure/goog/base.js"></script>
     <script src="/static/js/v3/c/deps.js"></script>
+    <style>
+    .znode:hover{
+        box-shadow: 0 0 3px rgba(63, 126, 197, 1);
+    }
+    </style>
     {% else %}
     <script src="/static/js/c/{{ config['static_file_version'] }}/app.js"></script>
     {% endif %}
@@ -21,11 +28,16 @@
     </div>
 </div>
 {%- endmacro %}
-<div class="header" id="header">
-    <div class="header-inner">
-        <h1>Welcome to Shaca's website!'</h1>
+<div class="page-header" id="page-header">
+    <div class="layout-wrap" id="page-header-inner">
+        <h1>
+            <a href="/" class="page-header-link-logo" id="page-header-link-logo" name="page-header-link-logo"></a>
+        </h1>
+        <div id="page-header-new-pm" style="display:none"></div>
+
     </div>
 </div>
+
 {% block content %}
 {% endblock %}
 <div id="footer" class="footer">
