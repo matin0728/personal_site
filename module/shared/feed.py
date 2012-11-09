@@ -10,6 +10,8 @@ from service.entity import EntityService
 from service.question import QuestionService
 from answer import *
 
+from shared.znode import *
+
 class ZNodeFeedItem(ZNode):
   # meta should contains following data.
   # meta = {
@@ -28,8 +30,9 @@ class ZNodeFeedItem(ZNode):
   #  'action_type' : 'vote'
   # }
   # 
-  template = 'feed_item.html'
+  template_ = 'feed_item.html'
   client_type = 'ZH.ui.FeedItem'
+    
   def fetch_data_internal(self):
     #get feed data from feed ID
     #self.feed_data = FeedService().get_by_id(self.get_meta('feed_id'))
@@ -73,8 +76,11 @@ class ZNodeFeedItem(ZNode):
     # self.set_view_data_item('info', action_type[self.view_data['action_type']])
 
 class ZNodeFeedList(ZNode):
+  template_ = 'feed_list.html'
   client_type = 'ZH.ui.FeedList'
-  template = 'feed_list.html'
+  
+  # client_type = 'ZH.ui.FeedList'
+  # template = 'feed_list.html'
   def fetch_data(self):
     # print FeedService
     feed_data = FeedService().get_feed(self.get_meta('start'))

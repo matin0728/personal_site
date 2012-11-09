@@ -5,12 +5,15 @@ from google.appengine.api import users
 from model.account import Account
 from service.entity import EntityService
 from pagelet_processor import *
-from znode import *
 from app_config import *
 
 class BaseHandler(webapp2.RequestHandler):
-  pagelet_processor_ = None
-  current_account = None
+  def __init__(self,application, request, **kwargs):  
+    super(BaseHandler, self).__init__(application, request, **kwargs)
+    self.pagelet_processor_ = None
+    self.parents_map_ = None
+    self.current_account = None
+    
   def get_current_account(self):
     return self.current_account
     
@@ -75,12 +78,16 @@ class BaseHandler(webapp2.RequestHandler):
     #  pp.set_instance_identity('qqqqq')
     
     self.output_ajax_response(response)
+  
+  def get_parents_map(self):
+    if not self.parents_map_:
+      self.parents_map_ = ParentsMap()
+      
+    return self.parents_map_
     
   def get_ajax_response(self):
     if not self.pagelet_processor_:
       queries = self.request.get('live_components')
-      #self.response.out.write(queries)
-      #return
       self.pagelet_processor_ = LiveQueryProcessor(queries)
       
     return self.pagelet_processor_.get_response(self)
@@ -104,8 +111,8 @@ class BaseHandler(webapp2.RequestHandler):
       'request': self.request,
       'uri_for': self.uri_for,
       'config': SITE_CONFIG,
-      'parents_map': ParentsMap().get_json(),
-      'root_nodes': ParentsMap().get_root_nodes_json()
+      'parents_map': self.get_parents_map().get_json(),
+      'root_nodes': self.get_parents_map().get_root_nodes_json()
     }
     #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
     # don't get entity on template.

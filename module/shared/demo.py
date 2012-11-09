@@ -10,7 +10,8 @@ from shared.znode import ZNode
 # from service.question import QuestionService
 
 class DemoNode(ZNode):
-  template = 'demo_node.html'
+  template_ = 'demo_node.html'
+    
   def fetch_data_internal(self):
     pass
     

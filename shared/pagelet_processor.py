@@ -14,12 +14,13 @@ class AjaxResponse(object):
   # this.message = result["msg"];
   # this.redirectUrl = result["redirect"];
   # this.refreshFlag = result["refresh"];
-  error_flag = 0
-  message = ''
-  redirect_url = ''
-  refresh_flag = 0
-  pagelets = []
-  extra_data = None
+  def __init__(self):
+    self.error_flag = 0
+    self.message = ''
+    self.redirect_url = ''
+    self.refresh_flag = 0
+    self.pagelets = []
+    self.extra_data = None
   
   """Extra json data object send to client.
     Custom json data.
@@ -90,15 +91,14 @@ class AjaxResponse(object):
     self.pagelets.append(pagelet)
 
 class Pagelet(object):
-  znode = None
-  ref_element = ''
-  render_type = 'updating' # default set to updating, case most case is in the live query.
-  render_position = 'append'
-  event_type = ''
-  event_args = '' #Should be json object.
   
   def __init__(self, znode_instance):
     self.znode = znode_instance
+    self.ref_element = ''
+    self.render_type = 'updating' # default set to updating, case most case is in the live query.
+    self.render_position = 'append'
+    self.event_type = ''
+    self.event_args = '' #Should be json object.
     
   def set_ref_element(self, ref_element):
     self.ref_element = ref_element
@@ -133,9 +133,10 @@ class Pagelet(object):
     ])
 
 class LiveQueryProcessor(object):
-  queries_ = []
-  result_ = None
-  
+  def __init__(self, live_queries):
+    self.queries_ = json.loads(live_queries)
+    self.result_ = None
+    
   @classmethod 
   def deserialize_meta(cls, meta_data):
     meta = {}
@@ -164,9 +165,6 @@ class LiveQueryProcessor(object):
          
       return instance
     
-             
-  def __init__(self, live_queries):
-    self.queries_ = json.loads(live_queries)
         
   def get_response(self, handler):      
     if not self.result_:

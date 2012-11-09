@@ -27,72 +27,62 @@ jinja_environment = jinja2.Environment(
 #       if not k in keys:
 #         keys_to_fetch.append(k)
 #     get_multi
-
-
-class Singleton(object):
-    _instance = None
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super(Singleton, cls).__new__(
-                                cls, *args, **kwargs)
-        return cls._instance
         
-class ParentsMap(Singleton):
-  parents_map = {}
-  root_nodes = []
-  seed = None
+class ParentsMap(object):
+  def __init__(self):
+    super(ParentsMap, self).__init__()
+    self.parents_map_ = {}
+    self.root_nodes_ = []
+    self.seed_ = None
+    
   def get_next_id(self):
-    if not self.seed:
+    if not self.seed_:
       # start = time.mktime(datetime.datetime(2008,1,1,0,0,0).timetuple())
       # self.seed = int(time.time()) - int(start)
-      self.seed = 100
+      self.seed_ = 100
     else:
-      self.seed = self.seed + 1
+      self.seed_ = self.seed_ + 1
       
-    return str(hex(self.seed))[1:]
+    return str(hex(self.seed_))[1:]
   
   def set_parent(self, parent_id, child_node_info):
-    if not parent_id in self.parents_map.keys():
-      self.parents_map[parent_id] = [child_node_info]
+    if not parent_id in self.parents_map_.keys():
+      self.parents_map_[parent_id] = [child_node_info]
     else:
-      self.parents_map[parent_id].append(child_node_info)
+      self.parents_map_[parent_id].append(child_node_info)
   
   def get_parents_map(self):
-    return self.parents_map
+    return self.parents_map_
       
   def get_json(self):
-    return json.dumps(self.parents_map)
+    return json.dumps(self.parents_map_)
     
-  def add_root_node(self, node_client_id):
-    self.root_nodes.append(node_client_id)
+  def add_root_node(self, node_info):
+    self.root_nodes_.append(node_info)
   
   def get_root_nodes(self):
-    return self.root_nodes
+    return self.root_nodes_
     
   def get_root_nodes_json(self):
-    return json.dumps(self.root_nodes)
+    return json.dumps(self.root_nodes_)
 
+#NOTE: Do we need provide a method to set template name at runtime?
 class ZNode(object):
-  #Subclall will overide this from clienttype map(May be create by script).
+  template_ = ''
   client_type = ''
-  #Auto generate.
-  client_id = ''
-  meta = {}
-  template = ''
-  config = {}
-  view_data = {}
-  current_handler = None
-  
   def set_root_node(self):
-    ParentsMap().add_root_node([self.get_client_id(), self.get_type()])
+    self.parents_map.add_root_node([self.get_type(), self.get_client_id()])
   
   def __init__(self, current_handler, meta = {}, config = {}):
-    self.client_id = ParentsMap().get_next_id()
-    #Not used at this moment.
+    self.view_data = {}
+    self.template = self.template_
     self.config = config 
     self.meta = meta
     self.current_handler = current_handler
     self.child_nodes = []
+    self.parents_map = self.current_handler.get_parents_map()
+    #Auto generate.
+    self.client_id = self.parents_map.get_next_id()
   
   def get_client_id(self):
     return self.client_id
@@ -103,7 +93,7 @@ class ZNode(object):
   
   def add_child(self, child_node):
     self.child_nodes.append(child_node)
-    ParentsMap().set_parent(self.get_client_id(), [child_node.get_type(), child_node.get_client_id()])
+    self.parents_map.set_parent(self.get_client_id(), [child_node.get_type(), child_node.get_client_id()])
     
   def get_view_data_item(self, key):
     if key in self.view_data.keys():
@@ -154,8 +144,6 @@ class ZNode(object):
       
   def render(self):
     self.fetch_data()
-    # #Add parents map.
-    # ParentsMap().set_parent(self.get_client_id(), self.child_nodes)
     
     template = jinja_environment.get_template(self.template)
     self.set_view_data_item('uri_for', self.current_handler.uri_for)

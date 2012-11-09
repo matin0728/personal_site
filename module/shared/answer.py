@@ -8,8 +8,11 @@ from shared.znode import ZNode
 from service import *
 
 class ZNodeVote(ZNode):
+  template_ = 'vote.html'
   client_type = 'ZH.ui.VoteBar'
-  template = 'vote.html'
+    
+  # client_type = 'ZH.ui.VoteBar'
+  # template = 'vote.html'
   # meta = {
   #   'question_id',
   #   'answer_id'
@@ -32,8 +35,11 @@ class ZNodeVote(ZNode):
       self.fetch_data_internal()
       
 class ZNodeAnswerMeta(ZNode):
+  template_ = 'answer_meta.html'
   client_type = 'ZH.ui.AnswerMeta'
-  template = 'answer_meta.html'
+    
+  # client_type = 'ZH.ui.AnswerMeta'
+  # template = 'answer_meta.html'
   # meta = {
   #   'question_id',
   #   'answer_id'
@@ -57,7 +63,7 @@ class ZNodeAnswerMeta(ZNode):
 
 class ZNodeAnswer(ZNode):
   client_type = 'ZH.ui.Answer'
-  template = 'answer.html'
+  template_ = 'answer.html'
   # meta = {
   #   'question_id',
   #   'answer_id'
