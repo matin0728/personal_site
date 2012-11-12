@@ -10,7 +10,7 @@ from app_config import *
 class BaseHandler(webapp2.RequestHandler):
   def __init__(self,application, request, **kwargs):  
     super(BaseHandler, self).__init__(application, request, **kwargs)
-    self.pagelet_processor_ = None
+    self.ajax_response_ = None
     self.parents_map_ = None
     self.current_account = None
     
@@ -86,16 +86,22 @@ class BaseHandler(webapp2.RequestHandler):
     return self.parents_map_
     
   def get_ajax_response(self):
-    if not self.pagelet_processor_:
+    if not self.ajax_response_:
       queries = self.request.get('live_components')
-      self.pagelet_processor_ = LiveQueryProcessor(queries)
+      processor = LiveQueryProcessor(queries)
+      response_ = processor.get_response(self)
+      self.ajax_response_ = response_
       
-    return self.pagelet_processor_.get_response(self)
+    return self.ajax_response_
     
   def output_ajax_response(self, response):
     #strs = [ p.get_json_string() for p in pagelets]
     self.response.out.write(response.get_json())
-        
+    
+  def on_create_node(self, new_node):
+    #OVERRIGHT this method to filter node or append node before/after
+    return True
+  
   def set_error(self, error):
     #TODO: Complete this method
     # in_ajax = 'inajax' in self.request.headers.keys()
@@ -104,6 +110,10 @@ class BaseHandler(webapp2.RequestHandler):
       
     self.response.out.write('{"r":1, "msg":"Server error."}')
     
+  def get_pagelets(self):
+    response = self.get_ajax_response()
+    return response.get_pagelet_json_objects()
+  
   def render(self, template, context=None):
     context = context or {}
     # TODO: Add user role info for authentication purpose.
@@ -112,7 +122,8 @@ class BaseHandler(webapp2.RequestHandler):
       'uri_for': self.uri_for,
       'config': SITE_CONFIG,
       'parents_map': self.get_parents_map().get_json(),
-      'root_nodes': self.get_parents_map().get_root_nodes_json()
+      'root_nodes': self.get_parents_map().get_root_nodes_json(),
+      'pagelets': json.dumps(self.get_pagelets())
     }
     #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
     # don't get entity on template.

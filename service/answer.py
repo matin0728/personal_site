@@ -8,6 +8,7 @@ from model.question import Question
 from model.accountxquestion import AccountXQuestion
 from singleton import Singleton
 from base_service import BaseService
+from entity import EntityService
 
 class AnswerService(Singleton, BaseService):
   def votedown_answer(self, actor, question_id, answer_id):
@@ -67,8 +68,12 @@ class AnswerService(Singleton, BaseService):
     relation = AccountXQuestion.query(ancestor = question.key).filter(AccountXQuestion.account == actor.key).get()
     relation.no_help_answers = [ a for a in relation.no_help_answers if a != answer.key ]
     relation.put() 
+    
+  def get_answers_by_question_key(self, question_key, keys_only = True):
+    answers = Answer.query(ancestor = question_key).fetch(keys_only = keys_only)
+    return answers
 
-  def get_answer_by_question(self, question_id):
+  def get_answers_by_question_id(self, question_id):
     #don't need call entity service for single get operation
     question = Question.get_by_id(int(question_id))
     answers = Answer.query(ancestor = question.key).fetch()

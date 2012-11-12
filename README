@@ -1,29 +1,56 @@
-This is matin0728's personal website.
+ZNode template:
 
-Contents on this site:
+import webapp2
+import jinja2
+import os
+from google.appengine.ext import ndb
+from model.question import *
+from model.answer import *
+from shared.znode import ZNode
+from service.entity import EntityService
+from service.question import QuestionService
+from answer import *
 
-1. Demo codes. xxcc
-2. Html and js Demos xcv
-3. Blog entries. xcc
-4. Other funny stuff. xvvv
-hahahah
-1. Demo codes.   
-2. Html and js Demos   
-3. Blog entries.
-4. Other funny stuff.
- 1. Demo codes.   
- 2. Html and js Demos   
- 3. Blog entries.
- 4. Other funny stuff.
-kkkk
-some new content.
-iisdfs
- 
-dfdf
-dfddf
-sdfsd
-fs
-df
-df
-d
-f
+from shared.znode import *
+
+class ZNodeFeedItem(ZNode):
+  # meta should contains following data.
+  # meta = {
+  #   'feed_id',
+  #   'question_id',
+  #   'answer_ids'
+  #   'answer_num'
+  # }
+  
+  # view_data should contains(at least) following field.
+  # view_data = {
+  #  'question' : None
+  #  'answers' : []
+  #  'relation' : None
+  #  'actors' : []
+  #  'action_type' : 'vote'
+  # }
+  # 
+  template_ = 'feed_item.html'
+  client_type = 'ZH.ui.FeedItem'
+    
+  def fetch_data_internal(self):
+    #get feed data from feed ID
+    #self.feed_data = FeedService().get_by_id(self.get_meta('feed_id'))
+    pass
+  
+  def render_answer(self, answer, relation):
+    meta = {
+      # NOTE: we needn't to set the question_id, case it is set on it's parent or ancestor.
+      # 'question_id':self.get_meta('question_id'),
+      'answer_id': answer.key.id()
+    }
+    a = ZNodeAnswer(self.current_handler, meta = meta)
+    a.set_view_data_item('answer', answer)
+    a.set_view_data_item('relation', relation)
+    self.add_child(a)
+    return a.render()
+  
+    
+  def fetch_data(self):
+    pass

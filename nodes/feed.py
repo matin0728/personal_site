@@ -12,6 +12,11 @@ from answer import *
 
 from shared.znode import *
 
+
+class ZNodeFeedMeta(ZNode):
+  template_ = 'feed_meta.html'
+  client_type = 'ZH.ui.FeedMeta'
+
 class ZNodeFeedItem(ZNode):
   # meta should contains following data.
   # meta = {
@@ -32,6 +37,10 @@ class ZNodeFeedItem(ZNode):
   # 
   template_ = 'feed_item.html'
   client_type = 'ZH.ui.FeedItem'
+  
+  def render_feed_meta(self):
+    #TODO
+    return '<div>NOT IMP YET: Feed operations area.</div.'
     
   def fetch_data_internal(self):
     #get feed data from feed ID
@@ -66,6 +75,7 @@ class ZNodeFeedItem(ZNode):
     feed_data['actors'] = []
     feed_data['info'] = action_type[feed_data['action_type']]
     feed_data['render_answer'] = self.render_answer
+    feed_data['render_feed_meta'] = self.render_feed_meta
 
     self.set_view_data(feed_data)
     
@@ -75,20 +85,15 @@ class ZNodeFeedItem(ZNode):
     # self.set_view_data_item('actors', [])
     # self.set_view_data_item('info', action_type[self.view_data['action_type']])
 
-class ZNodeFeedList(ZNode):
+class ZNodeFeedListBase(ZNode):
   template_ = 'feed_list.html'
   client_type = 'ZH.ui.FeedList'
-  
-  # client_type = 'ZH.ui.FeedList'
-  # template = 'feed_list.html'
   def fetch_data(self):
-    # print FeedService
-    feed_data = FeedService().get_feed(self.get_meta('start'))
-    self.set_view_data_item('feeds', feed_data)
-    self.set_view_data_item('render_feed_item', self.render_feed_item)
-    
-    #NOTE: We should IMP a collection class to provide data batch fetching mechanism, 
-    #'Feed like' list can reuse this class for data initialization.
+    feed_data = self.get_view_data_item('feeds')
+    if not feed_data:
+      self.fetch_data_internal()
+      
+    feed_data = self.get_view_data_item('feeds')
     
     question_ids = []
     answer_ids = []      
@@ -107,8 +112,10 @@ class ZNodeFeedList(ZNode):
     
     #pre fetch data:
     EntityService().get_multi(question_ids)
-    #NOTE: Multi get is apply for entity with different parent?
+    #NOTE: Multi get is apply for entity with different parent?Yes, fetch by key.
     EntityService().get_multi(answer_ids)
+    
+    self.set_view_data_item('render_feed_item', self.render_feed_item)
     
     # self.current_handler.response.out.write(feed_data)
     # for f in feed_data:
@@ -128,8 +135,9 @@ class ZNodeFeedList(ZNode):
     return f.render()
     
 
-
-    
+class ZNodeHomeFeedList(ZNodeFeedListBase):
+    def fetch_data_internal(self):
+      self.set_view_data_item('feeds', FeedService().get_feed(self.get_meta('start')))
     
     
     

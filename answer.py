@@ -2,7 +2,7 @@
 
 import webapp2
 from google.appengine.api import users
-from shared import *
+from shared.base_handler import BaseHandler
 from model import *
 from service import *
 # from model.answer import Answer

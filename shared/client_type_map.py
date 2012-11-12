@@ -7,6 +7,8 @@ CLIENT_TYPE_MAP = {
 "ZH.page.QuestionPage":"z4",
 "ZH.common.LiveComponent":"z5",
 "ZH.ui.Answer":"z6",
+"ZH.ui.AnswerEditForm":"z18",
+"ZH.ui.AnswerList":"z19",
 "ZH.ui.AnswerMeta":"z7",
 "ZH.ui.AsyncMenuWrap":"z8",
 "ZH.ui.CommentForm":"z9",

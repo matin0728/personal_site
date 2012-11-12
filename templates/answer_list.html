@@ -1,0 +1,5 @@
+<div class="answer_list"{{node_attribute()}}>
+    {% for a in answers %}
+    {{ render_answer(a, relation) }}
+    {% endfor %}
+</div>

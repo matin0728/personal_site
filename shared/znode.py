@@ -14,10 +14,11 @@ jinja_environment = jinja2.Environment(
 class ParentsMap(object):
   str_list = 'qwertyuiopasdfghjklzxcvbnm1234567890'
   def __init__(self):
-    super(ParentsMap, self).__init__()
     self.parents_map_ = {}
     self.root_nodes_ = []
     self.seed_ = None
+    super(ParentsMap, self).__init__()
+    
     
   def map_name_(self, str_index):
     s = []
@@ -61,31 +62,56 @@ class ParentsMap(object):
 #NOTE: Do we need provide a method to set template name at runtime?
 class ZNode(object):
   template_ = ''
-  client_type = ''
+  client_type = 'ZH.common.LiveComponent'
   def set_root_node(self):
-    self.parents_map.add_root_node([self.get_type(), self.get_client_id()])
+    self.get_handler().get_parents_map().add_root_node([self.get_type(), self.get_client_id()])
   
-  def __init__(self, current_handler, meta = {}, config = {}):
+  """A creation filter.
+  handler can add node near the new node or return false to prevent new node to be 
+  created.
+  """
+  def on_create_node(self, new_node):
+    handler = self. get_handler()
+    if handler.on_create_node(new_node):
+      return new_node
+    else:
+      return None
+  
+  def __init__(self, current_handler, meta = {}):
     self.view_data = {}
     self.template = self.template_
-    self.config = config 
+    # self.config = config 
     self.meta = meta
     self.current_handler = current_handler
     self.child_nodes = []
     self.parents_map = self.current_handler.get_parents_map()
     #Auto generate.
     self.client_id = self.parents_map.get_next_id(CLIENT_TYPE_MAP[self.client_type])
+    self.parent_ = None
   
   def get_client_id(self):
     return self.client_id
     
+  def get_handler(self):
+    return self.current_handler
+    
   #NOTE: used for update existing component  
   def set_client_id(self, client_id):
     self.client_id = client_id
+    
+  def get_client_id(self):
+    return self.client_id
+    
+  def get_parent(self):
+    return self.parent_
+    
+  def set_parent(self, parent_node):
+    self.parent_ = parent_node
   
   def add_child(self, child_node):
+    child_node.set_parent(self)
     self.child_nodes.append(child_node)
-    self.parents_map.set_parent(self.get_client_id(), [child_node.get_type(), child_node.get_client_id()])
+    self.get_handler().get_parents_map().set_parent(self.get_client_id(), [child_node.get_type(), child_node.get_client_id()])
     
   def get_view_data_item(self, key):
     if key in self.view_data.keys():
@@ -101,12 +127,17 @@ class ZNode(object):
     self.template = template
       
   def fetch_data(self):
-    #NOTE: Subclass will override this method.
+    #NOTE: Subclass will override self method.
     pass
+    
+  def set_meta(self, key, value):
+    self.meta[key] = value
     
   def get_meta(self, key):
     if key in self.meta:
       return self.meta[key]
+    elif self.get_parent():
+      return self.get_parent().get_meta(key)
       
     return None
   
@@ -116,17 +147,25 @@ class ZNode(object):
   def get_raw_type(self):
     return self.client_type
     
-  def get_config(self, key):
-    return self.config[key]
+  # def get_config(self, key):
+  #   return self.config[key]
   
   def node_attribute(self):
-    return ' id="{0}" '.format(self.get_client_id())
+    meta_data = self.meta
+    m = '&'.join(['{0}={1}'.format(k, meta_data[k]) for k in meta_data ])
+    return ' id="{0}" data-meta="{1}"'.format(self.get_client_id(), m)
       
   def get_pagelet_meta(self):
     # self.type_string,
     # self.instance_identity,
     # self.markup,
     # self.child_nodes,
+    return [
+      self.get_type(),
+      self.get_client_id(),
+      self.render()
+    ]
+    # TODO: WHY child nodes here ? Do we need this method?
     return [
       self.get_type(),
       self.get_client_id(),

@@ -52,8 +52,13 @@
 // goog.require('goog.debug.LogManager');
 goog.require('goog.module.ModuleManager');
 goog.require('ZH.main');
+
+goog.require('ZH.entryHome');
 goog.require('ZH.page.HomePage');
 goog.require('ZH.ui.FeedList');
+
+goog.require('ZH.entryQuestion');
+goog.require('ZH.page.QuestionPage');
 </script>
 {% endif %}
 <script>
@@ -64,10 +69,10 @@ goog.require('ZH.ui.FeedList');
 // logconsole.setCapturing(true);
 // var a = goog.dom.getElementByClass('page-element');
 
-ZH.setMap({{parents_map}});
-ZH.addRoot({{root_nodes}});
-ZH.main();
-
+ZH.s____p({{parents_map}});
+ZH.a_____t({{root_nodes}});
+ZH.m__n();
+ZH.p____________t({{pagelets}});
 </script>
 
 

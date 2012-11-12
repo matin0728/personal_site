@@ -12,8 +12,8 @@ from shared.znode import ZNode
 class DemoNode(ZNode):
   template_ = 'demo_node.html'
     
-  def fetch_data_internal(self):
-    pass
-    
-  def fetch_data(self):
-    pass
+  # def fetch_data_internal(self):
+  #   pass
+  #   
+  # def fetch_data(self):
+  #   pass

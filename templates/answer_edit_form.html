@@ -1,0 +1,13 @@
+<div{{node_attribute()}}>
+    <form method="post" action="{{ uri_for('question.add_answer', question_id = question.key.id()) }}" class="answer-post-form">
+        <legend>Create new answer</legend>
+        <label>Content</label>
+        <textarea name="source" rows="15" style="width:61.8%" placeholder="Type your answer here…"></textarea>
+        <span class="help-block">You can provide one answer for each question.</span>
+        <!-- <label class="checkbox">
+          <input type="checkbox"> Make anonymouse
+        </label> -->
+        <button type="submit" class="btn">Add Answer</button>
+    </form>
+</div>
+

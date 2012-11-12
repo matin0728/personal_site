@@ -1,56 +1,8 @@
-{% extends 'base.html' %}
-{% block title %}Question List{% endblock %}
-{% block content %}
+{% extends 'question_base.html' %}
+{% block question_main %}
+{{ render_answer_list }}
+{{ render_answer_edit_form }}
 
-<div class="layout-wrap layout-main page-element" data-module="question">
-    <div class="layout-main-content">
-        <div class="layout-main-content-inner">
-            <p><a href="{{ uri_for('home') }}">&lt;&lt; 全部问题</a></p>
-            <h1>{{current_question.title}}</h1>
-            <!-- <h3>Description</h3> -->
-            <p>
-               {{current_question.description}}
-            </p>
-            <div class="alert alert-info">
-                <a href="{{ uri_for('question.edit', question_id = current_question.key.id()) }}" class="btn">修改</a> 
-                <a href="{{ uri_for('question.delete', question_id = current_question.key.id()) }}" onclick="javascript:return confirm('确定要删除此问题？')" class="btn">删除</a>
-            </div>
-            <div class="question_statistic">
-                <h4>{{ current_question.answers_num }} 个答案<h4>
-            </div>
-            <div class="answer_list">
-                <!-- for answer in answers -->
-                {% import 'macro_answer.html' as answer_tpl %}
-                {% for a in answers %}
-                {{ answer_tpl.answer(a, relation, uri_for) }}
-                {% endfor %}
-                <!-- endfor -->
-            </div>
-            {% if can_create_answer %}
-            <form method="post" action="{{ uri_for('question.add_answer', question_id = current_question.key.id()) }}" class="answer-post-form">
-                <legend>Create new answer</legend>
-                <label>Content</label>
-                <textarea name="source" rows="15" style="width:61.8%" placeholder="Type your answer here…"></textarea>
-                <span class="help-block">You can provide one answer for each question.</span>
-                <!-- <label class="checkbox">
-                  <input type="checkbox"> Make anonymouse
-                </label> -->
-                <button type="submit" class="btn">Add Answer</button>
-            </form>
-            {% else %}
-            <p class="alert alert-info">
-                You have answered this question.
-            </p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="layout-sidebar">
-        {% call side_block('First block!') %}
-        Question page sidebar.
-        {% endcall %}
-    </div>
-    <div class="clearfix"></div>
-</div>
 {% endblock %}
 
     

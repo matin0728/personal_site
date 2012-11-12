@@ -2,7 +2,7 @@
 # import jinja2
 import os
 import json
-from module.shared import *
+# from module.shared import *
 from znode import ParentsMap
 
 # from google.appengine.api import users
@@ -58,10 +58,14 @@ class AjaxResponse(object):
   def set_message(self, message):
     self.message = message
     return self
+    
+  def get_pagelet_json_objects(self):
+    pagelet_json_objects = [ p.get_json_object() for p in self.pagelets]
+    return pagelet_json_objects
   
   def get_json(self):
     #ru: redirect_url, rf: refresh_flag, p: pagelets, d: extra_data, rn:root_nodes, mp: parents_map
-    pagelet_json_objects = [ p.get_json_object() for p in self.pagelets]
+
     result = {
       'r': self.error_flag,
       'msg': self.message,
@@ -70,7 +74,7 @@ class AjaxResponse(object):
       'd': self.extra_data,
       'mp': ParentsMap().get_parents_map(),
       'rn': ParentsMap().get_root_nodes(),
-      'p': pagelet_json_objects
+      'p': self.get_pagelet_json_objects()
     }
     return json.dumps(result)
   
@@ -90,13 +94,24 @@ class AjaxResponse(object):
   def add_pagelet(self, pagelet):
     self.pagelets.append(pagelet)
 
+class PAGELET_RENDER_TYPE(object):
+    UPDATING = 'updating'
+    DECORATION = 'decoration'
+    
+class PAGELET_RENDER_POSITION(object):
+  INNER = 'inner'
+  APPEND = 'append'
+  BEFORE = 'before'
+  AFTER = 'after'
+
 class Pagelet(object):
-  
   def __init__(self, znode_instance):
     self.znode = znode_instance
     self.ref_element = ''
-    self.render_type = 'updating' # default set to updating, case most case is in the live query.
-    self.render_position = 'append'
+    # default set to decoration, case most use case is in the handler, to append
+    # extra pagelet to page, and in live query, default set to UPDATING.
+    self.render_type = PAGELET_RENDER_TYPE.DECORATION
+    self.render_position = PAGELET_RENDER_POSITION.BEFORE
     self.event_type = ''
     self.event_args = '' #Should be json object.
     
@@ -123,18 +138,29 @@ class Pagelet(object):
     # self.instance_identity,
     # self.markup,
     # self.child_nodes,
+    
+    # self.znode.get_type(),
+    # self.znode.get_client_id(),
+    # self.znode.render(),
+    
     node_meta_json = self.znode.get_pagelet_meta()
-    return node_meta_json.extend([
+    node_meta_json.extend([
       self.ref_element,
       self.render_type,
       self.render_position,
       self.event_type,
       self.event_args
     ])
+    return node_meta_json
 
 class LiveQueryProcessor(object):
   def __init__(self, live_queries):
-    self.queries_ = json.loads(live_queries)
+    super(LiveQueryProcessor, self).__init__()
+    if live_queries:
+      self.queries_ = json.loads(live_queries)
+    else:
+      self.queries_ = []
+      
     self.result_ = None
     
   @classmethod 
@@ -166,28 +192,33 @@ class LiveQueryProcessor(object):
       return instance
     
         
-  def get_response(self, handler):      
-    if not self.result_:
-      pagelets = []
-      for q in self.queries_:
-        # t: type_string, i: instance_identity, m: meta_data, r: render_position, rf: ref element
-        #NOTE: whether update or create new node, this instance should always be trit as root element.
-        instance = LiveQueryProcessor.create_node(q['t'], q['i'], q["m"], handler)
-        instance.set_root_node()
-        pl = Pagelet(instance)
-        if q['rf']:
-          pl.set_ref_element(q['rf'])
-        
-        if q['r']:
-          pl.set_render_position(q['r'])
-        
-        pagelets.append(pl)
-        
-      result = AjaxResponse()
-      result.pagelets = pagelets
-      self.result_ = result
-        
-    return self.result_  
+  def get_response(self, handler):
+    pagelets = []
+    for q in self.queries_:
+      # t: type_string, i: instance_identity, m: meta_data, r: render_position, rf: ref element
+      #NOTE: whether update or create new node, this instance should always be trit as root element.
+      instance = LiveQueryProcessor.create_node(q['t'], q['i'], q["m"], handler)
+      instance.set_root_node()
+      pl = Pagelet(instance)
+      # NOTE: default is to update current component.
+      pl.set_render_type(PAGELET_RENDER_TYPE.UPDATING)
+      if q['rf']:
+        pl.set_ref_element(q['rf'])
+      
+      if q['r']:
+        pl.set_render_position(q['r'])
+      
+      pagelets.append(pl)
+      
+    result = AjaxResponse()
+    result.pagelets = pagelets
+    return result
+          
+    # if not self.result_:
+    # 
+    #   self.result_ = result
+    #     
+    # return self.result_  
       
       
       
