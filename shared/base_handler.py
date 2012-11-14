@@ -61,6 +61,7 @@ class BaseHandler(webapp2.RequestHandler):
     return jinja_environment
     
   def process_live_query(self):
+    self.response.headers.add_header("Content-Type", "application/json")
     response = self.get_ajax_response()
     # For test only:
     # response.set_message("Hello world!")

@@ -1,6 +1,6 @@
 {% set is_voteup = answer.key in relation.up_voted_answers %}
 {% set is_votedown = answer.key in relation.down_voted_answers %}
-<div class="vote">
+<div class="vote"{{node_attribute()}}>
     <a name="vote" class="vote-count" href="javascript:;">{{ answer.vote_num }}</a>
     {% if is_voteup %}
     <div class="vote-bar vote-up-active">

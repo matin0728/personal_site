@@ -1,6 +1,6 @@
 {% set is_thanks = answer.key in relation.thanksed_answers %}
 {% set is_nohelp = answer.key in relation.no_help_answers %}
-<div class="item-meta answer-meta">
+<div class="item-meta answer-meta"{{node_attribute()}}>
     <a href="#" class="link-gray">[{{ answer.key.id() }}], {{ answer.created_date }}</a>
     <span class="dot">·</span>
     <a href="{{ uri_for('answer.comment.list', question_id = answer.question.id(), answer_id = answer.key.id())}}" name="comment" class="link-gray">{{ answer.comment_num }} 条评论</a>

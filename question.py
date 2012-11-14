@@ -143,19 +143,21 @@ class QuestionAddHandler(BaseHandler):
         
 class QuestionFocusHandler(BaseHandler):
   def get(self, question_id):
-    pass
+    return self.post(question_id)
   
-  def get(self, question_id):
+  def post(self, question_id):
     account = self.get_current_account().key
     QuestionService().focus_question(account, question_id)
+    self.process_live_query()
     
 class QuestionUnFocusHandler(BaseHandler):
   def get(self, question_id):
-    pass
+    return self.post(question_id)
   
-  def get(self, question_id):
+  def post(self, question_id):
     account = self.get_current_account().key
     QuestionService().unfocus_question(account, question_id)
+    self.process_live_query()
     
 
 # app = webapp2.WSGIApplication([

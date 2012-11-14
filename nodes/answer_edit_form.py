@@ -2,13 +2,14 @@ import webapp2
 import jinja2
 import os
 from google.appengine.ext import ndb
-import model
-import shared
-import service
+from model.question import *
+from model.answer import *
+from shared.znode import ZNode
+from service import *
 
 
 
-class ZNodeAnswerEditForm(shared.ZNode):
+class ZNodeAnswerEditForm(ZNode):
   # meta should contains following data.
   # meta = {
   #   'question_id',

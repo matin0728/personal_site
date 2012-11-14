@@ -4,6 +4,7 @@ import os
 import json
 # from module.shared import *
 from znode import ParentsMap
+from nodes import *
 
 # from google.appengine.api import users
 # from model.account import Account
@@ -166,17 +167,18 @@ class LiveQueryProcessor(object):
   @classmethod 
   def deserialize_meta(cls, meta_data):
     meta = {}
-    data = string.split(meta_data, "&")
+    data = meta_data.split("&")
     for item in data:
-      item = string.split(item, '=')
-      meta[item[0]] = item[1]
+      d = item.split('=')
+      meta[d[0]] = d[1]
     
     return meta
   
   @classmethod 
   def create_node(cls, node_name, instance_identity, meta_data, handler): 
     nodes = {
-      'demo':DemoNode
+      'demo':DemoNode,
+      'ZH.ui.FeedMeta': ZNodeFeedMeta
     }
     
     # NOTE: could be a dic.
@@ -202,10 +204,10 @@ class LiveQueryProcessor(object):
       pl = Pagelet(instance)
       # NOTE: default is to update current component.
       pl.set_render_type(PAGELET_RENDER_TYPE.UPDATING)
-      if q['rf']:
+      if 'rf' in q.keys():
         pl.set_ref_element(q['rf'])
       
-      if q['r']:
+      if 'r' in q.keys():
         pl.set_render_position(q['r'])
       
       pagelets.append(pl)

@@ -51,9 +51,15 @@ class ZNodeAnswerMeta(ZNode):
   # }
 
   def fetch_data_internal(self):
-    # NOTE: It's not likely to use this compoent standalone, ignore this IMP
+    # NOTE: We need update this component on action, we MUST IMP this method.
     #get data from question_id, answer_id
-    pass
+    question = Question.get_by_id(int(self.get_meta('question_id')))
+    answer = Answer.get_by_id(parent = question.key, id = int(self.get_meta('answer_id')))
+    self.set_view_data_item('answer', answer)
+    
+    relation = QuestionService().get_question_relationship(self.get_handler().get_current_account().key, question.key)
+    self.set_view_data_item('relation', relation)
+    
 
   def fetch_data(self):
     #NOTE: It's not nessary to check all data exists, check one instead.

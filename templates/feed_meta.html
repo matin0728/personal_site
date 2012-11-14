@@ -1,3 +1,17 @@
-<div class="meta">
-    Here is feed meta.
+{% set is_thanks = answer.key in relation.thanksed_answers %}
+{% set is_nohelp = answer.key in relation.no_help_answers %}
+<div class="meta"{{node_attribute()}}>
+    {% if relation.focused %}
+    <a class="action-anchor" data-action="unfocus" data-actiontarget="{{ uri_for('question.unfocus', question_id = answer.question.id() ) }}" href="javascript:;">取消关注</a>
+    {% else %}
+    <a class="action-anchor" data-action="focus" data-actiontarget="{{ uri_for('question.focus', question_id = answer.question.id() ) }}" href="javascript:;">关注问题</a>
+    {% endif %}
+    <a href="{{ uri_for('answer.comment.list', question_id = answer.question.id(), answer_id = answer.key.id())}}" name="comment" class="link-gray">{{ answer.comment_num }} 条评论</a>
+    <a href="{{ uri_for('answer.vote_up', question_id = answer.question.id(), answer_id = answer.key.id()) }}">赞同</a>
+    <a href="{{ uri_for('answer.vote_down', question_id = answer.question.id(), answer_id = answer.key.id()) }}">反对</a>
+    {% if is_nohelp %}
+    <a href="{{ uri_for('answer.cancel_nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}">取消没有帮助</a>
+    {% else %}
+    <a href="{{ uri_for('answer.nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}">没有帮助</a>
+    {% endif %}
 </div>

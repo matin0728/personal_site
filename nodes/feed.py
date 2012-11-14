@@ -13,7 +13,7 @@ from answer import *
 from shared.znode import *
 
 
-class ZNodeFeedMeta(ZNode):
+class ZNodeFeedMeta(ZNodeAnswerMeta):
   template_ = 'feed_meta.html'
   client_type = 'ZH.ui.FeedMeta'
 
@@ -38,9 +38,16 @@ class ZNodeFeedItem(ZNode):
   template_ = 'feed_item.html'
   client_type = 'ZH.ui.FeedItem'
   
-  def render_feed_meta(self):
-    #TODO
-    return '<div>NOT IMP YET: Feed operations area.</div.'
+  def render_feed_meta(self, answer, relation):
+    # feed meta is outside of the answer block, we need pass in the answer_id.
+    meta = {
+      'answer_id': answer.key.id()
+    }
+    feed_meta = ZNodeFeedMeta(self.current_handler, meta = meta)
+    feed_meta.set_view_data_item('answer', answer)
+    feed_meta.set_view_data_item('relation', relation)
+    self.add_child(feed_meta)
+    return feed_meta.render()
     
   def fetch_data_internal(self):
     #get feed data from feed ID
