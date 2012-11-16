@@ -124,7 +124,8 @@ class BaseHandler(webapp2.RequestHandler):
       'config': SITE_CONFIG,
       'parents_map': self.get_parents_map().get_json(),
       'root_nodes': self.get_parents_map().get_root_nodes_json(),
-      'pagelets': json.dumps(self.get_pagelets())
+      'pagelets': json.dumps(self.get_pagelets()),
+      'current_account': self.get_current_account()
     }
     #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
     # don't get entity on template.

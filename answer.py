@@ -68,75 +68,48 @@ class AnswerDeleteHandler(BaseHandler):
 class AnswerThanksHandler(BaseHandler):
   def post(self, question_id, answer_id):
     AnswerService().thanks_for_answer(self.get_current_account(), question_id, answer_id)
-    # TODO: Create response pagelet.
+    self.process_live_query()
 
   def get(self, question_id, answer_id):
-    self.post(question_id, answer_id)      
+    return self.post(question_id, answer_id)      
   
 class AnswerNoHelpHandler(BaseHandler):
   def post(self, question_id, answer_id):
     AnswerService().set_no_help(self.get_current_account(), question_id, answer_id)
-    # TODO: Create response pagelet.
+    self.process_live_query()
 
   def get(self, question_id, answer_id):
-    self.post(question_id, answer_id)
+    return self.post(question_id, answer_id)
         
         
 class AnswerCancelNoHelpHandler(BaseHandler):
   def post(self, question_id, answer_id):
     AnswerService().cancel_no_help(self.get_current_account(), question_id, answer_id)
-    # TODO: Create response pagelet.
+    self.process_live_query()
 
   def get(self, question_id, answer_id):
-    self.post(question_id, answer_id)  
+    return self.post(question_id, answer_id)  
     
 class AnswerVoteUpHandler(BaseHandler):
   def post(self, question_id, answer_id):
     AnswerService().voteup_answer(self.get_current_account(), question_id, answer_id)
-    # TODO: Create response pagelet.
+    self.process_live_query()
 
   def get(self, question_id, answer_id):
-    self.post(question_id, answer_id)    
+    return self.post(question_id, answer_id)    
       
 class AnswerVoteDownHandler(BaseHandler):
   def post(self, question_id, answer_id):
     AnswerService().votedown_answer(self.get_current_account(), question_id, answer_id)
-    # TODO: Create response pagelet.
+    self.process_live_query()
 
   def get(self, question_id, answer_id):
-    self.post(question_id, answer_id)
+    return self.post(question_id, answer_id)
 
-class AnswerCommentDeleteHandler(BaseHandler):
-  def post(self, question_id, answer_id, comment_id):
-    CommentService().delete_answer_comment(question_id, answer_id, comment_id)
-    self.redirect(self.uri_for('question', question_id = question_id))
-  
-  def get(self, question_id, answer_id, comment_id):
-    self.post(question_id, answer_id, comment_id)
-    
-class AnswerAddCommentHandler(BaseHandler):
-  def post(self, question_id, answer_id):
-    content = self.request.get('content')
-    if not content:
-      #TODO: Handle error report.
-      self.redirect(self.uri_for('question', question_id = question_id))
-      return
-      
-    account = self.get_current_account()
-    CommentService().add_answer_comment(account, question_id, answer_id, content) 
-    self.redirect(self.uri_for('question', question_id = question_id))
+
     
 
-class AnswerCommentListHandler(BaseHandler):
-  def get(self, question_id, answer_id):
-    comments = CommentService().get_answer_comments(question_id, answer_id)
-    context = {
-      'comments': comments,
-      'question_id': question_id,
-      'answer_id': answer_id,
-      'account': self.get_current_account()
-    }
-    self.render('comment_list.html', context)
+
     
 # class AnswerCommentDeleteHandler(BaseHandler):
 #   def post(self, question_id, answer_id, comment_id):

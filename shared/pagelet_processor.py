@@ -5,6 +5,7 @@ import json
 # from module.shared import *
 from znode import ParentsMap
 from nodes import *
+from client_type_map import *
 
 # from google.appengine.api import users
 # from model.account import Account
@@ -157,10 +158,11 @@ class Pagelet(object):
 class LiveQueryProcessor(object):
   def __init__(self, live_queries):
     super(LiveQueryProcessor, self).__init__()
+
     if live_queries:
       self.queries_ = json.loads(live_queries)
     else:
-      self.queries_ = []
+      self.queries_ = []      
       
     self.result_ = None
     
@@ -170,7 +172,8 @@ class LiveQueryProcessor(object):
     data = meta_data.split("&")
     for item in data:
       d = item.split('=')
-      meta[d[0]] = d[1]
+      if len(d) == 2:
+        meta[d[0]] = d[1]
     
     return meta
   
@@ -178,7 +181,10 @@ class LiveQueryProcessor(object):
   def create_node(cls, node_name, instance_identity, meta_data, handler): 
     nodes = {
       'demo':DemoNode,
-      'ZH.ui.FeedMeta': ZNodeFeedMeta
+      'ZH.ui.FeedMeta': ZNodeFeedMeta,
+      'ZH.ui.VoteBar': ZNodeVote,
+      'ZH.ui.CommentList': ZNodeCommentList,
+      'ZH.ui.Comment': ZNodeComment,
     }
     
     # NOTE: could be a dic.
@@ -187,6 +193,10 @@ class LiveQueryProcessor(object):
   
     if node_name in nodes.keys():
       node_ = nodes[node_name]
+      if not node_:
+        # TODO: Error handling, can't identify component type.
+        pass
+        
       instance = node_(handler, meta = meta_data)
       if instance_identity:
         instance.set_client_id(instance_identity)
@@ -197,13 +207,18 @@ class LiveQueryProcessor(object):
   def get_response(self, handler):
     pagelets = []
     for q in self.queries_:
-      # t: type_string, i: instance_identity, m: meta_data, r: render_position, rf: ref element
+      # t: type_string, i: instance_identity, m: meta_data, r: render_position, rf: ref element, rt: reder type
       #NOTE: whether update or create new node, this instance should always be trit as root element.
-      instance = LiveQueryProcessor.create_node(q['t'], q['i'], q["m"], handler)
+      instance = LiveQueryProcessor.create_node(CLIENT_TYPE_REVERSE_MAP[q['t']], q['i'], q["m"], handler)
       instance.set_root_node()
       pl = Pagelet(instance)
       # NOTE: default is to update current component.
-      pl.set_render_type(PAGELET_RENDER_TYPE.UPDATING)
+      if not 'rt' in q.keys():
+        pl.set_render_type(PAGELET_RENDER_TYPE.UPDATING)
+      else:
+        pl.set_render_type(q['rt'])
+        
+      
       if 'rf' in q.keys():
         pl.set_ref_element(q['rf'])
       

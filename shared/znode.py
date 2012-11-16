@@ -5,7 +5,7 @@ from google.appengine.api import users
 from service.entity import EntityService
 import time, datetime
 import json
-from client_type_map import CLIENT_TYPE_MAP
+from client_type_map import *
 
 jinja_environment = jinja2.Environment(
   loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates')))
@@ -181,6 +181,7 @@ class ZNode(object):
     # Future, we need user roles data to control admin func display.
     self.set_view_data_item('uri_for', self.current_handler.uri_for)
     self.set_view_data_item('node_attribute', self.node_attribute)
+    self.set_view_data_item('current_account', self.current_handler.get_current_account())
     return template.render(self.view_data)
     
     

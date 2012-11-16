@@ -9,7 +9,7 @@
     {% else %}
     <div class="vote-bar">
     {% endif %}
-        <button name="voteup" class="vote-up" data-tip="s$r$赞同"><i></i></button>
-        <button name="votedown" class="vote-down" data-tip="s$r$反对，不会显示你的姓名"><i></i></button>
+        <button data-action="vote-up" data-actiontarget="{{ uri_for('answer.vote_up', question_id = answer.question.id(), answer_id = answer.key.id() ) }}" class="action-anchor vote-up" data-tip="s$r$赞同"><i></i></button>
+        <button data-action="vote-down" data-actiontarget="{{ uri_for('answer.vote_down', question_id = answer.question.id(), answer_id = answer.key.id() ) }}" class="action-anchor vote-down" data-tip="s$r$反对，不会显示你的姓名"><i></i></button>
     </div>
 </div>

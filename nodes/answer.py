@@ -10,9 +10,6 @@ from service import *
 class ZNodeVote(ZNode):
   template_ = 'vote.html'
   client_type = 'ZH.ui.VoteBar'
-    
-  # client_type = 'ZH.ui.VoteBar'
-  # template = 'vote.html'
   # meta = {
   #   'question_id',
   #   'answer_id'
@@ -24,14 +21,17 @@ class ZNodeVote(ZNode):
   # }
   
   def fetch_data_internal(self):
-    # NOTE: It's not likely to use this compoent standalone, ignore this IMP
-    #get data from question_id, answer_id
-    pass
+    question = Question.get_by_id(int(self.get_meta('question_id')))
+    answer = Answer.get_by_id(parent = question.key, id = int(self.get_meta('answer_id')))
+    self.set_view_data_item('answer', answer)
+    
+    relation = QuestionService().get_question_relationship(self.get_handler().get_current_account().key, question.key)
+    self.set_view_data_item('relation', relation)
     
   def fetch_data(self):
-    #NOTE: It's not nessary to check all data exists, check one instead.
+    #NOTE: Is it nessary to check all data exists? check one instead.
     answer = self.get_view_data_item('answer')
-    if not question:
+    if not answer:
       self.fetch_data_internal()
       
 class ZNodeAnswerMeta(ZNode):

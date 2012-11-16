@@ -6,12 +6,19 @@
     {% else %}
     <a class="action-anchor" data-action="focus" data-actiontarget="{{ uri_for('question.focus', question_id = answer.question.id() ) }}" href="javascript:;">关注问题</a>
     {% endif %}
-    <a href="{{ uri_for('answer.comment.list', question_id = answer.question.id(), answer_id = answer.key.id())}}" name="comment" class="link-gray">{{ answer.comment_num }} 条评论</a>
-    <a href="{{ uri_for('answer.vote_up', question_id = answer.question.id(), answer_id = answer.key.id()) }}">赞同</a>
-    <a href="{{ uri_for('answer.vote_down', question_id = answer.question.id(), answer_id = answer.key.id()) }}">反对</a>
-    {% if is_nohelp %}
-    <a href="{{ uri_for('answer.cancel_nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}">取消没有帮助</a>
+    <a class="action-anchor" data-action="comments" data-actiontarget="{{ uri_for('node', entity_key_string = answer.key.urlsafe())}}" href="javascript:;" class="link-gray">{{ answer.comment_num }} 条评论</a>
+
+    {% if is_thanks %}
+    <a class="action-anchor" data-action="thanks" data-actiondisabled="1" href="javascript:;">感谢已发送</a>
     {% else %}
-    <a href="{{ uri_for('answer.nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}">没有帮助</a>
+    <a class="action-anchor" data-action="thanks" data-actiontarget="{{ uri_for('answer.thanks', question_id = answer.question.id(), answer_id = answer.key.id()) }}" href="javascript:;">感谢作者</a>
     {% endif %}
+
+    {% if is_nohelp %}
+    <a class="action-anchor" data-action="cancel_nohelp" data-actiontarget="{{ uri_for('answer.cancel_nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}" href="javascript:;">取消没有帮助</a>
+    {% else %}
+    <a class="action-anchor" data-action="nohelp" data-actiontarget="{{ uri_for('answer.nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}" href="javascript:;">没有帮助</a>
+    {% endif %}
+    
+    
 </div>

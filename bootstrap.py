@@ -6,10 +6,11 @@ from shared import *
 from question import *
 from answer import *
 from home import *
+from comment import *
 
 app = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
-    webapp2.Route(r'/node', handler=NodeHandler, name='node'),
+    webapp2.Route(r'/magic_node', handler=NodeHandler, name='node'),
     
     webapp2.Route(r'/question/<question_id:\d+>', handler=QuestionHandler, name="question"),
     webapp2.Route(r'/question/<question_id:\d+>/edit', handler=QuestionEditHandler, name="question.edit"),
@@ -28,9 +29,9 @@ app = webapp2.WSGIApplication([
     webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/nohelp', handler=AnswerNoHelpHandler, name="answer.nohelp"),
     webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/cancel_nohelp', handler=AnswerCancelNoHelpHandler, name="answer.cancel_nohelp"),
 
-    webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/comment/<comment_id:\d+>/delete', handler=AnswerCommentDeleteHandler, name="answer.comment.delete"),    
-    webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/comment_list', handler=AnswerCommentListHandler, name="answer.comment.list"),
-    webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>/add_comment', handler=AnswerAddCommentHandler, name="answer.comment.add"),
+    webapp2.Route(r'/comment/delete/<comment_key_string:[^/]+>', handler=CommentDeleteHandler, name="comment.delete"),    
+    webapp2.Route(r'/comment/list/<entity_key_string:[^/]+>', handler=CommentListHandler, name="comment.list"),
+    webapp2.Route(r'/comment/add/<entity_key_string:[^/]+>', handler=AddCommentHandler, name="comment.add"),
     
     webapp2.Route(r'/question/add', handler=QuestionAddHandler, name="question.add"),
     webapp2.Route(r'/signup', handler=SignupHandler, name='signup'),
