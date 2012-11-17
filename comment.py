@@ -3,6 +3,7 @@
 import webapp2
 from google.appengine.api import users
 from shared.base_handler import BaseHandler
+from shared.pagelet_processor import *
 from model import *
 from service import *
 import nodes
@@ -21,7 +22,8 @@ class CommentListHandler(BaseHandler):
       'entity_key_string': entity_key_string
     }
     comment_list = nodes.ZNodeCommentList(self, meta = meta)
-    comment_list.set_root_node()
+    # No need to set as root node.
+    #comment_list.set_root_node()
     return comment_list.render()
 
 class CommentDeleteHandler(BaseHandler):
@@ -43,7 +45,21 @@ class AddCommentHandler(BaseHandler):
       
     account = self.get_current_account()
     new_comment = CommentService().add_comment(account, entity_key_string, content) 
-    # TODO: return new comment pagelet to client side.
+    
+    meta = {
+      'comment_key_string':entity_key_string
+    }
+    commentNode = nodes.ZNodeComment(self, meta)
+    commentNode.set_view_data_item('comment', new_comment)
+    # return new comment pagelet to client side.
+    pagelet = Pagelet(commentNode)
+    pagelet.set_ref_element(comments_wrap) \
+      .set_render_position(PAGELET_RENDER_POSITION.APPEND) \
+    
+    response = self.get_ajax_response()
+    response.add_pagelet(pagelet)
+    self.output_ajax_response(response)
+    
     # self.redirect(self.uri_for('home'))
     
     

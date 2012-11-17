@@ -17,10 +17,10 @@ class CommentService(Singleton, BaseService):
     key.delete()
     self.update_comment_num(entity_key)
     
-  def add_comment(self, account, entity_key, content):
+  def add_comment(self, account, entity_key_string, content):
     # TODO: Check anonymouse status for user on question.
     # anonymouse user couldn't comment, except the question author or answer author.
-    parent_key = ndb.Key(urlsafe = entity_key)
+    parent_key = ndb.Key(urlsafe = entity_key_string)
     comment = Comment(
       parent = parent_key,
       author = account.key,
@@ -28,10 +28,12 @@ class CommentService(Singleton, BaseService):
       content = content
     )
     comment.put()
-    self.update_comment_num(entity_key)
+    self.update_comment_num(parent_key)
+    return comment
     
   def update_comment_num(self, entity_key):
     count = Comment.query(ancestor = entity_key).count()
+    entity = entity_key.get()
     entity.comment_num = count
     entity.put()
     

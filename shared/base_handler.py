@@ -61,23 +61,7 @@ class BaseHandler(webapp2.RequestHandler):
     return jinja_environment
     
   def process_live_query(self):
-    self.response.headers.add_header("Content-Type", "application/json")
     response = self.get_ajax_response()
-    # For test only:
-    # response.set_message("Hello world!")
-    # response.set_redirect('baidu.com')
-    # response.set_refresh(False)
-    # p = Pagelet('test_type', instance_identity = 'abc', markup = 'kkkk')
-    #  p.set_instance_identity('new_identity')
-    #  p.set_render_type('some_type')
-    #  p.set_render_position('positon')
-    #  p.set_construct_arg_string('aaa')
-    #  p.set_ref_element('some ele')
-    #  p.add_event('some event', 'some args')
-    #  response.add_pagelet(p)
-    #  pp = response.get_pagelet_by_type('test_type')
-    #  pp.set_instance_identity('qqqqq')
-    
     self.output_ajax_response(response)
   
   def get_parents_map(self):
@@ -96,6 +80,7 @@ class BaseHandler(webapp2.RequestHandler):
     return self.ajax_response_
     
   def output_ajax_response(self, response):
+    self.response.headers.add_header("Content-Type", "application/json")
     #strs = [ p.get_json_string() for p in pagelets]
     self.response.out.write(response.get_json())
     

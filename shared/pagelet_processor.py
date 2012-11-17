@@ -16,13 +16,14 @@ class AjaxResponse(object):
   # this.message = result["msg"];
   # this.redirectUrl = result["redirect"];
   # this.refreshFlag = result["refresh"];
-  def __init__(self):
+  def __init__(self, parents_map):
     self.error_flag = 0
     self.message = ''
     self.redirect_url = ''
     self.refresh_flag = 0
     self.pagelets = []
     self.extra_data = None
+    self.parents_map = parents_map
   
   """Extra json data object send to client.
     Custom json data.
@@ -74,8 +75,8 @@ class AjaxResponse(object):
       'ru': self.redirect_url,
       'rf': self.refresh_flag,
       'd': self.extra_data,
-      'mp': ParentsMap().get_parents_map(),
-      'rn': ParentsMap().get_root_nodes(),
+      'mp': self.parents_map.get_parents_map(),
+      'rn': self.parents_map.get_root_nodes(),
       'p': self.get_pagelet_json_objects()
     }
     return json.dumps(result)
@@ -113,7 +114,7 @@ class Pagelet(object):
     # default set to decoration, case most use case is in the handler, to append
     # extra pagelet to page, and in live query, default set to UPDATING.
     self.render_type = PAGELET_RENDER_TYPE.DECORATION
-    self.render_position = PAGELET_RENDER_POSITION.BEFORE
+    self.render_position = PAGELET_RENDER_POSITION.APPEND
     self.event_type = ''
     self.event_args = '' #Should be json object.
     
@@ -210,7 +211,9 @@ class LiveQueryProcessor(object):
       # t: type_string, i: instance_identity, m: meta_data, r: render_position, rf: ref element, rt: reder type
       #NOTE: whether update or create new node, this instance should always be trit as root element.
       instance = LiveQueryProcessor.create_node(CLIENT_TYPE_REVERSE_MAP[q['t']], q['i'], q["m"], handler)
-      instance.set_root_node()
+      
+      # NOTE: no need to set as root node, see also: 2012-11-17's notes on ever note.
+      #instance.set_root_node()
       pl = Pagelet(instance)
       # NOTE: default is to update current component.
       if not 'rt' in q.keys():
@@ -227,7 +230,7 @@ class LiveQueryProcessor(object):
       
       pagelets.append(pl)
       
-    result = AjaxResponse()
+    result = AjaxResponse(handler.get_parents_map())
     result.pagelets = pagelets
     return result
           
