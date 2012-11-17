@@ -27,12 +27,21 @@ class CommentListHandler(BaseHandler):
     return comment_list.render()
 
 class CommentDeleteHandler(BaseHandler):
-  def post(self, comment_key):
-    CommentService().delete_comment(comment_key)
-    self.redirect(self.uri_for('home'))
+  def post(self, comment_key_string):
+    CommentService().delete_comment(comment_key_string)
+    type_string = self.request.get('client_type')
+    client_id = self.request.get('client_id')
+    
+    pagelet = Pagelet(None, type_string = type_string, client_id = client_id, markup = '')
+    pagelet.set_render_type(PAGELET_RENDER_TYPE.UN_RENDER)
+    response = self.get_ajax_response()
+    response.add_pagelet(pagelet)
+    self.output_ajax_response(response)
+    # self.redirect(self.uri_for('home'))
   
-  def get(self, comment_key):
-    return self.post(comment_key)
+  def get(self, comment_key_string):
+    pass
+    # return self.post(comment_key)
     
 class AddCommentHandler(BaseHandler):
   def post(self, entity_key_string):

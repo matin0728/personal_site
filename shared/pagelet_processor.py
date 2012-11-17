@@ -100,6 +100,7 @@ class AjaxResponse(object):
 class PAGELET_RENDER_TYPE(object):
     UPDATING = 'updating'
     DECORATION = 'decoration'
+    UN_RENDER = 'un_render'
     
 class PAGELET_RENDER_POSITION(object):
   INNER = 'inner'
@@ -108,8 +109,15 @@ class PAGELET_RENDER_POSITION(object):
   AFTER = 'after'
 
 class Pagelet(object):
-  def __init__(self, znode_instance):
-    self.znode = znode_instance
+  def __init__(self, znode_instance, type_string = '', client_id = '', markup = ''):
+    self.znode = None
+    if znode_instance:
+      self.znode = znode_instance
+    
+    self.type_string = type_string
+    self.client_id = client_id
+    self.markup = markup
+      
     self.ref_element = ''
     # default set to decoration, case most use case is in the handler, to append
     # extra pagelet to page, and in live query, default set to UPDATING.
@@ -130,23 +138,22 @@ class Pagelet(object):
     self.render_position = render_position
     return self
     
-  def add_event(self, event_type_string, event_arg_string):
+  def set_event(self, event_type_string, event_arg_string):
     #NOTE: Currently we don't support multi events.
     self.event_type = event_type_string
     self.event_args = event_arg_string
     return self
   
   def get_json_object(self):
-    # self.type_string,
-    # self.instance_identity,
-    # self.markup,
-    # self.child_nodes,
-    
-    # self.znode.get_type(),
-    # self.znode.get_client_id(),
-    # self.znode.render(),
-    
-    node_meta_json = self.znode.get_pagelet_meta()
+    if self.znode:
+      node_meta_json = self.znode.get_pagelet_meta()
+    else:
+      node_meta_json = [
+        self.type_string,
+        self.client_id,
+        self.markup
+      ]
+      
     node_meta_json.extend([
       self.ref_element,
       self.render_type,

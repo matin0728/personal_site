@@ -8,6 +8,7 @@ from shared.znode import ZNode
 import service
 
 from shared.znode import *
+from shared.client_type_map import *
 
 
 class ZNodeComment(ZNode):
@@ -33,6 +34,9 @@ class ZNodeComment(ZNode):
     comment = self.get_view_data_item('comment')
     if not comment:
       self.fetch_data_internal()
+      
+    self.set_view_data_item('client_type', CLIENT_TYPE_MAP[self.client_type])
+    self.set_view_data_item('client_id', self.get_client_id())
 
 class ZNodeCommentList(ZNode):
   # TODO: Forbidden anonymouse users to add comment.

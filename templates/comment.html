@@ -5,7 +5,7 @@
       <span class="operation">
         <a class="replay" href="javascript:;">回复</a
           >{% if current_account.key == comment.real_author -%}
-        <span class="dot">·</span><a class="delete" href="{{ uri_for('comment.delete', comment_key_string = comment.key.urlsafe()) }}">删除</a>
+        <span class="dot">·</span><a data-action="delete-comment" data-actiontarget="{{ uri_for('comment.delete', comment_key_string = comment.key.urlsafe(), client_type = client_type, client_id = client_id) }}" class="action-anchor" href="javascript:;">删除</a>
         {%- endif %}
       </span>
       
