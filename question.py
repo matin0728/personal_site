@@ -13,63 +13,37 @@ from module.question import *
 from nodes import *
 
 class QuestionHandler(BaseHandler):
-  def __init__(self, *args, **kwargs):
-    super(QuestionHandler, self).__init__(*args, **kwargs)
-    self.answer_form_client_id = ''
-    
   def get(self, question_id):      
-    question = Question.get_by_id(int(question_id))
-    relation = QuestionService().get_question_relationship(self.get_current_account().key, question.key)
-    
-    view_data = {
-      'question': question,
-      'relation': relation,
-      'render_answer_list': self.render_answer_list(question, relation),
-      'render_answer_edit_form': self.render_answer_edit_form(question, relation)
+    context = {
+      'render_question_page': self.render_question_page(question_id)
     }
     
-    # TEST
-    # Add a extra live node append to specified element.
-    demo_node = DemoNode(self)
-    extra_pagelet = Pagelet(demo_node)
-    extra_pagelet.set_ref_element(self.answer_form_client_id)
-    # This is default option, we can dismiss them.
-    # extra_pagelet.set_render_type(PAGELET_RENDER_TYPE.DECORATION)
-    # extra_pagelet.set_render_position(PAGELET_RENDER_POSITION.BEFORE)
-    
-    ajax_response = self.get_ajax_response()
-    ajax_response.add_pagelet(extra_pagelet)
-
-    self.render('question.html', view_data)
-    
-  def render_answer_list(self, question, relation):
+    self.render('question.html', context)
+  
+  def render_question_page(self, question_id = 0):
     meta = {
-      'question_id': question.key.id()
+      'question_id': question_id
     }
-    answer_list = ZNodeAnswerList(self, meta = meta)
-    answer_list.set_view_data_item('question', question)
-    answer_list.set_view_data_item('relation', relation)
+    question_page = ZNodeQuestionPage(self, meta)
+    question_page.set_root_node()
+    return question_page.render()
     
-    answer_list.set_root_node()
+  def pagelet(self, question_id):
+    ref_element = self.request.get('ref_element')
+    meta = {
+      'question_id': question_id
+    }
+    question_page = ZNodeQuestionPage(self, meta)
     
-    return answer_list.render()
+    response = self.get_ajax_response();
+    pagelet = Pagelet(question_page)
     
-  def render_answer_edit_form(self, question, relation):
-    if not relation.my_answer:    
-      edit_form = ZNodeAnswerEditForm(self)
-      edit_form.set_view_data_item('question', question)
-      edit_form.set_view_data_item('relation', relation)
-      
-      self.answer_form_client_id = edit_form.get_client_id()
-      
-      edit_form.set_root_node()
-      return edit_form.render()
-    else:
-      return 'You has answered this question.'
-    
-  def render_question_head_block(self):
-    #TODO.
-    pass
+    pagelet.set_ref_element(ref_element)
+    pagelet.set_render_position(PAGELET_RENDER_POSITION.BEFORE)
+    pagelet.set_render_type(PAGELET_RENDER_TYPE.DECORATION)
+
+    response.add_pagelet(pagelet)
+    self.output_ajax_response(response)
     
 class QuestionEditHandler(BaseHandler):
   def get(self, question_id):

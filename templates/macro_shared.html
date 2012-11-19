@@ -1,0 +1,8 @@
+{% macro side_block(title) -%}
+<div class="side-block">
+    <h3>{{ title }}</h3>
+    <div class="contents">
+        {{ caller() }}
+    </div>
+</div>
+{%- endmacro %}

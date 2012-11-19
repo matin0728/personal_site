@@ -5,7 +5,7 @@
     <link type="text/css" rel="stylesheet" href="/static/css/v3/less/main.css" />
     <!-- style overide or not in production components. -->
     <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+    <script src="/static/js/jquery-latest.min.js"></script>
     {% if config['is_debug'] %}
     <script src="/static/js/closure-library-new/closure/goog/base.js"></script>
     <script src="/static/js/v3/c/deps.js"></script>
@@ -19,15 +19,6 @@
     {% endif %}
 </head>
 <body>
-
-{% macro side_block(title) -%}
-<div class="side-block">
-    <h3>{{ title }}</h3>
-    <div class="contents">
-        {{ caller() }}
-    </div>
-</div>
-{%- endmacro %}
 <div class="page-header" id="page-header">
     <div class="layout-wrap" id="page-header-inner">
         <h1>

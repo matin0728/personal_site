@@ -1,5 +1,8 @@
 <div class="feed-list"{{node_attribute()}}>
-    {% for f in feeds: %}
-    {{ render_feed_item(f) }}
-    {% endfor %}
+    <div class='list-wrap'>
+        {% for f in feeds: %}
+        {{ render_feed_item(f) }}
+        {% endfor %}
+    </div>
+    <button>更多</button>
 </div>

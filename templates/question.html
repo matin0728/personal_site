@@ -1,8 +1,6 @@
-{% extends 'question_base.html' %}
-{% block question_main %}
-{{ render_answer_list }}
-{{ render_answer_edit_form }}
-
+{% extends 'base.html' %}
+{% block title %}Question List{% endblock %}
+{% block content %}
+{{ render_question_page }}
 {% endblock %}
-
     

@@ -1,7 +1,7 @@
 import webapp2
 from google.appengine.api import users
 from shared import *
-from nodes import *
+import nodes
 from model.question import Question
 from model.account import Account
 from service.answer import AnswerService
@@ -10,14 +10,24 @@ from service.entity import EntityService
 
 class HomeHandler(BaseHandler):
   def get(self):
-    question_list = Question.query().fetch()
-    feed_list = ZNodeHomeFeedList(self)
-    feed_list.set_root_node()
+    # context = {
+    #   'question_list': question_list,
+    #   'feed_list':feed_list.render()
+    # }
     context = {
-      'question_list': question_list,
-      'feed_list':feed_list.render()
+      'render_home_page': self.render_home_page()
     }
+    
     self.render('home.html', context)
+    
+  def render_home_page(self):
+    home_page = nodes.ZNodeHomePage(self)
+    home_page.set_root_node()
+    return home_page.render()
+    
+  def load_more(self):
+    # TODO
+    pass
 
 
 class SignupHandler(BaseHandler):
