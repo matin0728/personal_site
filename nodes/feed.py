@@ -76,7 +76,7 @@ class ZNodeFeedItem(ZNode):
     action_type = {'vote': " vote up the answer", 'focus': " focus the question"}
     #NOTE: Add extra data just for test only.
     
-    feed_data['relation'] = QuestionService().get_question_relationship(self.current_handler.get_current_account().key, feed_data['question'])
+    feed_data['relation'] = AccountQuestionRelationService().get_relationship(self.current_handler.get_current_account().key, feed_data['question'])
     feed_data['question'] = EntityService().get(feed_data['question'])
     feed_data['answers'] = [EntityService().get(a) for a in feed_data['answers']]
     feed_data['actors'] = []
@@ -88,7 +88,7 @@ class ZNodeFeedItem(ZNode):
     
     # self.set_view_data_item('question', EntityService().get(question))
     # self.set_view_data_item('answers', [EntityService().get(a) for a in answers])
-    # self.set_view_data_item('relation', QuestionService().get_question_relationship(self.current_handler.get_current_account().key, question))
+    # self.set_view_data_item('relation', AccountQuestionRelationService().get_relationship(self.current_handler.get_current_account().key, question))
     # self.set_view_data_item('actors', [])
     # self.set_view_data_item('info', action_type[self.view_data['action_type']])
 

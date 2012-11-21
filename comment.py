@@ -63,7 +63,7 @@ class AddCommentHandler(BaseHandler):
     # return new comment pagelet to client side.
     pagelet = Pagelet(commentNode)
     pagelet.set_ref_element(comments_wrap) \
-      .set_render_position(PAGELET_RENDER_POSITION.APPEND) \
+      .set_render_position(PAGELET_RENDER_POSITION.APPEND) 
     
     response = self.get_ajax_response()
     response.add_pagelet(pagelet)

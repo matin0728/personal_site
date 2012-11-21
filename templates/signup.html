@@ -2,9 +2,9 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<div class="main-wrap">
-    <div class="main">
-        <div class="main-inner">
+<div class="layout-wrap layout-main">
+    <div class="layout-main-content">
+        <div class="layout-main-content-inner">
             <h1>Signup</h1>
             {% if error_count %}
             <div class="alert alert-error">
@@ -41,9 +41,7 @@
         </div>
     </div>
     <div class="sidebar">
-        {% call side_block('First block!') %}
-        This is a first side block.
-        {% endcall %}
+
     </div>
     <div class="clearfix"></div>
 </div>

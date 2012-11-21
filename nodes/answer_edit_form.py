@@ -7,7 +7,11 @@ from model.answer import *
 from shared.znode import ZNode
 from service import *
 
-
+class ZNodeAnswerEditFormDisabledInfo(ZNode):
+  # IMPORTANT: This node is simple enough to use base class: live component,
+  # If any action need add in, you should create a new subclass from liveComponent.
+  template_ = 'answer_edit_form_disabled_info.html'
+  client_type = 'ZH.common.LiveComponent'
 
 class ZNodeAnswerEditForm(ZNode):
   # meta should contains following data.

@@ -7,6 +7,8 @@ from model.answer import *
 from shared.znode import ZNode
 from service import *
 
+
+
 class ZNodeVote(ZNode):
   template_ = 'vote.html'
   client_type = 'ZH.ui.VoteBar'
@@ -25,7 +27,7 @@ class ZNodeVote(ZNode):
     answer = Answer.get_by_id(parent = question.key, id = int(self.get_meta('answer_id')))
     self.set_view_data_item('answer', answer)
     
-    relation = QuestionService().get_question_relationship(self.get_handler().get_current_account().key, question.key)
+    relation = AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
     self.set_view_data_item('relation', relation)
     
   def fetch_data(self):
@@ -57,7 +59,7 @@ class ZNodeAnswerMeta(ZNode):
     answer = Answer.get_by_id(parent = question.key, id = int(self.get_meta('answer_id')))
     self.set_view_data_item('answer', answer)
     
-    relation = QuestionService().get_question_relationship(self.get_handler().get_current_account().key, question.key)
+    relation = AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
     self.set_view_data_item('relation', relation)
     
 
@@ -91,10 +93,12 @@ class ZNodeAnswer(ZNode):
   #   'relation': accountxquestion
   # }
   def fetch_data_internal(self):
-    #get feed data from question_id, answer_id
-    # We don't IMP this, case if we don't use this component seperately, it's not
-    # nessary IMP this.
-    pass
+    question = Question.get_by_id(int(self.get_meta('question_id')))
+    answer = Answer.get_by_id(parent = question.key, id = int(self.get_meta('answer_id')))
+    self.set_view_data_item('answer', answer)
+    
+    relation = AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
+    self.set_view_data_item('relation', relation)
     
   def fetch_data(self):
     #NOTE: It's not nessary to check all data exists, check one instead.

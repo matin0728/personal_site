@@ -193,6 +193,9 @@ class LiveQueryProcessor(object):
       'ZH.ui.VoteBar': ZNodeVote,
       'ZH.ui.CommentList': ZNodeCommentList,
       'ZH.ui.Comment': ZNodeComment,
+      'ZH.ui.AnswerMeta': ZNodeAnswerMeta,
+      'ZH.ui.Answer': ZNodeAnswer,
+      'ZH.ui.AnswerListHeader': ZNodeAnswerListHeader
     }
     
     # NOTE: could be a dic.

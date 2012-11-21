@@ -32,19 +32,29 @@ class ZNodeQuestionPage(ZNode):
     
   def fetch_data(self):
     question = Question.get_by_id(int(self.get_meta('question_id')))
-    relation = QuestionService().get_question_relationship(self.get_handler().get_current_account().key, question.key)
+    relation = AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
     
     self.set_view_data_item('question', question)
     self.set_view_data_item('relation', relation)
     self.set_view_data_item('render_answer_list', self.render_answer_list(question, relation))
+    self.set_view_data_item('render_answer_list_header', self.render_answer_list_header(question))
     self.set_view_data_item('render_answer_edit_form', self.render_answer_edit_form(question, relation))
-
+    
+  def render_answer_list_header(self, question):
+    meta = {
+      'question_id': question.key.id()
+    }
+    answer_list_header = ZNodeAnswerListHeader(self.get_handler(), meta = meta)
+    self.add_child(answer_list_header)
+    answer_list_header.set_view_data_item('question', question)
+    return answer_list_header.render()
   
   def render_answer_list(self, question, relation):
     meta = {
       'question_id': question.key.id()
     }
     answer_list = ZNodeAnswerList(self.get_handler(), meta = meta)
+    self.add_child(answer_list)
     answer_list.set_view_data_item('question', question)
     answer_list.set_view_data_item('relation', relation)
     
@@ -56,12 +66,13 @@ class ZNodeQuestionPage(ZNode):
       edit_form.set_view_data_item('question', question)
       edit_form.set_view_data_item('relation', relation)
       
-      self.answer_form_client_id = edit_form.get_client_id()
+      # self.answer_form_client_id = edit_form.get_client_id()
       
-      edit_form.set_root_node()
+      self.add_child(edit_form)
       return edit_form.render()
     else:
-      return 'You has answered this question.'
+      disabled_info = ZNodeAnswerEditFormDisabledInfo(self.get_handler())
+      return disabled_info.render()
     
   def render_question_head_block(self):
     #TODO.

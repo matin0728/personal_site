@@ -8,13 +8,14 @@ from model.question import Question
 from model.accountxquestion import AccountXQuestion
 from singleton import Singleton
 from base_service import BaseService
+from account_question_relation import *
 from entity import EntityService
 
 class AnswerService(Singleton, BaseService):
   def votedown_answer(self, actor, question_id, answer_id):
     question = Question.get_by_id(int(question_id))
     answer = Answer.get_by_id(parent = question.key, id = int(answer_id))
-    relation = AccountXQuestion.query(ancestor = question.key).filter(AccountXQuestion.account == actor.key).get()
+    relation = AccountQuestionRelationService().get_relationship(actor.key, question.key)
     if answer.key in relation.down_voted_answers:
       relation.down_voted_answers = [ a for a in relation.down_voted_answers if a != answer.key ]
       answer.down_voted_users = [ u for u in answer.up_voted_users if u != actor.key ]
@@ -31,7 +32,7 @@ class AnswerService(Singleton, BaseService):
   def voteup_answer(self, actor, question_id, answer_id):
     question = Question.get_by_id(int(question_id))
     answer = Answer.get_by_id(parent = question.key, id = int(answer_id))
-    relation = AccountXQuestion.query(ancestor = question.key).filter(AccountXQuestion.account == actor.key).get()
+    relation = AccountQuestionRelationService().get_relationship(actor.key, question.key)
     if answer.key in relation.up_voted_answers:
       relation.up_voted_answers = [ a for a in relation.up_voted_answers if a != answer.key ]
       answer.up_voted_users = [ u for u in answer.up_voted_users if u != actor.key ]
@@ -47,7 +48,7 @@ class AnswerService(Singleton, BaseService):
   def thanks_for_answer(self, actor, question_id, answer_id):
     question = Question.get_by_id(int(question_id))
     answer = Answer.get_by_id(parent = question.key, id = int(answer_id))
-    relation = AccountXQuestion.query(ancestor = question.key).filter(AccountXQuestion.account == actor.key).get()
+    relation = AccountQuestionRelationService().get_relationship(actor.key, question.key)
     if not answer.key in relation.thanksed_answers:
       relation.thanksed_answers.append(answer.key)
       
@@ -56,7 +57,7 @@ class AnswerService(Singleton, BaseService):
   def set_no_help(self, actor, question_id, answer_id):
     question = Question.get_by_id(int(question_id))
     answer = Answer.get_by_id(parent = question.key, id = int(answer_id))
-    relation = AccountXQuestion.query(ancestor = question.key).filter(AccountXQuestion.account == actor.key).get()
+    relation = AccountQuestionRelationService().get_relationship(actor.key, question.key)
     if not answer.key in relation.no_help_answers:
       relation.no_help_answers.append(answer.key)
     
@@ -65,7 +66,7 @@ class AnswerService(Singleton, BaseService):
   def cancel_no_help(self, actor, question_id, answer_id):
     question = Question.get_by_id(int(question_id))
     answer = Answer.get_by_id(parent = question.key, id = int(answer_id))
-    relation = AccountXQuestion.query(ancestor = question.key).filter(AccountXQuestion.account == actor.key).get()
+    relation = AccountQuestionRelationService().get_relationship(actor.key, question.key)
     relation.no_help_answers = [ a for a in relation.no_help_answers if a != answer.key ]
     relation.put() 
     

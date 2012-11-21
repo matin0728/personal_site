@@ -1,5 +1,5 @@
-application: shacahelloworld
-version: 1
+application: zhihulab
+version: 3
 runtime: python27
 api_version: 1
 threadsafe: true

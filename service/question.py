@@ -8,8 +8,10 @@ from model.answer import Answer
 from model.accountxquestion import AccountXQuestion
 from answer import AnswerService
 from entity import EntityService
+from account_question_relation import *
 from singleton import Singleton
 from base_service import BaseService
+from account_question_relation import *
 
 class QuestionService(Singleton, BaseService):
   def focus_question(self, account_key, question_id):
@@ -20,19 +22,10 @@ class QuestionService(Singleton, BaseService):
     
   def focus_question_(self, is_focus, account_key, question_id):
     question = Question.get_by_id(int(question_id))
-    relation = self.get_question_relationship(account_key, question.key)
+    relation = AccountQuestionRelationService().get_relationship(account_key, question.key)
     relation.focused = is_focus
     relation.put()
     
-  def get_question_relationship(self, account_key, question_key):
-    relationship = AccountXQuestion.query(ancestor=question_key).filter(AccountXQuestion.account == account_key).get()
-    if not relationship:
-      relationship = AccountXQuestion(
-        parent = question_key, 
-        account = account_key, 
-        question = question_key)
-    
-    return relationship
     
   def update_answer(self, question_id, answer_id, source):
     current_question = Question.get_by_id(int(question_id))
@@ -73,6 +66,9 @@ class QuestionService(Singleton, BaseService):
 
     new_answer.put()
     
+    relation = AccountQuestionRelationService().get_relationship(author.key, question.key)
+    relation.my_answer = new_answer.key
+    relation.put()
     QuestionService().update_answer_num(question.key)
     return new_answer
       

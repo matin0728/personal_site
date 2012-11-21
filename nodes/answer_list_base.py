@@ -10,6 +10,25 @@ from answer import ZNodeAnswer
 
 from shared.znode import *
 
+class ZNodeAnswerListHeader(ZNode):
+  template_ = 'answer_list_header.html'
+  client_type = 'ZH.ui.AnswerListHeader'
+  # meta = {
+  #   'question_id',
+  # }
+  
+  # view_data = {
+  #   'question',
+  # }
+  def fetch_data_internal(self):
+    question = model.Question.get_by_id(int(self.get_meta('question_id')))
+    self.set_view_data_item('question', question)
+    
+  def fetch_data(self):
+    question = self.get_view_data_item('question')
+    if not question:
+      self.fetch_data_internal()
+
 class ZNodeAnswerListBase(ZNode):
   #NOTE: Why we call this "ListBase"? This collapsed answerlist is another type of answer list
   # and it will only need to override the fetch data method and has another client name.
@@ -41,7 +60,8 @@ class ZNodeAnswerListBase(ZNode):
     return a.render()
   
   def fetch_data_internal(self):
-    self.set_meta('node_name', 'ZNodeAnswerListBase')
+    pass
+    # self.set_meta('node_name', 'ZNodeAnswerListBase')
     
   def fetch_data(self):
     question = self.get_view_data_item('question')
@@ -51,7 +71,7 @@ class ZNodeAnswerListBase(ZNode):
       
     relation = self.get_view_data_item('relation')
     if not relation:
-      relation = service.QuestionService().get_question_relationship(self.get_handler().get_current_account().key, question.key)
+      relation = service.AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
       self.set_view_data_item('relation', relation)
     
     answers = self.get_view_data_item('answers')
@@ -66,7 +86,10 @@ class ZNodeAnswerListBase(ZNode):
     
 class ZNodeAnswerList(ZNodeAnswerListBase):  
   def fetch_data_internal(self):
-    self.set_meta('node_name', 'answer_list')
+    # add a extra name for this component, in future, there will be another answer list
+    # whos name is collapsed_answers
+    # 'instance_name': 'normal_answers'
+    self.set_meta('instance_name', 'normal_answers')
     
     question = self.get_view_data_item('question')
     answers = service.AnswerService().get_answers_by_question_key(question.key, keys_only = True)

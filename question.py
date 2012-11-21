@@ -76,12 +76,40 @@ class QuestionAddAnswerHandler(BaseHandler):
     
   def post(self, question_id):
     source = self.request.get('source')
+    answer_list_wrap = self.request.get('answer_list_wrap_id')
+    
     answer = QuestionService().add_answer(question_id, source, self.get_current_account())
-    if answer:
-      self.redirect(self.uri_for('question', question_id = answer.question.id()))
-    else:
-      error = QuestionService().get_last_error()
-      self.set_error(error)
+    
+    meta = {
+      'question_id': question_id,
+      'answer_id': answer.key.id()
+    }
+    
+    # Update edit form pagelet.
+    edit_form_id = self.request.get('edit_form_id')
+    edit_form_disabled_info = ZNodeAnswerEditFormDisabledInfo(self)
+    pagelet = Pagelet(edit_form_disabled_info)
+    pagelet.set_ref_element(edit_form_id) \
+      .set_render_position(PAGELET_RENDER_POSITION.BEFORE) 
+      
+    response = self.get_ajax_response()
+    response.add_pagelet(pagelet)
+    
+    # New answer pagelet.
+    answer_node = ZNodeAnswer(self, meta)
+    pagelet = Pagelet(answer_node)
+    pagelet.set_ref_element(answer_list_wrap) \
+      .set_render_position(PAGELET_RENDER_POSITION.APPEND) 
+    
+    response = self.get_ajax_response()
+    response.add_pagelet(pagelet)
+    self.output_ajax_response(response)
+    
+    # if answer:
+    #   self.redirect(self.uri_for('question', question_id = answer.question.id()))
+    # else:
+    #   error = QuestionService().get_last_error()
+    #   self.set_error(error)
 
 class QuestionDeleteHandler(BaseHandler):
   def get(self, question_id):
