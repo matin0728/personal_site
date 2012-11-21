@@ -26,6 +26,9 @@ class ZNodeHomePage(ZNode):
     self.set_view_data_item('render_feed_list', self.render_feed_list)
     
   def render_feed_list(self):
-    feed_list = ZNodeHomeFeedList(self.get_handler())
+    meta = {
+      'start': 0
+    }
+    feed_list = ZNodeHomeFeedList(self.get_handler(), meta)
     self.add_child(feed_list)
     return feed_list.render()

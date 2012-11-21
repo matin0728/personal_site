@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import webapp2
 import jinja2
 import os
@@ -152,8 +154,11 @@ class ZNode(object):
   
   def node_attribute(self):
     meta_data = self.meta
-    m = '&'.join(['{0}={1}'.format(k, meta_data[k]) for k in meta_data ])
-    return ' id="{0}" data-meta="{1}"'.format(self.get_client_id(), m)
+    # m = '&'.join(['{0}={1}'.format(k, str(meta_data[k]).replace('=', '○').replace('&', '⊕')) for k in meta_data ])
+    # m = '&'.join(['{0}={1}'.format(k, str(meta_data[k]).replace('=', u'○').replace('&', u'⊕')) for k in meta_data ])
+    m = json.dumps(meta_data)
+    
+    return ' id="{0}" data-meta=\'{1}\''.format(self.get_client_id(), m)
       
   def get_pagelet_meta(self):
     # self.type_string,

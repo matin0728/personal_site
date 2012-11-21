@@ -72,6 +72,7 @@ class ZNodeQuestionPage(ZNode):
       return edit_form.render()
     else:
       disabled_info = ZNodeAnswerEditFormDisabledInfo(self.get_handler())
+      self.add_child(disabled_info)
       return disabled_info.render()
     
   def render_question_head_block(self):

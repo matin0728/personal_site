@@ -11,6 +11,7 @@ from service.question import QuestionService
 from answer import *
 
 from shared.znode import *
+from more_button import *
 
 
 class ZNodeFeedMeta(ZNodeAnswerMeta):
@@ -23,7 +24,6 @@ class ZNodeFeedItem(ZNode):
   #   'feed_id',
   #   'question_id',
   #   'answer_ids'
-  #   'answer_num'
   # }
   
   # view_data should contains(at least) following field.
@@ -95,7 +95,13 @@ class ZNodeFeedItem(ZNode):
 class ZNodeFeedListBase(ZNode):
   template_ = 'feed_list.html'
   client_type = 'ZH.ui.FeedList'
+  
+  def render_more_button(self):
+    # Subclass must overide this method.
+    pass
+  
   def fetch_data(self):
+    self.set_view_data_item('has_more', True) # Default to has more data.
     feed_data = self.get_view_data_item('feeds')
     if not feed_data:
       self.fetch_data_internal()
@@ -123,7 +129,7 @@ class ZNodeFeedListBase(ZNode):
     EntityService().get_multi(answer_ids)
     
     self.set_view_data_item('render_feed_item', self.render_feed_item)
-    
+    self.set_view_data_item('render_more_button', self.render_more_button)
     # self.current_handler.response.out.write(feed_data)
     # for f in feed_data:
     #   self.render_feed_item(f)
@@ -144,9 +150,20 @@ class ZNodeFeedListBase(ZNode):
 
 class ZNodeHomeFeedList(ZNodeFeedListBase):
     def fetch_data_internal(self):
-      self.set_view_data_item('feeds', FeedService().get_feed(self.get_meta('start')))
+      feeds, has_more, limit = FeedService().get_feed(start = self.get_meta('start'))
+      self.set_view_data_item('feeds', feeds)
+      self.set_view_data_item('has_more', has_more)
     
-    
+    def render_more_button(self):
+      if self.get_view_data_item('has_more'):
+        meta = {
+          'request_url': self.get_handler().uri_for('home', method_name = 'load_more')
+        }      
+        more_button = ZNodeMoreButton(self.get_handler(), meta)
+        self.add_child(more_button)
+        return more_button.render()
+      else:
+        return 'No more!!'
     
     
     

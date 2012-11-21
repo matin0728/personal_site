@@ -1,5 +1,6 @@
 # import webapp2
 # import jinja2
+import logging
 import os
 import json
 # from module.shared import *
@@ -83,13 +84,13 @@ class AjaxResponse(object):
   
   def get_pagelet_by_type(self, type_string):
     for p in self.pagelets:
-      if p.type_string == type_string:
+      if p.type_string == CLIENT_TYPE_MAP[type_string]:
         return p
         
   def get_pagelets_by_type(self, type_string):
     found = []
     for p in self.pagelets:
-      if p.type_string == type_string:
+      if p.type_string == CLIENT_TYPE_MAP[type_string]:
         found.append(p)
     
     return found
@@ -113,10 +114,12 @@ class Pagelet(object):
     self.znode = None
     if znode_instance:
       self.znode = znode_instance
-    
-    self.type_string = type_string
-    self.client_id = client_id
-    self.markup = markup
+      self.type_string = znode_instance.get_type()
+      self.client_id = znode_instance.get_client_id()
+    else:
+      self.type_string = type_string
+      self.client_id = client_id
+      self.markup = markup
       
     self.ref_element = ''
     # default set to decoration, case most use case is in the handler, to append
@@ -143,6 +146,9 @@ class Pagelet(object):
     self.event_type = event_type_string
     self.event_args = event_arg_string
     return self
+    
+  def get_node_instance(self):
+    return self.znode
   
   def get_json_object(self):
     if self.znode:
@@ -166,7 +172,7 @@ class Pagelet(object):
 class LiveQueryProcessor(object):
   def __init__(self, live_queries):
     super(LiveQueryProcessor, self).__init__()
-
+    
     if live_queries:
       self.queries_ = json.loads(live_queries)
     else:
@@ -176,14 +182,15 @@ class LiveQueryProcessor(object):
     
   @classmethod 
   def deserialize_meta(cls, meta_data):
-    meta = {}
-    data = meta_data.split("&")
-    for item in data:
-      d = item.split('=')
-      if len(d) == 2:
-        meta[d[0]] = d[1]
+    return json.loads(meta_data)
+    # meta = {}
+    # data = meta_data.split("&")
+    # for item in data:
+    #   d = item.split('=')
+    #   if len(d) == 2:
+    #     meta[d[0]] = d[1]
     
-    return meta
+    # return meta
   
   @classmethod 
   def create_node(cls, node_name, instance_identity, meta_data, handler): 
@@ -195,7 +202,9 @@ class LiveQueryProcessor(object):
       'ZH.ui.Comment': ZNodeComment,
       'ZH.ui.AnswerMeta': ZNodeAnswerMeta,
       'ZH.ui.Answer': ZNodeAnswer,
-      'ZH.ui.AnswerListHeader': ZNodeAnswerListHeader
+      'ZH.ui.AnswerListHeader': ZNodeAnswerListHeader,
+      'ZH.ui.MoreButton': ZNodeMoreButton,
+      'ZH.ui.FeedItem':ZNodeFeedItem
     }
     
     # NOTE: could be a dic.
@@ -217,6 +226,7 @@ class LiveQueryProcessor(object):
         
   def get_response(self, handler):
     pagelets = []
+
     for q in self.queries_:
       # t: type_string, i: instance_identity, m: meta_data, r: render_position, rf: ref element, rt: reder type
       #NOTE: whether update or create new node, this instance should always be trit as root element.
@@ -242,6 +252,7 @@ class LiveQueryProcessor(object):
       
     result = AjaxResponse(handler.get_parents_map())
     result.pagelets = pagelets
+
     return result
           
     # if not self.result_:
