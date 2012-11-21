@@ -1,6 +1,10 @@
 <div class="comment-list"{{node_attribute()}}>
   <div class="loading"></div>
+  {% if comments|length > 0 %}
   <div class="inner">
+  {% else %}
+  <div class="inner" style="display:none">
+  {% endif %}
     {% for comment in comments -%}
     {{ render_comment(comment) }}
     {%- endfor %}
