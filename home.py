@@ -24,10 +24,10 @@ class HomeHandler(BaseHandler):
     return home_page.render()
     
   def load_more(self):
-    start = self.request.get('start', 0)
+    start = int(self.request.get('start', 0))
     feed_list_wrap = self.request.get('feed_list_wrap')
     
-    feed_data, has_more, limit = service.FeedService().get_feed(start = int(start))
+    feed_data, has_more, limit = service.FeedService().get_feed(start = start)
     
     question_ids = []
     answer_ids = []

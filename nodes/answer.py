@@ -6,6 +6,7 @@ from model.question import *
 from model.answer import *
 from shared.znode import ZNode
 from service import *
+import datetime
 
 
 
@@ -68,6 +69,8 @@ class ZNodeAnswerMeta(ZNode):
     answer = self.get_view_data_item('answer')
     if not answer:
       self.fetch_data_internal()
+    
+      
 
 class ZNodeAnswer(ZNode):
   client_type = 'ZH.ui.Answer'

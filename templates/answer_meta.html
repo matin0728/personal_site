@@ -1,19 +1,9 @@
 {% set is_thanks = answer.key in relation.thanksed_answers %}
 {% set is_nohelp = answer.key in relation.no_help_answers %}
 <div class="item-meta answer-meta"{{node_attribute()}}>
-    <a href="#" class="link-gray">[{{ answer.key.id() }}], {{ answer.created_date }}</a>
+    <a href="javascript:;" class="link-gray">{{ answer.created_date.strftime('%m-%d-%y %H:%M:%S') }}</a>
     <span class="dot">·</span>
-    <!-- <a href="{{ uri_for('comment.list', entity_key_string = answer.key.urlsafe())}}" name="comment" class="link-gray">{{ answer.comment_num }} 条评论</a>
-    <a href="{{ uri_for('answer.vote_up', question_id = answer.question.id(), answer_id = answer.key.id()) }}">赞同</a>
-    <a href="{{ uri_for('answer.vote_down', question_id = answer.question.id(), answer_id = answer.key.id()) }}">反对</a>
-    {% if is_nohelp %}
-    <a href="{{ uri_for('answer.cancel_nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}">取消没有帮助</a>
-    {% else %}
-    <a href="{{ uri_for('answer.nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}">没有帮助</a>
-    {% endif %} -->
-    
     <a class="action-anchor" data-action="comments" data-actiontarget="{{ uri_for('node', entity_key_string = answer.key.urlsafe())}}" href="javascript:;" class="link-gray">{{ answer.comment_num }} 条评论</a>
-
     {% if is_thanks %}
     <a class="action-anchor" data-action="thanks" data-actiondisabled="1" href="javascript:;">感谢已发送</a>
     {% else %}
@@ -24,9 +14,7 @@
     <a class="action-anchor" data-action="cancel_nohelp" data-actiontarget="{{ uri_for('answer.cancel_nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}" href="javascript:;">取消没有帮助</a>
     {% else %}
     <a class="action-anchor" data-action="nohelp" data-actiontarget="{{ uri_for('answer.nohelp', question_id = answer.question.id(), answer_id = answer.key.id()) }}" href="javascript:;">没有帮助</a>
-    {% endif %}
-    
-    
+    {% endif %}    
     <!-- <a href="{{ uri_for('answer.edit', question_id = answer.question.id(), answer_id = answer.key.id()) }}">修改</a>  -->
     <!-- <a href="{{ uri_for('answer.delete', question_id = answer.question.id(), answer_id = answer.key.id()) }}" onclick="javascript:return confirm('确定要删除答案吗？')">删除</a> -->
 </div>
