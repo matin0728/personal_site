@@ -80,6 +80,10 @@ class ZNodeAnswer(ZNode):
   # meta_ = {
   #   'hide_answer_meta': 1 # Hide answer meta by default.
   # }
+  def set_comments_list(self, comments_list_node):
+    self.add_child(comments_list_node)
+    self.set_meta('comments_list_id', comments_list_node.get_client_id())
+    self.set_view_data_item('opt_render_comments', comments_list_node.render())
   
   def __init__(self, current_handler, meta = {}):
     #TODO: merge options.

@@ -1,7 +1,7 @@
 {% set is_thanks = answer.key in relation.thanksed_answers %}
 {% set is_nohelp = answer.key in relation.no_help_answers %}
 <div class="item-meta answer-meta"{{node_attribute()}}>
-    <a href="javascript:;" class="link-gray">{{ answer.created_date.strftime('%m-%d-%y %H:%M:%S') }}</a>
+    <a href="{{ uri_for('answer', question_id = answer.question.id(), answer_id = answer.key.id()) }}" class="link-gray">{{ answer.created_date.strftime('%m-%d-%y %H:%M:%S') }}</a>
     <span class="dot">·</span>
     <a class="action-anchor" data-action="comments" data-actiontarget="{{ uri_for('node', entity_key_string = answer.key.urlsafe())}}" href="javascript:;" class="link-gray">{{ answer.comment_num }} 条评论</a>
     {% if is_thanks %}

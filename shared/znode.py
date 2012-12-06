@@ -10,7 +10,7 @@ import json
 from client_type_map import *
 
 jinja_environment = jinja2.Environment(
-  loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates')))
+  loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates/default')))
 
         
 class ParentsMap(object):
@@ -38,7 +38,7 @@ class ParentsMap(object):
     else:
       self.seed_ = self.seed_ + 1
         
-    return str_type + self.map_name_(self.seed_)
+    return str_type + '-' + self.map_name_(self.seed_)
   
   def set_parent(self, parent_id, child_node_info):
     if not parent_id in self.parents_map_.keys():

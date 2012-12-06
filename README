@@ -4,12 +4,8 @@ import webapp2
 import jinja2
 import os
 from google.appengine.ext import ndb
-from model.question import *
-from model.answer import *
-from shared.znode import ZNode
-from service.entity import EntityService
-from service.question import QuestionService
-from answer import *
+import model
+import service
 
 from shared.znode import *
 

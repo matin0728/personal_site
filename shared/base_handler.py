@@ -57,7 +57,7 @@ class BaseHandler(webapp2.RequestHandler):
   # @webapp2.cached_property
   def get_template_environment(self):
     jinja_environment = jinja2.Environment(
-      loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates')))
+      loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates/default')))
     return jinja_environment
     
   def process_live_query(self):

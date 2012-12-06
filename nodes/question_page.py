@@ -4,7 +4,6 @@ import os
 from google.appengine.ext import ndb
 from model.question import *
 from model.answer import *
-from shared.znode import ZNode
 from service.feed import FeedService
 from service.entity import EntityService
 from service.question import QuestionService

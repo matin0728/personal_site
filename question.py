@@ -82,7 +82,8 @@ class QuestionAddAnswerHandler(BaseHandler):
     
     meta = {
       'question_id': question_id,
-      'answer_id': answer.key.id()
+      'answer_id': answer.key.id(),
+      'hide_answer_meta': 0
     }
     
     # Update edit form pagelet.

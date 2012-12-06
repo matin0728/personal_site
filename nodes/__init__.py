@@ -6,3 +6,7 @@ from comment_list import *
 from question_page import *
 from home_page import *
 from demo import *
+from answer_page import *
+from settings_nav import *
+from settings_account import *
+from settings_email import *
