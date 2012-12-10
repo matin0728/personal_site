@@ -18,7 +18,7 @@ class ZNodeSettingsAccount(ZNode):
   # }
   # 
   template_ = 'settings_account.html'
-  client_type = 'ZH.page.SettingsAccount'
+  client_type = 'ZH.ui.SettingsAccount'
   
   def fetch_data_internal(self):
     account = model.Account.get_by_id(int(self.get_meta('account_id')))

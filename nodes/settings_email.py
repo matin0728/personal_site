@@ -17,7 +17,7 @@ class ZNodeSettingsEmail(ZNode):
   # }
   # 
   template_ = 'settings_email.html'
-  client_type = 'ZH.page.SettingsEmail'
+  client_type = 'ZH.ui.SettingsEmail'
   
   def fetch_data_internal(self):
     pass
