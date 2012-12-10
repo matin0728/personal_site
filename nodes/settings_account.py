@@ -10,18 +10,25 @@ from settings_forms import *
 
 class ZNodeSettingsAccount(ZNode):
   # meta = {
+  #   account_id:xxx
   # }
   
   # view_data = {
+  #   account
   # }
   # 
   template_ = 'settings_account.html'
   client_type = 'ZH.page.SettingsAccount'
   
   def fetch_data_internal(self):
-    pass
+    account = model.Account.get_by_id(int(self.get_meta('account_id')))
+    self.set_view_data_item('account', account)
     
   def fetch_data(self):
+    account = self.get_view_data_item('account')
+    if not account:
+      self.fetch_data_internal()
+      
     meta = {}
     form_edit_name = ZNodeSettingsFormEditName(self.get_handler(), meta)
     self.add_child(form_edit_name)

@@ -204,7 +204,8 @@ class LiveQueryProcessor(object):
       'ZH.ui.Answer': ZNodeAnswer,
       'ZH.ui.AnswerListHeader': ZNodeAnswerListHeader,
       'ZH.ui.MoreButton': ZNodeMoreButton,
-      'ZH.ui.FeedItem':ZNodeFeedItem
+      'ZH.ui.FeedItem':ZNodeFeedItem,
+      'ZH.ui.SettingsFormEditName':ZNodeSettingsFormEditName
     }
     
     # NOTE: could be a dic.

@@ -9,9 +9,11 @@ from shared.znode import *
 
 class ZNodeSettingsEmail(ZNode):
   # meta = {
+  #   account_id
   # }
   
   # view_data = {
+  #   account
   # }
   # 
   template_ = 'settings_email.html'
