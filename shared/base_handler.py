@@ -123,7 +123,18 @@ class BaseHandler(webapp2.RequestHandler):
     template = env.get_template(template)
     self.response.out.write(template.render(context))
     
-  
+  def pagelet_(self, node_instance, render_position = PAGELET_RENDER_POSITION.BEFORE, ref_element_id = 'ref_element'):
+    ref_element = self.request.get(ref_element_id)
+
+    response = self.get_ajax_response();
+    pagelet = Pagelet(node_instance)
+
+    pagelet.set_ref_element(ref_element)
+    pagelet.set_render_position(render_position)
+    pagelet.set_render_type(PAGELET_RENDER_TYPE.DECORATION)
+
+    response.add_pagelet(pagelet)
+    self.output_ajax_response(response)
 
     # method_name = request.route.handler_method
     # if not method_name:

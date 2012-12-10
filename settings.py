@@ -50,18 +50,7 @@ class SettingsAccountHandler(SettingsBaseHandler):
     return account_node
     
   def pagelet(self):
-    account_node = self.get_account_node_()
-    ref_element = self.request.get('ref_element')
-    
-    response = self.get_ajax_response();
-    pagelet = Pagelet(account_node)
-    
-    pagelet.set_ref_element(ref_element)
-    pagelet.set_render_position(PAGELET_RENDER_POSITION.BEFORE)
-    pagelet.set_render_type(PAGELET_RENDER_TYPE.DECORATION)
-
-    response.add_pagelet(pagelet)
-    self.output_ajax_response(response)
+    self.pagelet_(self.get_account_node_())
     
   def edit_name(self):
     nick_name = self.request.get('nickname')
@@ -97,19 +86,9 @@ class SettingsEmailHandler(SettingsBaseHandler):
     email_node = nodes.ZNodeSettingsEmail(self, meta)
     return email_node
     
-  def pagelet(self):  
-    email_node = self.get_email_node_()
-    ref_element = self.request.get('ref_element')
+  def pagelet(self):
+    self.pagelet_(self.get_email_node_())
     
-    response = self.get_ajax_response();
-    pagelet = Pagelet(email_node)
-    
-    pagelet.set_ref_element(ref_element)
-    pagelet.set_render_position(PAGELET_RENDER_POSITION.BEFORE)
-    pagelet.set_render_type(PAGELET_RENDER_TYPE.DECORATION)
-
-    response.add_pagelet(pagelet)
-    self.output_ajax_response(response)
 
   
     
