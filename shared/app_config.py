@@ -5,5 +5,5 @@ debug = os.environ.get('SERVER_SOFTWARE', '').startswith('Dev')
 
 SITE_CONFIG = {
   'is_debug': debug,
-  'static_file_version': '1212101843902664'
+  'static_file_version': '1212102051631860'
 }
