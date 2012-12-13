@@ -28,12 +28,28 @@ class SettingsBaseHandler(BaseHandler):
     }
     page = nodes.ZNodeSettingsPage(self, meta)
     return page
-      
+    
+  def tab_content_pagelet(self):
+    pass
+    
   def pagelet(self):
-    self.pagelet_(self.get_content_node())
+    group_name = self.request.get('page_group')
+    if group_name == 'default':
+      content = self.get_content_node()
+      self.pagelet_(content)
+    else:
+      self.tab_content_pagelet()
 
 class SettingsAccountHandler(SettingsBaseHandler):
   active_tab = 'account'
+  
+  def tab_content_pagelet(self):
+    account = self.get_current_account()
+    meta = {
+      'account_id':account.key.id()
+    }
+    content = nodes.ZNodeSettingsAccount(self, meta)
+    self.pagelet_(content)
     
   def edit_name(self):
     nick_name = self.request.get('nickname')
@@ -57,7 +73,13 @@ class SettingsAccountHandler(SettingsBaseHandler):
 class SettingsEmailHandler(SettingsBaseHandler):
   active_tab = 'email'    
 
-    
+  def tab_content_pagelet(self):
+    account = self.get_current_account()
+    meta = {
+      'account_id':account.key.id()
+    }
+    content = nodes.ZNodeSettingsEmail(self, meta)
+    self.pagelet_(content)  
 
   
     

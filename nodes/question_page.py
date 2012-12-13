@@ -26,6 +26,11 @@ class ZNodeQuestionPage(ZNode):
   template_ = 'question_page.html'
   client_type = 'ZH.page.QuestionPage'
   
+  def __init__(self, current_handler, meta = {}):
+    #TODO: merge options.
+    meta['page_url'] = '/question/' + meta['question_id']
+    super(ZNodeQuestionPage, self).__init__(current_handler, meta = meta)
+  
   def fetch_data_internal(self):
     pass
     

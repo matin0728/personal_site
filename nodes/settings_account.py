@@ -18,7 +18,13 @@ class ZNodeSettingsAccount(ZNode):
   # }
   # 
   template_ = 'settings_account.html'
-  client_type = 'ZH.ui.SettingsAccount'
+  client_type = 'ZH.page.SettingsAccount'
+  
+  def __init__(self, current_handler, meta = {}):
+    #TODO: merge options.
+    meta['page_url'] = '/settings/account'
+    meta['page_group'] = 'settings_tab'
+    super(ZNodeSettingsAccount, self).__init__(current_handler, meta = meta)
   
   def fetch_data_internal(self):
     account = model.Account.get_by_id(int(self.get_meta('account_id')))

@@ -19,6 +19,11 @@ class ZNodeSettingsPage(ZNode):
   template_ = 'settings_page.html'
   client_type = 'ZH.page.SettingsPage'
   
+  def __init__(self, current_handler, meta = {}):
+    #TODO: merge options.
+    meta['page_url'] = '/settings/' + meta['active_tab']
+    super(ZNodeSettingsPage, self).__init__(current_handler, meta = meta)
+  
   def fetch_data_internal(self):
     pass
     
@@ -46,7 +51,8 @@ class ZNodeSettingsPage(ZNode):
 
   def render_nav_bar(self):
     meta = {
-      'active_tab': self.get_meta('active_tab')
+      'active_tab': self.get_meta('active_tab'),
+      'page_group_name': 'settings_tab'
     }
     nav_bar = nodes.ZNodeSettingsNav(self.get_handler(), meta)
     self.add_child(nav_bar)

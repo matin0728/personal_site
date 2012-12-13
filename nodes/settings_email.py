@@ -17,7 +17,14 @@ class ZNodeSettingsEmail(ZNode):
   # }
   # 
   template_ = 'settings_email.html'
-  client_type = 'ZH.ui.SettingsEmail'
+  client_type = 'ZH.page.SettingsEmail'
+  
+  def __init__(self, current_handler, meta = {}):
+    #TODO: merge options.
+    meta['page_url'] = '/settings/email'
+    meta['page_group'] = 'settings_tab'
+      
+    super(ZNodeSettingsEmail, self).__init__(current_handler, meta = meta)
   
   def fetch_data_internal(self):
     pass

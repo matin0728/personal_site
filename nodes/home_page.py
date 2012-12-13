@@ -19,6 +19,19 @@ class ZNodeHomePage(ZNode):
   template_ = 'home_page.html'
   client_type = 'ZH.page.HomePage'
   
+  def __init__(self, current_handler, meta = {}):
+    # TODO: Can we retrive current request path from 
+    # request object(Not include question string and hash)?
+    # Only [list like] page needs to be set as base page, whick will be reserved dring
+    # loading new pages.
+    
+    #TODO: merge options.
+    meta['page_url'] = '/'
+    # default group is no need to set
+    # meta['page_group'] = 'default'
+    meta['is_base'] = 1
+    super(ZNodeHomePage, self).__init__(current_handler, meta = meta)
+  
   def fetch_data_internal(self):
     pass
     
