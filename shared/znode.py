@@ -66,7 +66,8 @@ class ZNode(object):
   template_ = ''
   client_type = 'ZH.common.LiveComponent'
   def set_root_node(self):
-    self.get_handler().get_parents_map().add_root_node([self.get_type(), self.get_client_id()])
+    self.get_handler().get_parents_map().add_root_node(self.get_client_id())
+    # self.get_handler().get_parents_map().add_root_node([self.get_type(), self.get_client_id()])
   
   """A creation filter.
   handler can add node near the new node or return false to prevent new node to be 
@@ -113,7 +114,8 @@ class ZNode(object):
   def add_child(self, child_node):
     child_node.set_parent(self)
     self.child_nodes.append(child_node)
-    self.get_handler().get_parents_map().set_parent(self.get_client_id(), [child_node.get_type(), child_node.get_client_id()])
+    self.get_handler().get_parents_map().set_parent(self.get_client_id(), child_node.get_client_id())
+    #self.get_handler().get_parents_map().set_parent(self.get_client_id(), [child_node.get_type(), child_node.get_client_id()])
     
   def get_view_data_item(self, key):
     if key in self.view_data.keys():
