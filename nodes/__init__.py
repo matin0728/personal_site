@@ -11,3 +11,4 @@ from settings_nav import *
 from settings_account import *
 from settings_email import *
 from settings_page import *
+from home_tab_test import *

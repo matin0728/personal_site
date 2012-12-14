@@ -149,21 +149,22 @@ class ZNodeFeedListBase(ZNode):
     
 
 class ZNodeHomeFeedList(ZNodeFeedListBase):
-    def fetch_data_internal(self):
-      feeds, has_more, limit = FeedService().get_feed(start = self.get_meta('start'))
-      self.set_view_data_item('feeds', feeds)
-      self.set_view_data_item('has_more', has_more)
-    
-    def render_more_button(self):
-      if self.get_view_data_item('has_more'):
-        meta = {
-          'request_url': self.get_handler().uri_for('home', method_name = 'load_more')
-        }      
-        more_button = ZNodeMoreButton(self.get_handler(), meta)
-        self.add_child(more_button)
-        return more_button.render()
-      else:
-        return 'No more!!'
+  
+  def fetch_data_internal(self):
+    feeds, has_more, limit = FeedService().get_feed(start = self.get_meta('start'))
+    self.set_view_data_item('feeds', feeds)
+    self.set_view_data_item('has_more', has_more)
+  
+  def render_more_button(self):
+    if self.get_view_data_item('has_more'):
+      meta = {
+        'request_url': self.get_handler().uri_for('home', method_name = 'load_more')
+      }      
+      more_button = ZNodeMoreButton(self.get_handler(), meta)
+      self.add_child(more_button)
+      return more_button.render()
+    else:
+      return 'No more!!'
     
     
     

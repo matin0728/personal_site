@@ -6,7 +6,7 @@ import model
 import service
 # from module.shared.feed import ZNodeFeedList
 
-class HomeHandler(BaseHandler):
+class HomeMyQuestionHandler(BaseHandler):
   def get(self):
     # context = {
     #   'question_list': question_list,
@@ -19,7 +19,32 @@ class HomeHandler(BaseHandler):
     self.render('home.html', context)
     
   def render_home_page(self):
-    home_page = nodes.ZNodeHomePage(self)
+    home_page = nodes.ZNodeHomeMyQuestion(self)
+    home_page.set_root_node()
+    return home_page.render()
+    
+  def pagelet(self):
+    home_page = nodes.ZNodeHomeMyQuestion(self)
+    self.pagelet_(home_page)
+
+class HomeHandler(BaseHandler):
+  def get(self):
+    # context = {
+    #   'question_list': question_list,
+    #   'feed_list':feed_list.render()
+    # }
+    context = {
+      'render_home_page': self.render_home_page()
+    }
+    
+    self.render('home.html', context)
+    
+  def pagelet(self):
+    home_page = nodes.ZNodeHomePageFeed(self)
+    self.pagelet_(home_page)
+    
+  def render_home_page(self):
+    home_page = nodes.ZNodeHomePageFeed(self)
     home_page.set_root_node()
     return home_page.render()
     

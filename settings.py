@@ -30,6 +30,7 @@ class SettingsBaseHandler(BaseHandler):
     return page
     
   def tab_content_pagelet(self):
+    #subclass override.
     pass
     
   def pagelet(self):
