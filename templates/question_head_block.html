@@ -1,9 +1,0 @@
-<h1>{{question.title}}</h1>
-<!-- <h3>Description</h3> -->
-<p>
-   {{question.description}}
-</p>
-<div class="alert alert-info">
-    <a href="{{ uri_for('question.edit', question_id = question.key.id()) }}" class="btn">修改</a> 
-    <a href="{{ uri_for('question.delete', question_id = question.key.id()) }}" onclick="javascript:return confirm('确定要删除此问题？')" class="btn">删除</a>
-</div>
