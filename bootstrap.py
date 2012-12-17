@@ -42,7 +42,10 @@ app = webapp2.WSGIApplication([
     webapp2.Route(r'/signup', handler=SignupHandler, name='signup'),
     
     webapp2.Route(r'/settings/account', handler=SettingsAccountHandler, name='settings.account'),
+    webapp2.Route(r'/settings/notify', handler=SettingsNotifyHandler, name='settings.notify'),
     webapp2.Route(r'/settings/email', handler=SettingsEmailHandler, name='settings.email'),
+    webapp2.Route(r'/settings/bind', handler=SettingsBindHandler, name='settings.bind'),
+    webapp2.Route(r'/settings/blockuser', handler=SettingsBlockUserHandler, name='settings.blockuser'),
     
     webapp2.Route(r"/update_modal", handler=ModalUpdateHandler),
 ], debug = SITE_CONFIG['is_debug'], config=SITE_CONFIG)

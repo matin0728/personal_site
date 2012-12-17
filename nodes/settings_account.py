@@ -17,7 +17,7 @@ class ZNodeSettingsAccount(ZNode):
   #   account
   # }
   # 
-  template_ = 'settings_account.html'
+  template_ = 'settings/settings_account.html'
   client_type = 'ZH.page.SettingsAccount'
   
   def __init__(self, current_handler, meta = {}):
@@ -39,11 +39,31 @@ class ZNodeSettingsAccount(ZNode):
     form_edit_name = ZNodeSettingsFormEditName(self.get_handler(), meta)
     self.add_child(form_edit_name)
     self.set_meta('form_edit_name', form_edit_name.get_client_id())
-    self.set_view_data_item('render_form_edit_name', self.render_form_edit_name(form_edit_name))
+    self.set_view_data_item('render_form_edit_name', form_edit_name.render())
     
-  def render_form_edit_name(self, form_edit_name):
-    return form_edit_name.render()
+    form_edit_url = ZNodeSettingsFormEditUrl(self.get_handler(), meta)
+    self.add_child(form_edit_url)
+    self.set_meta('form_edit_url', form_edit_url.get_client_id())
+    self.set_view_data_item('render_form_edit_url', form_edit_url.render())
+    
+    form_edit_email = ZNodeSettingsFormEditEmail(self.get_handler(), meta)
+    self.add_child(form_edit_email)
+    self.set_meta('form_edit_email', form_edit_email.get_client_id())
+    self.set_view_data_item('render_form_edit_email', form_edit_email.render())
+    
+    form_edit_password = ZNodeSettingsFormEditPassword(self.get_handler(), meta)
+    self.add_child(form_edit_password)
+    self.set_meta('form_edit_password', form_edit_password.get_client_id())
+    self.set_view_data_item('render_form_edit_password', form_edit_password.render())
+    
+  # def render_form_edit_name(self, form_edit_name):
+  #   return form_edit_name.render()
     
     
     
     
+
+
+
+
+

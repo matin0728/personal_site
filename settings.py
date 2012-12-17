@@ -15,7 +15,7 @@ class SettingsBaseHandler(BaseHandler):
     context = {
       'render_settings_page': self.render_settings_page()
     }
-    self.render('settings_base.html', context)
+    self.render('settings/settings_base.html', context)
   
   def render_settings_page(self):
     page = self.get_content_node()
@@ -71,6 +71,47 @@ class SettingsAccountHandler(SettingsBaseHandler):
 
     self.output_ajax_response(response)
     
+  def edit_url(self):
+    # TODO: save url
+    response = self.get_ajax_response()
+    edit_url_form_pagelet_ = response.get_pagelet_by_type('ZH.ui.SettingsFormEditUrl')
+    edit_url_form_node_ = edit_url_form_pagelet_.get_node_instance()
+    edit_url_form_node_.set_expanded(False)
+    response.set_message('保存成功！').set_refresh(True)
+    
+    self.output_ajax_response(response)
+    
+  def edit_email(self):
+    # TODO: save email
+    response = self.get_ajax_response()
+    edit_email_form_pagelet_ = response.get_pagelet_by_type('ZH.ui.SettingsFormEditEmail')
+    edit_email_form_node_ = edit_email_form_pagelet_.get_node_instance()
+    edit_email_form_node_.set_expanded(False)
+    response.set_message('保存成功！').set_refresh(True)
+    
+    self.output_ajax_response(response)
+    
+  def edit_password(self):
+    # TODO: save password
+    response = self.get_ajax_response()
+    edit_password_form_pagelet_ = response.get_pagelet_by_type('ZH.ui.SettingsFormEditPassword')
+    edit_password_form_node_ = edit_password_form_pagelet_.get_node_instance()
+    edit_password_form_node_.set_expanded(False)
+    response.set_message('保存成功！').set_refresh(True)
+    
+    self.output_ajax_response(response)
+    
+class SettingsNotifyHandler(SettingsBaseHandler):
+  active_tab = 'notify'    
+
+  def tab_content_pagelet(self):
+    account = self.get_current_account()
+    meta = {
+      'account_id':account.key.id()
+    }
+    content = nodes.ZNodeSettingsNotify(self, meta)
+    self.pagelet_(content)
+    
 class SettingsEmailHandler(SettingsBaseHandler):
   active_tab = 'email'    
 
@@ -82,7 +123,27 @@ class SettingsEmailHandler(SettingsBaseHandler):
     content = nodes.ZNodeSettingsEmail(self, meta)
     self.pagelet_(content)  
 
-  
+class SettingsBindHandler(SettingsBaseHandler):
+  active_tab = 'bind'    
+
+  def tab_content_pagelet(self):
+    account = self.get_current_account()
+    meta = {
+      'account_id':account.key.id()
+    }
+    content = nodes.ZNodeSettingsBind(self, meta)
+    self.pagelet_(content)  
+    
+class SettingsBlockUserHandler(SettingsBaseHandler):
+  active_tab = 'block_user'    
+
+  def tab_content_pagelet(self):
+    account = self.get_current_account()
+    meta = {
+      'account_id':account.key.id()
+    }
+    content = nodes.ZNodeSettingsBlockUser(self, meta)
+    self.pagelet_(content)
     
 
       

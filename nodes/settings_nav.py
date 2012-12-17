@@ -15,7 +15,7 @@ class ZNodeSettingsNav(ZNode):
   # view_data = {
   # }
   # 
-  template_ = 'settings_nav.html'
+  template_ = 'settings/settings_nav.html'
   client_type = 'ZH.ui.SettingsTabPane'
   
   def fetch_data_internal(self):

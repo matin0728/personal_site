@@ -205,7 +205,10 @@ class LiveQueryProcessor(object):
       'ZH.ui.AnswerListHeader': ZNodeAnswerListHeader,
       'ZH.ui.MoreButton': ZNodeMoreButton,
       'ZH.ui.FeedItem':ZNodeFeedItem,
-      'ZH.ui.SettingsFormEditName':ZNodeSettingsFormEditName
+      'ZH.ui.SettingsFormEditName':ZNodeSettingsFormEditName,
+      'ZH.ui.SettingsFormEditUrl':ZNodeSettingsFormEditUrl,
+      'ZH.ui.SettingsFormEditEmail':ZNodeSettingsFormEditEmail,
+      'ZH.ui.SettingsFormEditPassword':ZNodeSettingsFormEditPassword
     }
     
     # NOTE: could be a dic.

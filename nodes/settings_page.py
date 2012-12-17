@@ -16,7 +16,7 @@ class ZNodeSettingsPage(ZNode):
   # view_data = {
   # }
   # 
-  template_ = 'settings_page.html'
+  template_ = 'settings/settings_page.html'
   client_type = 'ZH.page.SettingsPage'
   
   def __init__(self, current_handler, meta = {}):
@@ -45,6 +45,12 @@ class ZNodeSettingsPage(ZNode):
       content = nodes.ZNodeSettingsAccount(self.get_handler(), meta)
     elif tab == 'email':
       content = nodes.ZNodeSettingsEmail(self.get_handler(), meta)
+    elif tab == 'notify':
+      content = nodes.ZNodeSettingsNotify(self.get_handler(), meta)
+    elif tab == 'bind':
+      content = nodes.ZNodeSettingsBind(self.get_handler(), meta)
+    elif tab == 'block_user':
+      content = nodes.ZNodeSettingsBlockUser(self.get_handler(), meta)
     
     self.add_child(content)
     return content.render()

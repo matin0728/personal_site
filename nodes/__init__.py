@@ -11,4 +11,7 @@ from settings_nav import *
 from settings_account import *
 from settings_email import *
 from settings_page import *
+from settings_notify import *
+from settings_bind import *
+from settings_block_user import *
 from home_tab_test import *

@@ -7,18 +7,18 @@ import service
 
 from shared.znode import *
 
-class ZNodeSettingsFormEditName(ZNode):
+class ZNodeSettingsFormBase(ZNode):
   # meta = {
   # }
   
   # view_data = {
   # }
   # 
-  template_ = 'settings_form_edit_name.html'
-  client_type = 'ZH.ui.SettingsFormEditName'
+  template_ = ''
+  client_type = ''
   
   def __init__(self, current_handler, meta = {}):
-    super(ZNodeSettingsFormEditName, self).__init__(current_handler, meta = meta)
+    super(ZNodeSettingsFormBase, self).__init__(current_handler, meta = meta)
     self.error_messages_ = []
     self.expanded_ = False
     if 'expanded' in meta.keys():
@@ -37,8 +37,28 @@ class ZNodeSettingsFormEditName(ZNode):
   def append_error_message(self, error_message):
     self.error_messages_.append(error_message)
     
+class ZNodeSettingsFormEditName(ZNodeSettingsFormBase):
+  template_ = 'settings/settings_form_edit_name.html'
+  client_type = 'ZH.ui.SettingsFormEditName'
+  
+class ZNodeSettingsFormEditUrl(ZNodeSettingsFormBase):
+  template_ = 'settings/settings_form_edit_url.html'
+  client_type = 'ZH.ui.SettingsFormEditUrl'
+    
+class ZNodeSettingsFormEditEmail(ZNodeSettingsFormBase):
+  template_ = 'settings/settings_form_edit_email.html'
+  client_type = 'ZH.ui.SettingsFormEditEmail'
+  
+class ZNodeSettingsFormEditPassword(ZNodeSettingsFormBase):
+  template_ = 'settings/settings_form_edit_password.html'
+  client_type = 'ZH.ui.SettingsFormEditPassword'
     
     
-    
-    
-    
+
+
+
+
+
+
+
+
