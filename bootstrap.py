@@ -48,6 +48,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route(r'/settings/blockuser', handler=SettingsBlockUserHandler, name='settings.blockuser'),
     
     webapp2.Route(r"/update_modal", handler=ModalUpdateHandler),
+    # For test purpose only
+    webapp2.Route(r"/test", handler=TestHandler)
 ], debug = SITE_CONFIG['is_debug'], config=SITE_CONFIG)
 
 

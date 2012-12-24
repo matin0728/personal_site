@@ -146,6 +146,10 @@ class SignupHandler(BaseHandler):
 
     account.put()
     self.redirect(self.uri_for('home'))
+    
+class TestHandler(BaseHandler):
+  def get(self):
+    self.render('test_ac.html')
 
 class ModalUpdateHandler(BaseHandler):
   def get(self):

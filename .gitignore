@@ -9,6 +9,8 @@ _Store
 *.bak
 *.tmproj
 static/lib
+static/js/lib
+static/js/c
 static/js/closure-library-new
 static/css/v3
 static/img
