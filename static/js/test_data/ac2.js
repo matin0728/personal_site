@@ -25,6 +25,7 @@
     },
     {'unselectable':1, 'html':'<div class="ac-row-label">用户</div>'},
     {
+        'hilited': 1,
         'entity':{
             'kind': 'member',
             'id': '123',
