@@ -21,6 +21,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route(r'/question/<question_id:\d+>/add_answer', handler=QuestionAddAnswerHandler, name="question.add_answer"),
     webapp2.Route(r'/question/<question_id:\d+>/focus', handler=QuestionFocusHandler, name="question.focus"),
     webapp2.Route(r'/question/<question_id:\d+>/unfocus', handler=QuestionUnFocusHandler, name="question.unfocus"),
+    webapp2.Route(r'/question/<question_id:\d+>/bind', handler=QuestionBindTopicHandler, name="question.bind_topic"),
+    webapp2.Route(r'/question/<question_id:\d+>/unbind', handler=QuestionUnBindTopicHandler, name="question.un_bind_topic"),
     
     
     webapp2.Route(r'/question/<question_id:\d+>/answer/<answer_id:\d+>', handler=AnswerHandler, name='answer'),
@@ -49,7 +51,7 @@ app = webapp2.WSGIApplication([
     
     webapp2.Route(r"/update_modal", handler=ModalUpdateHandler),
     # For test purpose only
-    webapp2.Route(r"/test", handler=TestHandler)
+    webapp2.Route(r"/test", handler=TestHandler, name="test")
 ], debug = SITE_CONFIG['is_debug'], config=SITE_CONFIG)
 
 

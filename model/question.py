@@ -4,7 +4,7 @@ import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import users
 from account import Account
-
+from topic import Topic
 
 # from google.appengine.ext.ndb import polymodel
 
@@ -19,3 +19,5 @@ class Question(ndb.Model):
   answers_num = ndb.IntegerProperty(default = 0)
   creator = ndb.KeyProperty(kind = Account)
   created_date = ndb.DateTimeProperty(auto_now_add=True)
+  # Shall we disable the index on topics column?
+  topics = ndb.KeyProperty(kind = Topic, repeated = True)

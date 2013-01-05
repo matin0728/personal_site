@@ -6,3 +6,4 @@ from answer import Answer
 from account import Account
 from accountxquestion import AccountXQuestion
 from comment import Comment
+from topic import Topic

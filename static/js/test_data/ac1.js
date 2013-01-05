@@ -16,12 +16,12 @@
     {
         'entity':{
             'kind': 'topic',
-            'id': '123',
-            'display_name': '知乎',
+            'id': '333',
+            'display_name': '星座',
             'url_token': '456',
             'avatar': 'http://p2.zhimg.com/b5/42/b542a673c_m.jpg'
         },
-        'html':'<div class="ac-row"><a class="item-topic" href="http://www.zhihu.com/topic/19550228">知乎</a><span class="muted">2733 个热门回答</span></div>'
+        'html':'<div class="ac-row"><a class="item-topic" href="http://www.zhihu.com/topic/19550228">星座</a><span class="muted">2733 个热门回答</span></div>'
     },
     {'unselectable':1, 'html':'<div class="ac-row-label">用户</div>'},
     {

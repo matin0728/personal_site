@@ -149,7 +149,11 @@ class SignupHandler(BaseHandler):
     
 class TestHandler(BaseHandler):
   def get(self):
-    self.render('test_ac.html')
+    test_name = self.request.get('test_name')
+    if not test_name:
+      test_name = 'test_index.html'
+
+    self.render('tests/' + test_name)
 
 class ModalUpdateHandler(BaseHandler):
   def get(self):

@@ -3,12 +3,18 @@
 import webapp2
 from google.appengine.api import users
 from shared import *
-from model.question import *
-from model.answer import *
-# from service.answer import answer as AnswerService
-from service.answer import AnswerService
-from service.question import QuestionService
-from service.entity import EntityService
+
+# from model.question import *
+# from model.answer import *
+
+# from service.answer import answer as service.AnswerService
+# from service.answer import service.AnswerService
+# from service.question import service.QuestionService
+# from service.entity import service.EntityService
+
+import model
+import service
+
 from module.question import *
 from nodes import *
 
@@ -47,7 +53,7 @@ class QuestionHandler(BaseHandler):
     
 class QuestionEditHandler(BaseHandler):
   def get(self, question_id):
-    question = Question.get_by_id(int(question_id))
+    question = model.Question.get_by_id(int(question_id))
     context = {
       'form_label': u'编辑问题',
       'action_uri': self.uri_for('question.edit', question_id = question.key.id()),
@@ -56,7 +62,7 @@ class QuestionEditHandler(BaseHandler):
     self.render('question_add.html', context)
   
   def post(self, question_id):
-    question = Question.get_by_id(int(question_id))
+    question = model.Question.get_by_id(int(question_id))
     if not question:
       return
     
@@ -78,7 +84,7 @@ class QuestionAddAnswerHandler(BaseHandler):
     source = self.request.get('source')
     answer_list_wrap = self.request.get('answer_list_wrap_id')
     
-    answer = QuestionService().add_answer(question_id, source, self.get_current_account())
+    answer = service.QuestionService().add_answer(question_id, source, self.get_current_account())
     
     meta = {
       'question_id': question_id,
@@ -109,13 +115,13 @@ class QuestionAddAnswerHandler(BaseHandler):
     # if answer:
     #   self.redirect(self.uri_for('question', question_id = answer.question.id()))
     # else:
-    #   error = QuestionService().get_last_error()
+    #   error = service.QuestionService().get_last_error()
     #   self.set_error(error)
 
 class QuestionDeleteHandler(BaseHandler):
   def get(self, question_id):
     #TODO: Should be a post action.
-    QuestionService().delete_question(question_id)
+    service.QuestionService().delete_question(question_id)
     self.redirect(self.uri_for('home'))
     
   def post(self, question_id):
@@ -123,7 +129,7 @@ class QuestionDeleteHandler(BaseHandler):
       
 class QuestionAddHandler(BaseHandler):
   def get(self):
-    q = Question()
+    q = model.Question()
     q.title = ''
     context = {
       'form_label': u'添加问题',
@@ -135,7 +141,7 @@ class QuestionAddHandler(BaseHandler):
   def post(self):
     title = self.request.get('title')
     if title:
-      question = Question()
+      question = model.Question()
       question.title = title
       question.description = self.request.get('description').replace("\n", "<br />")
       question.creator = self.get_current_account().key
@@ -150,7 +156,7 @@ class QuestionFocusHandler(BaseHandler):
   
   def post(self, question_id):
     account = self.get_current_account().key
-    QuestionService().focus_question(account, question_id)
+    service.QuestionService().focus_question(account, question_id)
     self.process_live_query()
     
 class QuestionUnFocusHandler(BaseHandler):
@@ -159,9 +165,26 @@ class QuestionUnFocusHandler(BaseHandler):
   
   def post(self, question_id):
     account = self.get_current_account().key
-    QuestionService().unfocus_question(account, question_id)
+    service.QuestionService().unfocus_question(account, question_id)
     self.process_live_query()
     
+    
+class QuestionBindTopicHandler(BaseHandler):
+  def post(self, question_id):
+    topic_name = self.request.get('topic_name')
+    topic_id = self.request.get('topic_id')
+    topics = service.QuestionService().bind_topic(question_id, topic_name, topic_id)
+    response_data = self.get_ajax_response()
+    response_data.set_data([ t.get_json_object() for t in topics])
+    self.output_ajax_response(response_data)
+    
+class QuestionUnBindTopicHandler(BaseHandler):
+  def post(self, question_id):
+    topic_id = self.request.get('topic_id')
+    topics = service.QuestionService().un_bind_topic(question_id, topic_id)
+    response_data = self.get_ajax_response()
+    response_data.set_data([ t.get_json_object() for t in topics])
+    self.output_ajax_response(response_data)
 
 # app = webapp2.WSGIApplication([
 #     # webapp2.Route(r'/', handler=HomeHandler, name='home'),

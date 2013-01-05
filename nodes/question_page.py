@@ -2,11 +2,15 @@ import webapp2
 import jinja2
 import os
 from google.appengine.ext import ndb
-from model.question import *
-from model.answer import *
-from service.feed import FeedService
-from service.entity import EntityService
-from service.question import QuestionService
+# from model.question import *
+# from model.answer import *
+# from service.feed import FeedService
+# from service.entity import EntityService
+# from service.question import QuestionService
+
+import model
+import service
+
 from answer import *
 from answer_list_base import *
 from answer_edit_form import *
@@ -35,9 +39,13 @@ class ZNodeQuestionPage(ZNode):
     pass
     
   def fetch_data(self):
-    question = Question.get_by_id(int(self.get_meta('question_id')))
-    relation = AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
+    question = model.Question.get_by_id(int(self.get_meta('question_id')))
+    relation = service.AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
     
+    topics = [ t.get() for t in question.topics]
+    # question.bind_topics = topics
+    
+    self.set_view_data_item('topics', topics)
     self.set_view_data_item('question', question)
     self.set_view_data_item('relation', relation)
     self.set_view_data_item('render_answer_list', self.render_answer_list(question, relation))
