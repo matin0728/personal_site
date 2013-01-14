@@ -173,12 +173,12 @@ class ZNode(object):
       self.render()
     ]
     # TODO: WHY child nodes here ? Do we need this method?
-    return [
-      self.get_type(),
-      self.get_client_id(),
-      self.render(),
-      self.child_nodes
-    ]    
+    # return [
+    #   self.get_type(),
+    #   self.get_client_id(),
+    #   self.render(),
+    #   self.child_nodes
+    # ]    
       
   def render(self):
     self.fetch_data()

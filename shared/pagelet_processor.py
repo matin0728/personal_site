@@ -66,6 +66,9 @@ class AjaxResponse(object):
   def get_pagelet_json_objects(self):
     pagelet_json_objects = [ p.get_json_object() for p in self.pagelets]
     return pagelet_json_objects
+    
+  def clear_all_pageletes(self):
+    self.pagelets = [];
   
   def get_json(self):
     #ru: redirect_url, rf: refresh_flag, p: pagelets, d: extra_data, rn:root_nodes, mp: parents_map
@@ -110,6 +113,7 @@ class PAGELET_RENDER_POSITION(object):
   AFTER = 'after'
 
 class Pagelet(object):
+  no_contents_ = False
   def __init__(self, znode_instance, type_string = '', client_id = '', markup = ''):
     self.znode = None
     if znode_instance:
@@ -128,6 +132,9 @@ class Pagelet(object):
     self.render_position = PAGELET_RENDER_POSITION.APPEND
     self.event_type = ''
     self.event_args = '' #Should be json object.
+    
+  def set_no_contents(self):
+    self.no_contents_ = True
     
   def set_ref_element(self, ref_element):
     self.ref_element = ref_element
@@ -159,6 +166,10 @@ class Pagelet(object):
         self.client_id,
         self.markup
       ]
+      
+    # Clear all html contents.
+    if self.no_contents_:
+      node_meta_json[2] = ''
       
     node_meta_json.extend([
       self.ref_element,
@@ -208,7 +219,8 @@ class LiveQueryProcessor(object):
       'ZH.ui.SettingsFormEditName':ZNodeSettingsFormEditName,
       'ZH.ui.SettingsFormEditUrl':ZNodeSettingsFormEditUrl,
       'ZH.ui.SettingsFormEditEmail':ZNodeSettingsFormEditEmail,
-      'ZH.ui.SettingsFormEditPassword':ZNodeSettingsFormEditPassword
+      'ZH.ui.SettingsFormEditPassword':ZNodeSettingsFormEditPassword,
+      'ZH.ui.TagEditorRemote': ZNodeTopicEditor
     }
     
     # NOTE: could be a dic.

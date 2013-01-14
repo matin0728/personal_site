@@ -1,7 +1,6 @@
 #WARNING: This file is maintained by script, don't edit it by hand!
 import os
 CLIENT_TYPE_MAP = {
-"ZH.ui.ShareForm":"z1",
 "ZH.demo.IntroPPT":"z2",
 "ZH.page.HomePage":"z3",
 "ZH.ui.HomeTabPane":"z2c",
@@ -54,13 +53,14 @@ CLIENT_TYPE_MAP = {
 "ZH.ui.MoreButton":"z1f",
 "ZH.ui.ShareDialog":"z14",
 "ZH.ui.ShareFormWeibo":"z12",
+"ZH.ui.TagEditor":"z33",
+"ZH.ui.TagEditorRemote":"z34",
 "ZH.ui.VoteBar":"z15",
 "ZH.ui.VoteInfo":"z16",
 "ZH.page.TopicPage":"z17"
 }
 
 CLIENT_TYPE_REVERSE_MAP = {
-"z1":"ZH.ui.ShareForm",
 "z2":"ZH.demo.IntroPPT",
 "z3":"ZH.page.HomePage",
 "z2c":"ZH.ui.HomeTabPane",
@@ -113,6 +113,8 @@ CLIENT_TYPE_REVERSE_MAP = {
 "z1f":"ZH.ui.MoreButton",
 "z14":"ZH.ui.ShareDialog",
 "z12":"ZH.ui.ShareFormWeibo",
+"z33":"ZH.ui.TagEditor",
+"z34":"ZH.ui.TagEditorRemote",
 "z15":"ZH.ui.VoteBar",
 "z16":"ZH.ui.VoteInfo",
 "z17":"ZH.page.TopicPage"

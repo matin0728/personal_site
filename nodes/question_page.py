@@ -12,6 +12,7 @@ import model
 import service
 
 from answer import *
+from topic_editor import *
 from answer_list_base import *
 from answer_edit_form import *
 
@@ -42,12 +43,9 @@ class ZNodeQuestionPage(ZNode):
     question = model.Question.get_by_id(int(self.get_meta('question_id')))
     relation = service.AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
     
-    topics = [ t.get() for t in question.topics]
-    # question.bind_topics = topics
-    
-    self.set_view_data_item('topics', topics)
     self.set_view_data_item('question', question)
     self.set_view_data_item('relation', relation)
+    self.set_view_data_item('render_topic_editor', self.render_topic_editor(question))
     self.set_view_data_item('render_answer_list', self.render_answer_list(question, relation))
     self.set_view_data_item('render_answer_list_header', self.render_answer_list_header(question))
     self.set_view_data_item('render_answer_edit_form', self.render_answer_edit_form(question, relation))
@@ -86,6 +84,15 @@ class ZNodeQuestionPage(ZNode):
       disabled_info = ZNodeAnswerEditFormDisabledInfo(self.get_handler())
       self.add_child(disabled_info)
       return disabled_info.render()
+      
+  def render_topic_editor(self, question):
+    meta = {
+      'question_id': question.key.id() 
+    }
+    editor = ZNodeTopicEditor(self.get_handler(), meta = meta)
+    editor.set_view_data_item('question', question)
+    self.add_child(editor)
+    return editor.render()
     
   def render_question_head_block(self):
     #TODO.

@@ -171,19 +171,29 @@ class QuestionUnFocusHandler(BaseHandler):
     
 class QuestionBindTopicHandler(BaseHandler):
   def post(self, question_id):
-    topic_name = self.request.get('topic_name')
+    topic_name = self.request.get('topic_text')
     topic_id = self.request.get('topic_id')
+    
     topics = service.QuestionService().bind_topic(question_id, topic_name, topic_id)
     response_data = self.get_ajax_response()
-    response_data.set_data([ t.get_json_object() for t in topics])
+    
+    editor = response_data.get_pagelet_by_type('ZH.ui.TagEditorRemote')
+    editor.set_no_contents()
+    editor.set_event('model_update', [ t.get_json_object() for t in topics])
+    
     self.output_ajax_response(response_data)
     
 class QuestionUnBindTopicHandler(BaseHandler):
   def post(self, question_id):
-    topic_id = self.request.get('topic_id')
-    topics = service.QuestionService().un_bind_topic(question_id, topic_id)
+    topic_text = self.request.get('topic_text')
+    topics = service.QuestionService().un_bind_topic(question_id, topic_text)
     response_data = self.get_ajax_response()
     response_data.set_data([ t.get_json_object() for t in topics])
+
+    editor = response_data.get_pagelet_by_type('ZH.ui.TagEditorRemote')
+    editor.set_no_contents()
+    editor.set_event('model_update', [ t.get_json_object() for t in topics])
+
     self.output_ajax_response(response_data)
 
 # app = webapp2.WSGIApplication([

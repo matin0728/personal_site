@@ -4,6 +4,7 @@ from answer_edit_form import *
 from feed import *
 from comment_list import *
 from question_page import *
+from topic_editor import *
 from home_page import *
 from demo import *
 from answer_page import *

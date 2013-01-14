@@ -6,12 +6,13 @@ from google.appengine.api import users
 # from account import Account
 
 class Topic(ndb.Model):
-  display_name = ndb.TextProperty(default = '')
-  url_token = ndb.TextProperty(default = '')
-  avatar = ndb.TextProperty(default = '')
+  display_name = ndb.StringProperty(default = '')
+  url_token = ndb.StringProperty(default = '')
+  avatar = ndb.StringProperty(default = '')
   
   def get_json_object(self):
     obj = {
+      'kind': 'topic',
       'id': self.key.id(),
       'display_name': self.display_name,
       'url_token': self.url_token,

@@ -109,25 +109,30 @@ class QuestionService(Singleton, BaseService):
     question = model.Question.get_by_id(int(question_id))
     # don't check question exist, junst for demo.
     
-    if opt_topic_id:
-      topic = model.Topic.get_by_id(int(opt_topic_id))
-    else:
+    topics = [ t.get() for t in question.topics ]
+    new_topics = [ t for t in topics if t.display_name != topic_name]
+    
+    # We recorded topic only by topic name.
+    topic = model.Topic.query(model.Topic.display_name == topic_name).get()
+    if not topic:
       new_topic_ids = model.Topic.allocate_ids(1)
       new_topic_id = new_topic_ids[0]
       topic = model.Topic(id = new_topic_id, \
         display_name = topic_name, url_token = str(new_topic_id))  
       topic.put()
        
-    question.topics.append(topic.key)
+    new_topics.append(topic)
+    question.topics = [ t.key for t in new_topics ]
     question.put()
-    return [t.get() for t in question.topics]
+    return new_topics
     
-  def un_bind_topic(self, question_id, topic_id):
+  def un_bind_topic(self, question_id, topic_text):
     question = model.Question.get_by_id(int(question_id))
     # don't check question exist, junst for demo.
-
-    topics = [ t for t in question.topics if t.id() != int(topic_id)]
-    question.topics = topics
+    topics = [ t.get() for t in question.topics ]
+    
+    new_topics = [ t for t in topics if t.display_name != topic_text]
+    question.topics = [ t.key for t in new_topics ]
     question.put()
     return [t.get() for t in question.topics]
     
