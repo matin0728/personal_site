@@ -220,7 +220,8 @@ class LiveQueryProcessor(object):
       'ZH.ui.SettingsFormEditUrl':ZNodeSettingsFormEditUrl,
       'ZH.ui.SettingsFormEditEmail':ZNodeSettingsFormEditEmail,
       'ZH.ui.SettingsFormEditPassword':ZNodeSettingsFormEditPassword,
-      'ZH.ui.TagEditorRemote': ZNodeTopicEditor
+      'ZH.ui.TagEditorRemote': ZNodeTopicEditor,
+      'ZH.ui.AddQuestionDialog': ZNodeAddQuestionDialog
     }
     
     # NOTE: could be a dic.

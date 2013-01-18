@@ -16,3 +16,7 @@ from settings_notify import *
 from settings_bind import *
 from settings_block_user import *
 from home_tab_test import *
+
+from page_header import *
+from add_question_dialog import *
+from page_footer import *

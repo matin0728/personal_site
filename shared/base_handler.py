@@ -6,6 +6,7 @@ from model.account import Account
 from service.entity import EntityService
 from pagelet_processor import *
 from app_config import *
+from nodes import *
 
 class BaseHandler(webapp2.RequestHandler):
   def __init__(self,application, request, **kwargs):  
@@ -102,6 +103,9 @@ class BaseHandler(webapp2.RequestHandler):
   
   def render(self, template, context=None):
     context = context or {}
+    
+    page_header = self.render_page_header()
+    page_footer = self.render_page_footer()
     # TODO: Add user role info for authentication purpose.
     extra_context = {
       'request': self.request,
@@ -110,7 +114,9 @@ class BaseHandler(webapp2.RequestHandler):
       'parents_map': self.get_parents_map().get_json(),
       'root_nodes': self.get_parents_map().get_root_nodes_json(),
       'pagelets': json.dumps(self.get_pagelets()),
-      'current_account': self.get_current_account()
+      'current_account': self.get_current_account(),
+      'render_page_header': page_header,
+      'render_page_footer': page_footer
     }
     #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
     # don't get entity on template.
@@ -122,6 +128,16 @@ class BaseHandler(webapp2.RequestHandler):
     env = self.get_template_environment()
     template = env.get_template(template)
     self.response.out.write(template.render(context))
+    
+  def render_page_header(self):
+    page_header = nodes.ZNodePageHeader(self)
+    page_header.set_root_node()
+    return page_header.render()
+    
+  def render_page_footer(self):
+    page_footer = nodes.ZNodePageFooter(self)
+    page_footer.set_root_node()
+    return page_footer.render()
     
   def pagelet_(self, node_instance, render_position = PAGELET_RENDER_POSITION.BEFORE, ref_element_id = 'ref_element'):
     ref_element = self.request.get(ref_element_id)
