@@ -1,0 +1,260 @@
+html {
+  font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
+}
+/* Hack for IE8 */
+.container {
+  max-width: 960px\9;
+}
+/*body{
+  font: 14px/1.7 ;
+}*/
+/* Home page */
+body.home {
+  /*  font-size: 13px;*/
+
+  /*  background: url('/img/bg.jpg') no-repeat 0 0;
+  background-size: auto;*/
+
+}
+.preview {
+  position: static;
+  top: 0;
+  /*display: none;*/
+
+  z-index: 10;
+  text-align: center;
+  overflow: hidden;
+}
+.preview img {
+  display: block;
+  margin: 0 auto;
+  width: 960px;
+  height: 736px;
+}
+.top-bg {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  z-index: -9;
+}
+.top-bg .top-bg-img {
+  width: 100%;
+  height: 542px;
+}
+/* Header area */
+.header {
+  background: #1b4c86;
+  color: #76a6d6;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.13);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.13);
+  border: solid 1px rgba(15, 65, 125, 0.9);
+  height: 70px;
+}
+.logo {
+  float: left;
+  padding: 13px 0 0 15px;
+  margin: 0;
+}
+.logo .link-logo {
+  overflow: hidden;
+  float: left;
+  text-indent: 100%;
+  height: 40px;
+  width: 130px;
+  background: url('new_index/logo.png');
+}
+.about-us {
+  float: right;
+  padding-right: 14px;
+}
+.about-us .ico {
+  float: left;
+  height: 30px;
+  width: 30px;
+}
+.about-us .txt {
+  float: left;
+}
+.about-us .txt {
+  padding: 25px 15px 0 0;
+}
+.about-us .link-sina,
+.about-us .link-tencent {
+  padding: 22px 5px 18px;
+  float: left;
+}
+.about-us .link-sina .ico {
+  background: url('new_index/weibo_sina.png') no-repeat 0 0;
+  /*background-position: -265px -45px;*/
+
+}
+.about-us .link-sina:hover .ico {
+  background: url('/img/s.png') no-repeat -261px 0;
+}
+.about-us .link-tencent .ico {
+  /*background-position: -175px -85px;*/
+
+  background: url('new_index/weibo_tencent.png') no-repeat 0 0;
+}
+.about-us .link-tencent:hover .ico {
+  background: url('/img/s.png') no-repeat -145px -85px;
+}
+/* Main content area */
+.slogan {
+  min-height: 480px;
+  background: url('new_index/logo_main.png') no-repeat 27px 96px;
+  padding: 107px 0 0 42px;
+}
+.slogan h2 {
+  display: block;
+  padding-top: 5px;
+  font-size: 55px;
+  color: #fff;
+  text-shadow: 0 5px 2px rgba(136, 179, 231, 0.1);
+  font-weight: normal;
+  margin: 0;
+  height: 70px;
+  text-indent: 140px;
+}
+.slogan .logo-main {
+  margin: 0 25px 5px 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.slogan .info {
+  height: 59px;
+  background: url('new_index/logo_info.png') no-repeat 136px 1px;
+  margin: 0;
+  /*    color: #ebf4ff;
+    font-size: 30px;
+    text-shadow: 1px 2px 3px #2f5f99;
+    font-weight: lighter;
+    
+    text-indent: 140px;*/
+
+}
+.slogan .extra {
+  font-size: 26px;
+  /*    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0,86,193,.2);
+    margin: -10px 0 0 0;*/
+
+  height: 35px;
+  background: url('new_index/logo_extra.png') no-repeat 0 0;
+  margin: 0;
+}
+.slogan .hd {
+  margin-bottom: 25px;
+}
+.slogan .ft {
+  width: 439px;
+  height: 91px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0);
+  -webkit-box-shadow: 0 0 5px rgba(78, 132, 193, 0.25);
+  box-shadow: 0 0 5px rgba(78, 132, 193, 0.25);
+  border: solid 1px rgba(255, 255, 255, 0.3);
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(rgba(255, 255, 255, 0.1)), to(rgba(255, 255, 255, 0.2)));
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1), 0%, rgba(255, 255, 255, 0.2), 100%);
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1affffff', endColorstr='#33ffffff', GradientType=0);
+  padding: 13px 0 0 15px;
+}
+.slogan .link-download {
+  padding: 6px 0 0 21px;
+  float: left;
+  width: 186px;
+  height: 62px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: 1px 2px 12px rgba(152, 199, 238, 0.75), inset 0 -4px 1px rgba(255, 255, 255, 0.47), inset 0 0 5px rgba(255, 255, 255, 0.27);
+  border: solid 1px rgba(255, 255, 255, 0.95);
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(rgba(255, 255, 255, 0.6)), to(rgba(255, 255, 255, 0.75)));
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.6), 0%, rgba(255, 255, 255, 0.75), 100%);
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.75) 100%);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.75) 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99ffffff', endColorstr='#bfffffff', GradientType=0);
+}
+.slogan .link-download:hover {
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(rgba(255, 255, 255, 0.9)), to(rgba(255, 255, 255, 0.6)));
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.9), 0%, rgba(255, 255, 255, 0.6), 100%);
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6ffffff', endColorstr='#99ffffff', GradientType=0);
+}
+.slogan .link-download.ios {
+  margin-right: 25px;
+}
+.slogan .link-download .ico {
+  float: left;
+  width: 45px;
+  height: 45px;
+}
+.slogan .link-download .txt {
+  float: left;
+  font-size: 16px;
+  padding: 12px 0 0 8px;
+}
+.slogan .link-download.ios .txt {
+  color: #666666;
+  text-shadow: 0 1px 1px #fff;
+}
+.slogan .link-download.ios .ico {
+  background: url('new_index/ico_download_ios.png') no-repeat 0 0;
+}
+.slogan .link-download.android {
+  padding: 6px 0 0 11px;
+}
+.slogan .link-download.android .txt {
+  color: #3fb011;
+  text-shadow: 0 1px 1px #fff;
+}
+.slogan .link-download.android .ico {
+  background: url('new_index/ico_download_android.png') no-repeat 0 0;
+}
+.sample-screen {
+  background: url('new_index/iphone.png') no-repeat 28px 1px;
+  height: 542px;
+  width: 100%;
+}
+.features {
+  margin-top: -17px;
+}
+.feature {
+  margin-top: 95px;
+}
+.feature img {
+  display: block;
+  width: 424px;
+  height: 133px;
+  background: url('http://p1.zhimg.com/03/46/03462c61c38322aa18e2879adaa0671b_m.jpg') no-repeat 50% 50%;
+}
+.feature h3 {
+  font-weight: normal;
+  font-size: 30px;
+  color: #333;
+  margin: 0;
+  padding-top: 30px;
+}
+.footer {
+  height: 120px;
+  margin-top: 130px;
+  background-color: #eceff2;
+}
+.footer .txt {
+  text-align: center;
+  padding-top: 47px;
+  font-size: 14px;
+  color: #bbbdbf;
+}

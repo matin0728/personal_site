@@ -1,0 +1,13 @@
+{
+  "name": "zhihu",
+  "version": "0.0.0",
+  "dependencies": {
+    "seajs": "*",
+    "zh-pagelet": "git://github.com/matin0728/zh-pagelet.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
