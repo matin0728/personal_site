@@ -95,7 +95,7 @@ body.home {
 
 }
 .about-us .link-sina:hover .ico {
-  background: url('/img/s.png') no-repeat -261px 0;
+  background: url('new_index/s.png') no-repeat -261px 0;
 }
 .about-us .link-tencent .ico {
   /*background-position: -175px -85px;*/
@@ -103,7 +103,7 @@ body.home {
   background: url('new_index/weibo_tencent.png') no-repeat 0 0;
 }
 .about-us .link-tencent:hover .ico {
-  background: url('/img/s.png') no-repeat -145px -85px;
+  background: url('new_index/s.png') no-repeat -145px -85px;
 }
 /* Main content area */
 .slogan {
