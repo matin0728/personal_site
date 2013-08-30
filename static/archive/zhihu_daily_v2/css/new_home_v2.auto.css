@@ -6,6 +6,19 @@ html {
     max-width: 960px;
   }
 }
+
+@media (max-width: 960px) {
+  .section-main {
+    min-height: 560px;
+  }
+  .header .logo {
+    margin: 0 0 0 15px;
+  }
+  .header .about-us {
+    margin-right: 8px;
+  }
+}
+
 /* Hack for IE8 */
 .container {
   max-width: 960px\9;
