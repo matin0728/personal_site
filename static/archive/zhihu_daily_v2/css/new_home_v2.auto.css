@@ -211,6 +211,15 @@ body.home {
   width: 220px;
   height: 386px;
 }
+.one-foundation-anchor-wrap {
+  position: relative;
+}
+.one-foundation-anchor-wrap .anchor {
+  position: absolute;
+  top: -70px;
+  display: block;
+  visibility: hidden;
+}
 .one-foundation-anchor-wrap + .one-foundation-section-title {
   margin-top: 47px;
 }
