@@ -46,6 +46,56 @@ li {
   list-style: none;
 
 }
+.menu-list {
+  & > li > .item-link {
+    float: left;
+  }
+
+  & > li {
+    float: left;
+    position: relative;
+  }
+
+  .dropdown-menu{
+    .box-shadow(none);
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: -1px 0 0 0;
+    border-radius: 0;
+    .item-link {
+      display: block;
+      /* override */
+      /*padding: 15px 0 0 0;*/
+    }
+
+    /* override */
+/*    .item-link.last {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }*/
+    .txt {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .with-dropdown-menu{
+    &:hover{
+      .dropdown-menu {
+        display: block;
+      }
+      /* to override */
+/*      & > .item-link {
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+      }*/
+    }
+  }
+}
+
 
 /* Home page */
 body.home{
@@ -170,58 +220,53 @@ body.home{
   }
 }
 
-.download {
-  li.last {
+.menu-list.app-download {
+  & > li + li {
     margin-left: 20px;
   }
-  .dropdown-menu{
-    .box-shadow(none);
-    border: 0;
-    background: transparent;
-    padding: 0;
-    margin: -1px 0 0 0;
-    border-radius: 0;
-    .link-download {
-      border-radius: 0;
-      padding: 15px 0 0 0;
-    }
-    .link-download.last {
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
+
+  & > li > .item-link {
+    border-radius: 10px;
+  }
+
+  & > li > .item-link {
     .txt {
-      width: 100%;
-      text-align: center;
+      padding: 10px 0 0 11px;
     }
   }
-  & > li {
-    float: left;
-    position: relative;
+
+  .dropdown-menu{
+    .item-link {
+      padding: 25px 0 0 0;
+    }
   }
-  .link-download{
+
+  .item-link{
     padding: 15px 0 0 19px;
-    float: left;
     width: 200px;
     height: 74px;
-    border-radius: 10px;
     background: #003f59;
     &:hover{
       background: #034c6b;
     }
   }
+
   .with-dropdown-menu{
     &:hover{
-      .dropdown-menu {
-        display: block;
-      }
-      & > .link-download {
+      & > .item-link {
         border-top-right-radius: 10px;
         border-top-left-radius: 10px;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
       }
+
+      .item-link.last {
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
     }
   }
+
   .icon{
     float: left;
     width: 45px;
@@ -232,21 +277,11 @@ body.home{
     &.icon-android {
       background: url('../img/new_home_v2/icon_android.png') no-repeat 0 0;
     }
-    &.icon-wandoujia{
-      background: url('../img/new_home_v2/icon_wandoujia.png') no-repeat -2px 0;
-    }
-    &.icon-local-download{
-      background: url('../img/new_home_v2/icon_arr.png') no-repeat 0 0;
-    }
-    &.icon-360{
-      background: url('../img/new_home_v2/icon_360.png') no-repeat -2px 0;
-    }
   }
   .txt{
     float: left;
     font-size: 20px;
     color: #b3e0f2;
-    padding: 10px 0 0 11px;
   }
 }
 
@@ -365,18 +400,12 @@ h2.section-title {
     font-family: "Heiti SC", 'Helvetica Neue', Helvetica, Arial, Sans-serif;
     margin: 0;
   }
+}
 
-/*  .download > li {
-    float: left;
-    position: relative;
-  }*/
-
+.menu-list.one-foundation-download {
   .with-dropdown-menu{
     &:hover{
-      .dropdown-menu {
-        display: block;
-      }
-      & > .link-download {
+      & > .item-link {
         border-top-right-radius: 6px;
         border-top-left-radius: 6px;
         border-bottom-right-radius: 0;
@@ -385,13 +414,16 @@ h2.section-title {
     }
   }
 
-  .download > li.last {
+  & > li > .item-link > .txt {
+    padding: 4px 0 0 3px;
+  }
+
+  & > li + li {
     margin-left: 15px;
   }
-  .link-download{
+  & > li > .item-link {
     color: #fff;
     padding: 10px 0 0 9px;
-    float: left;
     width: 130px;
     height: 48px;
     border-radius: 6px;
@@ -400,18 +432,28 @@ h2.section-title {
       background: #a6a6a6;
     }
   }
+
+  & > li > .item-link > .txt {
+    float: left;
+  }
+
   .dropdown-menu{
-    a.link-download {
+    a.item-link {
+      padding: 13px 0 0 0;
       border-top: solid 1px #a6a6a6;
+      background-color: #999;
+      width: 130px;
+      height: 48px;
+      &:hover {
+        background: #a6a6a6;
+      }
     }
-    a.link-download.last {
+    a.item-link.last {
       border-bottom-left-radius: 6px;
       border-bottom-right-radius: 6px;
     }
-    .txt {
-      padding: 3px 0 0 0;
-    }
   }
+
   .icon{
     float: left;
     width: 32px;
@@ -424,13 +466,12 @@ h2.section-title {
     }
   }
   .txt{
-    float: left;
+    display: block;
     font-size: 13px;
     color: #fff;
-    padding: 4px 0 0 3px;
   }
   .txt.google-play {
-    background: url('../img/new_home_v2/label_google_play.png') no-repeat 40% 4px;
+    background: url('../img/new_home_v2/label_google_play.png') no-repeat 50% 1px;
     height: 30px;
     padding: 0;
   }
