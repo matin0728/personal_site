@@ -1,3 +1,5 @@
+为了简单化，将 znode server 端的代码做一个 sybol link 放在 vendor 目录下面：znode.
+
 ZNode template:
 
 import webapp2

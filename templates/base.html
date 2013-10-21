@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>{% block title %}{% endblock %} - Shaca's Personal Site'</title>
+    <link rel="shortcut icon" href="//static.zhihu.com/static/img/favicon.png" type="image/x-icon" />
+    <link type="text/css" rel="stylesheet" href="/static/css/v3/less/main.css" />
+    <!-- style overide or not in production components. -->
+    <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+    <script src="/static/js/lib/jquery-latest.min.js"></script>
+    {% block extra_header %}{% endblock %}
+</head>
+<body>
+{{ render_page_header }}
+
+{% block content %}
+{% endblock %}
+
+{{ render_page_footer }}
+
+
+
+
+
+
+

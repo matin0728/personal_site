@@ -4,6 +4,7 @@ from shared import *
 import nodes
 import model
 import service
+from vendor.znode import *
 # from module.shared.feed import ZNodeFeedList
 
 class HomeMyQuestionHandler(BaseHandler):
@@ -44,9 +45,11 @@ class HomeHandler(BaseHandler):
     self.pagelet_(home_page)
     
   def render_home_page(self):
-    home_page = nodes.ZNodeHomePageFeed(self)
-    home_page.set_root_node()
-    return home_page.render()
+    # home_page = nodes.ZNodeHomePageFeed(self)
+    # home_page.set_root_node()
+    # return home_page.render()
+    pass
+
     
   def load_more(self):
     start = int(self.request.get('start', 0))

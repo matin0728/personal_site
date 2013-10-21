@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script src="/static/js/sea-debug.js"></script>
+	</head>
+	<body>
+		<h2 id="message"></h2>
+		<script>
+		seajs.config({
+	  base: "./static/js",
+	  alias: {
+		},
+		paths: {
+			'znode': 'zh-pagelet/dist'
+		}
+		})
+
+		// 加载入口模块
+		seajs.use("main")
+		</script>
+	</body>
+</html>

@@ -58,7 +58,7 @@ class BaseHandler(webapp2.RequestHandler):
   # @webapp2.cached_property
   def get_template_environment(self):
     jinja_environment = jinja2.Environment(
-      loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates/default')))
+      loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__) + '/../templates')))
     return jinja_environment
     
   def process_live_query(self):
@@ -130,14 +130,16 @@ class BaseHandler(webapp2.RequestHandler):
     self.response.out.write(template.render(context))
     
   def render_page_header(self):
-    page_header = nodes.ZNodePageHeader(self)
-    page_header.set_root_node()
-    return page_header.render()
+    return ''
+    # page_header = nodes.ZNodePageHeader(self)
+    # page_header.set_root_node()
+    # return page_header.render()
     
   def render_page_footer(self):
-    page_footer = nodes.ZNodePageFooter(self)
-    page_footer.set_root_node()
-    return page_footer.render()
+    return ''
+    # page_footer = nodes.ZNodePageFooter(self)
+    # page_footer.set_root_node()
+    # return page_footer.render()
     
   def pagelet_(self, node_instance, render_position = PAGELET_RENDER_POSITION.BEFORE, ref_element_id = 'ref_element'):
     ref_element = self.request.get(ref_element_id)
