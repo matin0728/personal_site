@@ -7,8 +7,10 @@ from service.entity import EntityService
 from pagelet_processor import *
 from app_config import *
 from nodes import *
+from vendor.znode import zh_client_info_map
 
 class BaseHandler(webapp2.RequestHandler):
+  infor_map = None
   def __init__(self,application, request, **kwargs):  
     super(BaseHandler, self).__init__(application, request, **kwargs)
     self.ajax_response_ = None
@@ -17,6 +19,12 @@ class BaseHandler(webapp2.RequestHandler):
     
   def get_current_account(self):
     return self.current_account
+
+  def get_client_info_map(self):
+    if not self.infor_map: 
+      self.infor_map = zh_client_info_map.ClientInfoMap()
+
+    return self.infor_map
     
   def dispatch(self):
     user = users.get_current_user()
@@ -116,7 +124,9 @@ class BaseHandler(webapp2.RequestHandler):
       'pagelets': json.dumps(self.get_pagelets()),
       'current_account': self.get_current_account(),
       'render_page_header': page_header,
-      'render_page_footer': page_footer
+      'render_page_footer': page_footer,
+      'client_infor_map': self.get_client_info_map().get_info_map_json(),
+      'root_nodes': self.get_client_info_map().get_root_list_json()
     }
     #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
     # don't get entity on template.

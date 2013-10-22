@@ -4,6 +4,7 @@
 	</head>
 	<body>
 		<h2 id="message"></h2>
+		{{ render_test_node }}
 		<script>
 		seajs.config({
 	  base: "./static/js",
@@ -16,6 +17,8 @@
 
 		// 加载入口模块
 		seajs.use("main")
+		var mp = {{client_infor_map }};
+		var rootNodes = {{ root_nodes }};
 		</script>
 	</body>
 </html>

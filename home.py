@@ -4,7 +4,8 @@ from shared import *
 import nodes
 import model
 import service
-from vendor.znode import *
+from shared import node
+
 # from module.shared.feed import ZNodeFeedList
 
 class HomeMyQuestionHandler(BaseHandler):
@@ -35,14 +36,23 @@ class HomeHandler(BaseHandler):
     #   'feed_list':feed_list.render()
     # }
     context = {
-      'render_home_page': self.render_home_page()
+      'render_home_page': self.render_home_page(),
+      'render_test_node': self.render_test_node()
     }
     
     self.render('home.html', context)
     
-  def pagelet(self):
-    home_page = nodes.ZNodeHomePageFeed(self)
-    self.pagelet_(home_page)
+  # def pagelet(self):
+  #   home_page = nodes.ZNodeHomePageFeed(self)
+  #   self.pagelet_(home_page)
+
+  def render_test_node(self):
+    test_node = nodes.TestNode(meta = {})
+    test_node.set_infor_map(self.get_client_info_map())
+
+    # Set entity context for this node.(not IMP yet)
+    test_node.set_context(None)
+    return test_node.render()
     
   def render_home_page(self):
     # home_page = nodes.ZNodeHomePageFeed(self)
