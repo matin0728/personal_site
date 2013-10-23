@@ -16,9 +16,12 @@
 		})
 
 		// 加载入口模块
-		seajs.use("main")
 		var mp = {{client_infor_map }};
 		var rootNodes = {{ root_nodes }};
+		seajs.use('znode/znode_seajs', function(m){
+			m.ZH.initComponent({{ root_nodes }}, {{client_infor_map }})
+		})
+
 		</script>
 	</body>
 </html>
