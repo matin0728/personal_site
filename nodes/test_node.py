@@ -3,13 +3,13 @@
 from shared import node
 
 class TestNode2(node.ZNode):
-	constructor_name = 'TestNode2'
-	js_path = 'test_node_2.js'
+	# constructor_name = 'TestNode2'
+	js_path = 'test_node_2'
 	template = 'test_node_2.html'
 
 class TestNode(node.ZNode):
-	constructor_name = 'TestNode'
-	js_path = 'test_node.js'
+	# constructor_name = 'TestNode'
+	js_path = 'test_node'
 	template = 'test_node.html'
 
 	def fetch_data(self):

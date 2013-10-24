@@ -48,7 +48,7 @@ class HomeHandler(BaseHandler):
 
   def render_test_node(self):
     test_node = nodes.TestNode(meta = {})
-    test_node.set_infor_map(self.get_client_info_map())
+    test_node.set_infor_map(self.get_client_infor_map())
 
     # Set entity context for this node.(not IMP yet)
     test_node.set_context(None)

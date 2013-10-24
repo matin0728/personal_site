@@ -7,18 +7,16 @@
 		{{ render_test_node }}
 		<script>
 		seajs.config({
-	  base: "./static/js",
-	  alias: {
-		},
-		paths: {
-			'znode': 'zh-pagelet/dist'
-		}
+		  base: "./static/js",
+		  alias: {
+		  	'znode' : 'zh-pagelet/dist/znode_seajs'
+			}
 		})
 
 		// 加载入口模块
 		var mp = {{client_infor_map }};
 		var rootNodes = {{ root_nodes }};
-		seajs.use('znode/znode_seajs', function(m){
+		seajs.use('znode', function(m){
 			m.ZH.initComponent({{ root_nodes }}, {{client_infor_map }})
 		})
 
