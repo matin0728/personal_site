@@ -1,0 +1,4 @@
+div.answer_list(id='{{node_client_id}}', data-meta='{{node_meta_json}}')
+  {% for a in answers %}
+  {{ render_answer(a, relation) }}
+  {% endfor %}

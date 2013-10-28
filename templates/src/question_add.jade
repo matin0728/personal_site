@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Add Question{% endblock %}
+{% block content %}
+
+div(class="layout-wrap layout-main")
+  div(class="layout-main-content")
+    div(class="layout-main-content-inner")
+      h1 {{ form_label }}
+      form(action="{{ action_uri }}", method="POST")
+        p
+          label Question Title:
+          input(name="title", value="{{current_question.title}}")
+        p
+          label Description:
+          textarea(rows="15", style="width:400px", name="description").
+            {{current_question.description}}
+        p
+          input(type="submit", value="Submit", class="btn btn-primary")
+    div(class="sidebar")
+    div(class="clearfix")
+
+{% endblock %}

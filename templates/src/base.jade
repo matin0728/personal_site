@@ -1,0 +1,17 @@
+html
+  head
+    script(src="/static/js/sea-debug.js")
+  body
+    {% block content %}{% endblock %}
+    script.
+      seajs.config({
+        base: "./static/js",
+        alias: {
+          'znode' : 'zh-pagelet/dist/znode_seajs'
+        }
+      })
+      seajs.use('znode', function(m){
+        m.ZH.initComponent({{ root_nodes }}, {{client_infor_map }})
+      })
+
+

@@ -1,0 +1,9 @@
+div(id='{{node_client_id}}', data-meta='{{node_meta_json}}')
+  h3.author
+    a.nickname(data-tip="p$t$qsda1", href="#") {{ answer.author.name }}
+    span.bio BIO
+  div.summary {{ answer.summary }}
+  div.detail
+    div.vote-info
+    div.content.rich-text
+      {{answer.content}}

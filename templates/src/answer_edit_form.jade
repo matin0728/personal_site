@@ -1,0 +1,8 @@
+div(id='{{node_client_id}}', data-meta='{{node_meta_json}}')
+  div.answer-post-form
+    legend Create new answer
+    label Content
+    textarea.answer-content(name="source", rows="15", style="width:61.8%", placeholder="Type your answer here…")
+    span.help-block You can provide one answer for each question.
+    div.command
+      button.action-anchor.btn(data-action="submit-answer", data-actiontarget="{{ uri_for('question.add_answer', question_id = question.key.id()) }}") Add Answer

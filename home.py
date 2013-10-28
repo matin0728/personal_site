@@ -1,35 +1,34 @@
 import webapp2
 from google.appengine.api import users
-from shared import *
 import nodes
 import model
 import service
-from shared import node
+import shared
 
 # from module.shared.feed import ZNodeFeedList
 
-class HomeMyQuestionHandler(BaseHandler):
-  def get(self):
-    # context = {
-    #   'question_list': question_list,
-    #   'feed_list':feed_list.render()
-    # }
-    context = {
-      'render_home_page': self.render_home_page()
-    }
+# class HomeMyQuestionHandler(BaseHandler):
+#   def get(self):
+#     # context = {
+#     #   'question_list': question_list,
+#     #   'feed_list':feed_list.render()
+#     # }
+#     context = {
+#       'render_home_page': self.render_home_page()
+#     }
     
-    self.render('home.html', context)
+#     self.render('home.html', context)
     
-  def render_home_page(self):
-    home_page = nodes.ZNodeHomeMyQuestion(self)
-    home_page.set_root_node()
-    return home_page.render()
+#   def render_home_page(self):
+#     home_page = nodes.ZNodeHomeMyQuestion(self)
+#     home_page.set_root_node()
+#     return home_page.render()
     
-  def pagelet(self):
-    home_page = nodes.ZNodeHomeMyQuestion(self)
-    self.pagelet_(home_page)
+#   def pagelet(self):
+#     home_page = nodes.ZNodeHomeMyQuestion(self)
+#     self.pagelet_(home_page)
 
-class HomeHandler(BaseHandler):
+class HomeHandler(sharedBaseHandler):
   def get(self):
     # context = {
     #   'question_list': question_list,
@@ -160,48 +159,40 @@ class SignupHandler(BaseHandler):
     account.put()
     self.redirect(self.uri_for('home'))
     
-class TestHandler(BaseHandler):
-  def get(self):
-    test_name = self.request.get('test_name')
-    if not test_name:
-      test_name = 'test_index.html'
+# class TestHandler(BaseHandler):
+#   def get(self):
+#     test_name = self.request.get('test_name')
+#     if not test_name:
+#       test_name = 'test_index.html'
 
-    self.render('tests/' + test_name)
+#     self.render('tests/' + test_name)
 
-class ModalUpdateHandler(BaseHandler):
-  def get(self):
-    self.render('test_pagelets.html')
-    # questions = Question.query().fetch()
-    #     for q in questions:
-    #       answers = service.AnswerService().get_answers_by_question(q.key)
-    #       q.answers_num = len(answers)
-    #       q.put()
-    #       for a in answers:
-    #         a.author = users.get_current_user()
-    #         a.put()
-    #       
-    #     self.response.out.write("Update complete!")
+# class ModalUpdateHandler(BaseHandler):
+#   def get(self):
+#     self.render('test_pagelets.html')
+#     # questions = Question.query().fetch()
+#     #     for q in questions:
+#     #       answers = service.AnswerService().get_answers_by_question(q.key)
+#     #       q.answers_num = len(answers)
+#     #       q.put()
+#     #       for a in answers:
+#     #         a.author = users.get_current_user()
+#     #         a.put()
+#     #       
+#     #     self.response.out.write("Update complete!")
 
-  def post(self):
-    self.process_live_query()
+#   def post(self):
+#     self.process_live_query()
 
-  def pagelet(self):
-    self.response.out.write("You call pagelet method!")
+#   def pagelet(self):
+#     self.response.out.write("You call pagelet method!")
 
 
 #NOTE: response for ObjectLoader interface.
-class NodeHandler(BaseHandler):
-  def get(self):
-    pass
+# class NodeHandler(BaseHandler):
+#   def get(self):
+#     pass
     
-  def post(self):
-    self.process_live_query()
+#   def post(self):
+#     self.process_live_query()
 
-# app = webapp2.WSGIApplication([
-#     webapp2.Route(r'/', handler=HomeHandler, name='home'),
-# 
-#     # webapp2.Route(r'/question/<question_id:\d+>', handler=QuestionHandler, name="question"),
-#     # webapp2.Route(r'/question/<question_id:\d+>/edit', handler=QuestionEditHandler, name="question.edit")
-#     # webapp2.Route(r'/question/add', handler=AddQuestionHandler, name="question.add"),
-# ], debug = SITE_CONFIG['is_debug'], config=SITE_CONFIG)
-    

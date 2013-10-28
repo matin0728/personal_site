@@ -1,19 +1,27 @@
-import webapp2
-import jinja2
+# coding=utf-8
+
 import os
 from google.appengine.ext import ndb
-from model.question import *
-from model.answer import *
-from shared.znode import ZNode
-from service import *
+import model
+import shared.znode as znode
+import service
+import datetime
 
-class ZNodeAnswerEditFormDisabledInfo(ZNode):
+
+class AnswerEditFormDisabledInfo(znode.ZNode):
   # IMPORTANT: This node is simple enough to use base class: live component,
   # If any action need add in, you should create a new subclass from liveComponent.
-  template_ = 'answer_edit_form_disabled_info.html'
-  client_type = 'ZH.common.LiveComponent'
+  def __init__(self, meta = {}, parent_node = None):
+    super(AnswerEditForm, self).__init__(meta = meta, parent_node = parent_node)
+    self.template = 'answer_edit_form_disabled_info.html'
+    self.js_path = 'answer_edit_form_disabled_info'
 
-class ZNodeAnswerEditForm(ZNode):
+
+class AnswerEditForm(znode.ZNode):
+  def __init__(self, meta = {}, parent_node = None):
+    super(AnswerEditForm, self).__init__(meta = meta, parent_node = parent_node)
+    self.template = 'answer_edit_form.html'
+    self.js_path = 'anser_edit_form'
   # meta should contains following data.
   # meta = {
   #   'question_id',
@@ -25,5 +33,4 @@ class ZNodeAnswerEditForm(ZNode):
   #  'draft' : None
   # }
   # 
-  template_ = 'answer_edit_form.html'
-  client_type = 'ZH.ui.AnswerEditForm'
+  

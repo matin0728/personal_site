@@ -1,35 +1,40 @@
-import webapp2
-import jinja2
+# import webapp2
+# import jinja2
 import os
 from google.appengine.ext import ndb
 import model
-from shared.znode import ZNode
 import service
+import nodes
+import shared
 
-from answer import ZNodeAnswer
-
-from shared.znode import *
-
-class ZNodeAnswerListHeader(ZNode):
-  template_ = 'answer_list_header.html'
-  client_type = 'ZH.ui.AnswerListHeader'
-  # meta = {
-  #   'question_id',
-  # }
+# class AnswerListHeader(sharedZNode):
+#   template_ = 'answer_list_header.html'
+#   client_type = 'ZH.ui.AnswerListHeader'
+#   # meta = {
+#   #   'question_id',
+#   # }
   
-  # view_data = {
-  #   'question',
-  # }
-  def fetch_data_internal(self):
-    question = model.Question.get_by_id(int(self.get_meta('question_id')))
-    self.set_view_data_item('question', question)
-    
-  def fetch_data(self):
-    question = self.get_view_data_item('question')
-    if not question:
-      self.fetch_data_internal()
+#   # view_data = {
+#   #   'question',
+#   # }
 
-class ZNodeAnswerListBase(ZNode):
+#   def __init__(self, meta = {}):
+#     self.template = 'question_page.html'
+#     self.js_path = 'question_page'
+#     #TODO: merge options.
+#     # meta['page_url'] = '/question/' + meta['question_id']
+#     super(QuestionPage, self).__init__(meta = meta)
+
+#   def fetch_data_internal(self):
+#     question = model.Question.get_by_id(int(self.get_meta('question_id')))
+#     self.set_view_data_item('question', question)
+    
+#   def fetch_data(self):
+#     question = self.get_view_data_item('question')
+#     if not question:
+#       self.fetch_data_internal()
+
+class AnswerListBase(shared.ZNode):
   #NOTE: Why we call this "ListBase"? This collapsed answerlist is another type of answer list
   # and it will only need to override the fetch data method and has another client name.
   
@@ -45,18 +50,22 @@ class ZNodeAnswerListBase(ZNode):
   #  'question': None, question entity.
   # }
   # 
-  template_ = 'answer_list.html'
-  client_type = 'ZH.ui.AnswerList'
+
+  def __init__(self, meta = {}, parent_node = None):
+    super(AnswerListBase, self).__init__(meta = meta, parent_node = parent_node)
+    self.template = 'answer_list.html'
+    self.js_path = 'answer_list'
+    #TODO: merge options.
+    # meta['page_url'] = '/question/' + meta['question_id']
   
   def render_answer(self, answer_key, relation):
     meta = {
       'answer_id': answer_key.id(),
       'hide_answer_meta': 0
     }
-    a = ZNodeAnswer(self.get_handler(), meta = meta)
+    a = nodes.Answer(meta = meta, parent_node = self)
     a.set_view_data_item('answer', service.EntityService().get(answer_key))
     a.set_view_data_item('relation', relation)
-    self.add_child(a)
     return a.render()
   
   def fetch_data_internal(self):
@@ -69,10 +78,10 @@ class ZNodeAnswerListBase(ZNode):
       question = model.Question.get_by_id(int(self.get_meta('question_id')))
       self.set_view_data_item('question', question)
       
-    relation = self.get_view_data_item('relation')
-    if not relation:
-      relation = service.AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
-      self.set_view_data_item('relation', relation)
+    # relation = self.get_view_data_item('relation')
+    # if not relation:
+    #   relation = service.AccountQuestionRelationService().get_relationship(self.get_handler().get_current_account().key, question.key)
+    #   self.set_view_data_item('relation', relation)
     
     answers = self.get_view_data_item('answers')
     if not answers:

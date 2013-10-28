@@ -7,7 +7,10 @@ from service.entity import EntityService
 from pagelet_processor import *
 from app_config import *
 from nodes import *
-from vendor.znode import zh_client_info_map
+import vendor.znode as znode
+# from vendor.znode import zh_client_info_map
+# from vendor.znode import zh_ajax_response
+# from vendor.znode import zh_live_query_processor
 
 class BaseHandler(webapp2.RequestHandler):
   infor_map = None
@@ -22,7 +25,7 @@ class BaseHandler(webapp2.RequestHandler):
 
   def get_client_infor_map(self):
     if not self.infor_map: 
-      self.infor_map = zh_client_info_map.ClientInfoMap()
+      self.infor_map = znode.ClientInfoMap()
 
     return self.infor_map
     
@@ -73,18 +76,12 @@ class BaseHandler(webapp2.RequestHandler):
     response = self.get_ajax_response()
     self.output_ajax_response(response)
   
-  def get_parents_map(self):
-    if not self.parents_map_:
-      self.parents_map_ = ParentsMap()
-      
-    return self.parents_map_
     
   def get_ajax_response(self):
     if not self.ajax_response_:
       queries = self.request.get('live_components')
-      processor = LiveQueryProcessor(queries)
-      response_ = processor.get_response(self)
-      self.ajax_response_ = response_
+      response = znode.AjaxResponse(znode.LiveQueryProcessor.process(json.load(queries))
+      self.ajax_response_ = response
       
     return self.ajax_response_
     
