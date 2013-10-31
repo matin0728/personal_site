@@ -31,7 +31,7 @@ class QuestionHandler(shared.BaseHandler):
       'question_id': question_id
     }
 
-    question_page = nodes.QuestionPage(self, meta)
+    question_page = nodes.QuestionPage(meta = meta)
     question_page.set_infor_map(self.get_client_infor_map())
     # TODO: Set context in furture, test_node.set_context(......)
     return question_page.render()
@@ -78,7 +78,7 @@ class QuestionHandler(shared.BaseHandler):
 #       question.put()
 #       self.redirect(self.uri_for('question', question_id = question.key.id()))
       
-class QuestionAddAnswerHandler(BaseHandler):
+class QuestionAddAnswerHandler(shared.BaseHandler):
   def get(self):
     pass
     
@@ -106,9 +106,12 @@ class QuestionAddAnswerHandler(BaseHandler):
     
     # New answer pagelet.
     answer_node = nodes.Answer(meta)
-    pagelet = Pagelet(answer_node)
-    pagelet.set_ref_element(answer_list_wrap) \
-      .set_render_position(PAGELET_RENDER_POSITION.APPEND) 
+    # Here use shared informap or create new map is not matter.
+    answer_node.set_infor_map(self.get_client_infor_map())
+    pagelet = nodes.Pagelet.from_node_instance(answer_node)
+
+    pagelet.set_refer_node(answer_list_wrap)
+    pagelet.set_render_position(nodes.PAGELET_RENDER_POSITION.APPEND) 
     
     response = self.get_ajax_response()
     response.add_pagelet(pagelet)
@@ -123,7 +126,7 @@ class QuestionAddAnswerHandler(BaseHandler):
 #   def post(self, question_id):
 #     pass
       
-class QuestionAddHandler(BaseHandler):
+class QuestionAddHandler(shared.BaseHandler):
   def get(self):
     q = model.Question()
     q.title = ''

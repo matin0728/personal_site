@@ -3,19 +3,40 @@ define(function(require, exports, module){
 	var znode = require('znode')
 	var ZH = znode.ZH, goog = znode.goog;
 
-	var EditForm = function(opt_meta, opt_options, opt_domHelper) {
+	var N = function(opt_meta, opt_options, opt_domHelper) {
 		goog.base(this, opt_meta, opt_options, opt_domHelper)
 	}
 
-	goog.inherits(EditForm, ZH.ui.LiveComponent)
+	N.typeString = 'answer_edit_form'
 
-	EditForm.prototype.decorateInternal = function(element) {
+	goog.inherits(N, ZH.ui.LiveComponent)
+
+	N.prototype.typeString_ = N.typeString
+
+	N.prototype.decorateInternal = function(element) {
 		goog.base(this, 'decorateInternal', element)
 
+		this.btnSubmitAnswer_ = this.getElementByClass('action-anchor')
+		this.getHandler().listen(this.getElementByClass('answer-post-form'), 'submit', this.onSubmit_)
 	}
 
-	module.exports = node;
+	N.prototype.onSubmit_ = function(e) {
+		var f = e.target // the form
+		var formValues = goog.dom.forms.getFormDataMap(e.target)
 
-	ZH.core.Registry.getInstance().registType('answer_edit_form', module.exports)
+		var actionEvent = this.createActionEventFromElement(this.btnSubmitAnswer_)
+		actionEvent.getRequest().setPostData(formValues)
+
+		// The form self don't need to be update.
+		actionEvent.preventLiveMutate()
+
+		this.dispathActionEvent(this.createActionEventFromElement(this.btnSubmitAnswer_))
+		//return false to prevent default form action.
+		return false
+	}
+
+	module.exports = N;
+
+	ZH.core.Registry.getInstance().registType(N.typeString, module.exports)
 
 })

@@ -4,9 +4,12 @@ import os
 from google.appengine.api import users
 from model.account import Account
 from service.entity import EntityService
-from pagelet_processor import *
+import json
+# from pagelet_processor import *
+import shared
 from app_config import *
-from nodes import *
+# from nodes import *
+import nodes
 import vendor.znode as znode
 # from vendor.znode import zh_client_info_map
 # from vendor.znode import zh_ajax_response
@@ -80,7 +83,7 @@ class BaseHandler(webapp2.RequestHandler):
   def get_ajax_response(self):
     if not self.ajax_response_:
       queries = self.request.get('live_components')
-      response = znode.AjaxResponse(znode.LiveQueryProcessor.process(json.load(queries))
+      response = znode.AjaxResponse(znode.LiveQueryProcessor.process(json.loads(queries)))
       self.ajax_response_ = response
       
     return self.ajax_response_
@@ -102,9 +105,13 @@ class BaseHandler(webapp2.RequestHandler):
       
     self.response.out.write('{"r":1, "msg":"Server error."}')
     
-  def get_pagelets(self):
-    response = self.get_ajax_response()
-    return response.get_pagelet_json_objects()
+  def output_pagelet(self, pagelet):
+    #TODO: Append a pagelet content to the footer of a page.
+    #Should be '<script>seajs.use(//, function(){ processPagelet(pagelet) })</script>'
+    pass
+  # def get_pagelets(self):
+  #   response = self.get_ajax_response()
+  #   return response.get_pagelet_json_objects()
   
   def render(self, template, context=None):
     context = context or {}
@@ -115,10 +122,9 @@ class BaseHandler(webapp2.RequestHandler):
     extra_context = {
       'request': self.request,
       'uri_for': self.uri_for,
-      'config': SITE_CONFIG,
-      'parents_map': self.get_parents_map().get_json(),
-      'root_nodes': self.get_parents_map().get_root_nodes_json(),
-      'pagelets': json.dumps(self.get_pagelets()),
+      'config': shared.SITE_CONFIG,
+      # 'parents_map': self.get_parents_map().get_json(),
+      # 'root_nodes': self.get_parents_map().get_root_nodes_json(),
       'current_account': self.get_current_account(),
       'render_page_header': page_header,
       'render_page_footer': page_footer,
@@ -148,15 +154,15 @@ class BaseHandler(webapp2.RequestHandler):
     # page_footer.set_root_node()
     # return page_footer.render()
     
-  def pagelet_(self, node_instance, render_position = PAGELET_RENDER_POSITION.BEFORE, ref_element_id = 'ref_element'):
+  def pagelet_(self, node_instance, render_position = znode.PAGELET_RENDER_POSITION.BEFORE, ref_element_id = 'ref_element'):
     ref_element = self.request.get(ref_element_id)
 
     response = self.get_ajax_response();
-    pagelet = Pagelet(node_instance)
+    pagelet = znode.Pagelet(node_instance)
 
     pagelet.set_ref_element(ref_element)
     pagelet.set_render_position(render_position)
-    pagelet.set_render_type(PAGELET_RENDER_TYPE.DECORATION)
+    pagelet.set_render_type(znode.PAGELET_RENDER_TYPE.DECORATION)
 
     response.add_pagelet(pagelet)
     self.output_ajax_response(response)

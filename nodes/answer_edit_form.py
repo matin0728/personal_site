@@ -3,7 +3,7 @@
 import os
 from google.appengine.ext import ndb
 import model
-import shared.znode as znode
+import shared.node as znode
 import service
 import datetime
 
@@ -21,7 +21,7 @@ class AnswerEditForm(znode.ZNode):
   def __init__(self, meta = {}, parent_node = None):
     super(AnswerEditForm, self).__init__(meta = meta, parent_node = parent_node)
     self.template = 'answer_edit_form.html'
-    self.js_path = 'anser_edit_form'
+    self.js_path = 'answer_edit_form'
   # meta should contains following data.
   # meta = {
   #   'question_id',

@@ -82,6 +82,7 @@ class Answer(znode.ZNode):
     self.js_path = 'answer'
     if not 'hide_answer_meta' in meta.keys():
       meta['hide_answer_meta'] = 1
+ 
 
   # def set_comments_list(self, comments_list_node):
   #   self.add_child(comments_list_node)

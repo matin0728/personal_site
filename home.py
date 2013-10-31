@@ -28,7 +28,7 @@ import shared
 #     home_page = nodes.ZNodeHomeMyQuestion(self)
 #     self.pagelet_(home_page)
 
-class HomeHandler(sharedBaseHandler):
+class HomeHandler(shared.BaseHandler):
   def get(self):
     # context = {
     #   'question_list': question_list,
@@ -105,7 +105,7 @@ class HomeHandler(sharedBaseHandler):
     self.output_ajax_response(response)
 
 
-class SignupHandler(BaseHandler):
+class SignupHandler(shared.BaseHandler):
   def get(self):
     account = model.Account()
     account.nickname = ''
