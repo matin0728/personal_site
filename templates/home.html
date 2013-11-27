@@ -13,11 +13,12 @@
 			}
 		})
 
-		// 加载入口模块
-		var mp = {{client_infor_map }};
-		var rootNodes = {{ root_nodes }};
+		// load init module.
 		seajs.use('znode', function(m){
-			m.ZH.initComponent({{ root_nodes }}, {{client_infor_map }})
+			{% for n in root_nodes %}
+			{% set info = n.get_client_info_map() %}
+			m.ZH.initComponent({{ info.get_dependency_tree_json() }}, {{ info.get_infor_map_json() }})
+			{% end %}
 		})
 
 		</script>

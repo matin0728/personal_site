@@ -35,8 +35,8 @@ class HomeHandler(shared.BaseHandler):
     #   'feed_list':feed_list.render()
     # }
     context = {
-      'render_home_page': self.render_home_page(),
-      'render_test_node': self.render_test_node()
+      'render_home_page': self.render_znode(self.get_home_page_node()),
+      'render_test_node': self.render_znode(self.get_test_node())
     }
     
     self.render('home.html', context)
@@ -45,64 +45,63 @@ class HomeHandler(shared.BaseHandler):
   #   home_page = nodes.ZNodeHomePageFeed(self)
   #   self.pagelet_(home_page)
 
-  def render_test_node(self):
+  def get_test_node(self):
     test_node = nodes.TestNode(meta = {})
-    test_node.set_infor_map(self.get_client_infor_map())
 
     # Set entity context for this node.(not IMP yet)
     test_node.set_context(None)
-    return test_node.render()
+    return test_node
     
-  def render_home_page(self):
+  def get_home_page_node(self):
     # home_page = nodes.ZNodeHomePageFeed(self)
     # home_page.set_root_node()
     # return home_page.render()
     pass
 
     
-  def load_more(self):
-    start = int(self.request.get('start', 0))
-    feed_list_wrap = self.request.get('feed_list_wrap')
+  # def load_more(self):
+  #   start = int(self.request.get('start', 0))
+  #   feed_list_wrap = self.request.get('feed_list_wrap')
     
-    feed_data, has_more, limit = service.FeedService().get_feed(start = start)
+  #   feed_data, has_more, limit = service.FeedService().get_feed(start = start)
     
-    question_ids = []
-    answer_ids = []
-    for f in feed_data:
-      question_ids.append(f['question'])
-      for a in f['answers']:
-        answer_ids.append(a)
+  #   question_ids = []
+  #   answer_ids = []
+  #   for f in feed_data:
+  #     question_ids.append(f['question'])
+  #     for a in f['answers']:
+  #       answer_ids.append(a)
     
-    #pre fetch data:
-    service.EntityService().get_multi(question_ids)
-    service.EntityService().get_multi(answer_ids)
+  #   #pre fetch data:
+  #   service.EntityService().get_multi(question_ids)
+  #   service.EntityService().get_multi(answer_ids)
     
-    response = self.get_ajax_response()
-    for feed_item_data in feed_data:
-      meta = {
-        'feed_id': 'abc', # for demo, ignored.
-        'question_id': feed_item_data['question'].id(),
-        'answer_ids':'', # for demo, ignored.
-      }
-      feed_node = nodes.ZNodeFeedItem(self, meta = meta)
-      feed_node.set_view_data_item('feed_data', feed_item_data)
+  #   response = self.get_ajax_response()
+  #   for feed_item_data in feed_data:
+  #     meta = {
+  #       'feed_id': 'abc', # for demo, ignored.
+  #       'question_id': feed_item_data['question'].id(),
+  #       'answer_ids':'', # for demo, ignored.
+  #     }
+  #     feed_node = nodes.ZNodeFeedItem(self, meta = meta)
+  #     feed_node.set_view_data_item('feed_data', feed_item_data)
       
-      pagelet = Pagelet(feed_node)
-      pagelet.set_ref_element(feed_list_wrap) \
-        .set_render_position(PAGELET_RENDER_POSITION.APPEND) 
+  #     pagelet = Pagelet(feed_node)
+  #     pagelet.set_ref_element(feed_list_wrap) \
+  #       .set_render_position(PAGELET_RENDER_POSITION.APPEND) 
 
-      response.add_pagelet(pagelet)
+  #     response.add_pagelet(pagelet)
       
-    #Check feed num, if load more is not availabel, disable the button.
-    more_button_pagelet = response.get_pagelet_by_type('ZH.ui.MoreButton')
+  #   #Check feed num, if load more is not availabel, disable the button.
+  #   more_button_pagelet = response.get_pagelet_by_type('ZH.ui.MoreButton')
     
-    if not has_more:
-      more_button_pagelet.set_render_type(PAGELET_RENDER_TYPE.UN_RENDER)
-    else:
-      more_button_node = more_button_pagelet.get_node_instance()
-      more_button_node.set_meta('request_url', self.uri_for('home', method_name = 'load_more', start = str(start + limit)))
+  #   if not has_more:
+  #     more_button_pagelet.set_render_type(PAGELET_RENDER_TYPE.UN_RENDER)
+  #   else:
+  #     more_button_node = more_button_pagelet.get_node_instance()
+  #     more_button_node.set_meta('request_url', self.uri_for('home', method_name = 'load_more', start = str(start + limit)))
       
-    self.output_ajax_response(response)
+  #   self.output_ajax_response(response)
 
 
 class SignupHandler(shared.BaseHandler):

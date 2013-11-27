@@ -5,7 +5,11 @@
   }
 })
 seajs.use('znode', function(m){
-  m.ZH.initComponent({{ root_nodes }}, {{client_infor_map }})
+	{% for mp in client_infor_maps %}
+		m.ZH.initComponent({{ mp.get_dependency_tree_json() }}, {{mp.get_infor_map_json() }})
+	{% end %}
+  
+	}
 })
 
 </script></body></html>

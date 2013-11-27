@@ -16,21 +16,18 @@ import vendor.znode as znode
 # from vendor.znode import zh_live_query_processor
 
 class BaseHandler(webapp2.RequestHandler):
-  infor_map = None
   def __init__(self,application, request, **kwargs):  
     super(BaseHandler, self).__init__(application, request, **kwargs)
     self.ajax_response_ = None
-    self.parents_map_ = None
     self.current_account = None
+    self.root_nodes = []
     
   def get_current_account(self):
     return self.current_account
 
-  def get_client_infor_map(self):
-    if not self.infor_map: 
-      self.infor_map = znode.ClientInfoMap()
-
-    return self.infor_map
+  def render_znode(self, znode_instance):
+    self.root_nodes.append(znode_instance)
+    return lambda x: znode_instance.render()
     
   def dispatch(self):
     user = users.get_current_user()
@@ -128,11 +125,8 @@ class BaseHandler(webapp2.RequestHandler):
       'current_account': self.get_current_account(),
       'render_page_header': page_header,
       'render_page_footer': page_footer,
-      'client_infor_map': self.get_client_infor_map().get_infor_map_json(),
-      'root_nodes': self.get_client_infor_map().get_root_list_json()
+      'root_nodes': self.root_nodes
     }
-    #'get': EntityService().get #Shorthand for get entity, NOTE: 2012-11-01, disable this feature,
-    # don't get entity on template.
 
     for key, value in extra_context.items():
       if key not in context:
